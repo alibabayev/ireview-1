@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/MovieTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="15dp"
+        android:layout_toRightOf="@+id/MovieLoadCoverPhotoButton"
+        android:ems="12"
+        android:hint="Title"
+        android:inputType="textPersonName"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:textSize="15dp" />
+
+    <EditText
+        android:id="@+id/MovieDirector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/MovieTitle"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="15dp"
+        android:layout_toRightOf="@+id/MovieLoadCoverPhotoButton"
+        android:ems="12"
+        android:hint="Director"
+        android:inputType="textPersonName"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:textSize="15dp" />
+
+    <EditText
+        android:id="@+id/MovieLeadActors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/MovieDirector"
+        android:layout_toRightOf="@+id/MovieLoadCoverPhotoButton"
+        android:ems="12"
+        android:hint="Lead Actors"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:textSize="15dp"
+        android:inputType="textPersonName"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"/>
+
+    <EditText
+        android:id="@+id/MovieGenre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/MovieLeadActors"
+        android:layout_toRightOf="@+id/MovieLoadCoverPhotoButton"
+        android:ems="12"
+        android:hint="Genre"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:textSize="15dp"
+        android:inputType="textPersonName"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"/>
+
+    <ImageView
+        android:id="@+id/first_star"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:layout_below="@+id/MovieLoadImageButton"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/star_icon" />
+
+    <ImageView
+        android:id="@+id/second_star"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:layout_below="@+id/MovieLoadImageButton"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/first_star"
+        android:background="@drawable/star_icon" />
+
+    <ImageView
+        android:id="@+id/third_star"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:layout_below="@+id/MovieLoadImageButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/second_star"
+        android:background="@drawable/star_icon" />
+
+    <ImageView
+        android:id="@+id/fourth_star"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:layout_below="@+id/MovieLoadImageButton"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/third_star"
+        android:background="@drawable/star_icon" />
+
+    <ImageView
+        android:id="@+id/fifth_star"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:layout_below="@+id/MovieLoadImageButton"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/fourth_star"
+        android:background="@drawable/star_icon" />
+
+    <CheckBox
+        android:id="@+id/post_review"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/MovieGenre"
+        android:layout_toRightOf="@id/MovieLoadCoverPhotoButton"
+        android:text="Post Review"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="20dp"/>
+
+    <Button
+        android:id="@+id/MovieAddButton"
+        android:layout_below="@+id/MovieReview"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textSize="15dp"
+        android:textAllCaps="false"
+        android:onClick="addMovie"
+        android:text="@string/add_movie"/>
+
+    <EditText
+        android:id="@+id/MovieReview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/third_star"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:minLines="3"
+        android:maxLines="3"
+        android:gravity="top|left"
+        android:textSize="15dp"
+        android:ems="20"
+        android:hint="Your Review"
+        android:singleLine="false"
+        android:inputType="textMultiLine" />
+
+    <ImageView
+        android:id="@+id/MovieWatchingImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_below="@+id/MovieLoadCoverPhotoButton"
+        android:layout_weight="1"
+        android:background="@drawable/w_movie"></ImageView>
+
+    <Button
+        android:id="@+id/MovieLoadImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="24dp"
+        android:textSize="15dp"
+        android:layout_below="@+id/MovieWatchingImage"
+        android:layout_gravity="center"
+        android:textAllCaps="false"
+        android:layout_weight="0"
+        android:text="Import Image"></Button>
+
+    <ImageView
+        android:id="@+id/MovieCoverPhoto"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_weight="1"
+        android:background="@drawable/movie"></ImageView>
+
+    <Button
+        android:id="@+id/MovieLoadCoverPhotoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="3dp"
+        android:layout_below="@+id/MovieCoverPhoto"
+        android:layout_gravity="center"
+        android:textSize="15dp"
+        android:textAllCaps="false"
+        android:layout_weight="0"
+        android:text="Import Cover Photo"></Button>
+
+</RelativeLayout>

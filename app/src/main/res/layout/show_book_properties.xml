@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ShowBookProperties">
+
+
+    <TextView
+        android:id="@+id/ShowBookName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/ShowBookCoverPhoto"
+        android:ems="12"
+        android:hint="Name"
+        android:textSize="15dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:inputType="textPersonName"
+        android:selectAllOnFocus="true"
+        android:singleLine="true" />
+
+    <TextView
+        android:id="@+id/ShowBookAuthor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ShowBookName"
+        android:layout_toRightOf="@+id/ShowBookCoverPhoto"
+        android:layout_marginTop="70dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:textSize="15dp"
+        android:ems="12"
+        android:hint="Author"
+        android:inputType="textPersonName"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"/>
+
+    <TextView
+        android:id="@+id/ShowBookGenre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ShowBookAuthor"
+        android:layout_toRightOf="@+id/ShowBookReadingImage"
+        android:layout_marginTop="70dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="15dp"
+        android:textSize="15dp"
+        android:ems="12"
+        android:hint="Genre"
+        android:inputType="textPersonName"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"/>
+
+    <TextView
+        android:id="@+id/ShowBookNote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ShowBookReadingImage"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:minLines="3"
+        android:maxLines="3"
+        android:gravity="top|left"
+        android:textSize="15dp"
+        android:ems="20"
+        android:hint="Note"
+        android:singleLine="false"
+        android:inputType="textMultiLine" />
+
+    <Button
+        android:id="@+id/BookEditButton"
+        android:layout_below="@+id/ShowBookNote"
+        android:layout_marginTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:onClick="editBook"
+        android:textSize="15dp"
+        android:textAllCaps="false"
+        android:text="Edit Book"/>
+
+    <ImageView
+        android:id="@+id/ShowBookCoverPhoto"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_weight="1"
+        android:background="@drawable/book"></ImageView>
+
+    <ImageView
+        android:id="@+id/ShowBookReadingImage"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@+id/ShowBookCoverPhoto"
+        android:layout_weight="1"
+        android:background="@drawable/r_book"></ImageView>
+
+
+</RelativeLayout>

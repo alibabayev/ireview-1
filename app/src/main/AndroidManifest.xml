@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.sscompany.ireview">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:name=".App"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity
+            android:name=".SearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ShowBookProperties"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".FriendsProfile"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AddElementScreens.AddElement"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ShowFriendList"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Settings.Settings"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MyProfile"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AddElementScreens.AddMusic"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AddElementScreens.AddBook"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AddElementScreens.AddMovie"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AddElementScreens.AddTVShow"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AddElementScreens.AddVideoGame"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AddElementScreens.AddPlace"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AddElementScreens.AddWebsite"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Settings.NameSetting"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Settings.PasswordSetting"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Settings.EmailSetting"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LoginRelatedPages.DeleteAccount"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Settings.ProfilePictureSetting"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Settings.GenderSetting"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Settings.ConfirmPasswordForEmail"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Settings.UsernameSetting"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Homepage"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Settings.ChangePasswordPage"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LoginRelatedPages.ForgotPassword"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LoginRelatedPages.VerificationCodePage"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LoginRelatedPages.SignupPageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LoginRelatedPages.LoginPage"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="com.parse.SERVER_URL"
+            android:value="@string/back4app_server_url" />
+        <meta-data
+            android:name="com.parse.APPLICATION_ID"
+            android:value="@string/back4app_app_id" />
+        <meta-data
+            android:name="com.parse.CLIENT_KEY"
+            android:value="@string/back4app_client_key" />
+    </application>
+
+</manifest>

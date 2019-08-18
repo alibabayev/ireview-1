@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/GameTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="15dp"
+        android:layout_toRightOf="@id/GameLoadCoverPhotoButton"
+        android:ems="12"
+        android:hint="Title"
+        android:inputType="textPersonName"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:textSize="15dp" />
+
+    <EditText
+        android:id="@+id/GameGenre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/GameLoadCoverPhotoButton"
+        android:layout_below="@id/GameTitle"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:ems="12"
+        android:hint="Genre"
+        android:inputType="textPersonName"
+        android:selectAllOnFocus="true"
+        android:textSize="15dp"
+        android:singleLine="true"/>
+
+    <EditText
+        android:id="@+id/GameDeveloper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/GameLoadCoverPhotoButton"
+        android:layout_below="@id/GameGenre"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:ems="12"
+        android:hint="Developer"
+        android:inputType="textPersonName"
+        android:selectAllOnFocus="true"
+        android:textSize="15dp"
+        android:singleLine="true"/>
+
+    <EditText
+        android:id="@+id/GameMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/GameLoadCoverPhotoButton"
+        android:layout_below="@id/GameDeveloper"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:ems="12"
+        android:hint="Mode"
+        android:inputType="textPersonName"
+        android:textSize="15dp"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"/>
+
+    <ImageView
+        android:id="@+id/first_star"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:layout_below="@+id/GameLoadImageButton"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/star_icon" />
+
+    <ImageView
+        android:id="@+id/second_star"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:layout_below="@+id/GameLoadImageButton"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/first_star"
+        android:background="@drawable/star_icon" />
+
+    <ImageView
+        android:id="@+id/third_star"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:layout_below="@+id/GameLoadImageButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/second_star"
+        android:background="@drawable/star_icon" />
+
+    <ImageView
+        android:id="@+id/fourth_star"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:layout_below="@+id/GameLoadImageButton"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/third_star"
+        android:background="@drawable/star_icon" />
+
+    <ImageView
+        android:id="@+id/fifth_star"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:layout_below="@+id/GameLoadImageButton"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/fourth_star"
+        android:background="@drawable/star_icon" />
+
+    <CheckBox
+        android:id="@+id/post_review"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/GameMode"
+        android:layout_toRightOf="@id/GameLoadCoverPhotoButton"
+        android:text="Post Review"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="20dp"/>
+
+    <Button
+        android:id="@+id/GameAddButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="addVideoGame"
+        android:layout_below="@id/GameReview"
+        android:layout_marginTop="10dp"
+        android:textSize="15dp"
+        android:textAllCaps="false"
+        android:layout_centerHorizontal="true"
+        android:text="Add Game"/>
+
+    <EditText
+        android:id="@+id/GameReview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/third_star"
+        android:layout_marginTop="10dp"
+        android:textSize="15dp"
+        android:ems="20"
+        android:hint="Your Review"
+        android:gravity="top|left"
+        android:minLines="3"
+        android:maxLines="3"
+        android:layout_centerHorizontal="true"
+        android:inputType="textMultiLine"/>
+
+    <ImageView
+        android:id="@+id/GameCoverPhoto"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_weight="1"
+        android:background="@drawable/game"></ImageView>
+
+    <Button
+        android:id="@+id/GameLoadCoverPhotoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="3dp"
+        android:textSize="15dp"
+        android:layout_below="@id/GameCoverPhoto"
+        android:layout_gravity="center"
+        android:layout_weight="0"
+        android:textAllCaps="false"
+        android:text="Import Cover Photo"></Button>
+
+    <ImageView
+        android:id="@+id/GamePlayingImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_below="@id/GameLoadCoverPhotoButton"
+        android:layout_weight="1"
+        android:background="@drawable/p_game"></ImageView>
+
+    <Button
+        android:id="@+id/GameLoadImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="24dp"
+        android:textSize="15dp"
+        android:textAllCaps="false"
+        android:layout_below="@id/GamePlayingImage"
+        android:layout_gravity="center"
+        android:layout_weight="0"
+        android:text="Import Image"></Button>
+
+</RelativeLayout>

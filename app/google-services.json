@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "964727532206",
+    "firebase_url": "https://ireview-2222.firebaseio.com",
+    "project_id": "ireview-2222",
+    "storage_bucket": "ireview-2222.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:964727532206:android:2d13ff2ccfc7162a",
+        "android_client_info": {
+          "package_name": "com.sscompany.ireview"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "964727532206-oi1jkqri5snrs5h9iun9uafe7q80ck7g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sscompany.ireview",
+            "certificate_hash": "70d47dace3909ba31a14e0d50308c4dbfe462979"
+          }
+        },
+        {
+          "client_id": "964727532206-qtnc0aqqci8ord3lo5kunuubmrrqgt3i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCN2sl9yodfLbTToB2HYIjNlaQUdrZWnKg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "964727532206-qtnc0aqqci8ord3lo5kunuubmrrqgt3i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

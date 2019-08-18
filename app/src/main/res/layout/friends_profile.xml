@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FriendsProfile">
+
+    <ImageView
+        android:id="@+id/FriendProfilePicture"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        app:srcCompat="@drawable/logo"/>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/FriendProfilePicture">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/titleBooks"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="30sp"
+                android:text="Book"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewCategoryBooks"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/titleMovies"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="30sp"
+                android:text="Movies"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewCategoryMovies"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/titleRestaurants"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="30sp"
+                android:text="Restaurants"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewCategoryRestaurants"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/titlePlaces"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="30sp"
+                android:text="Places"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewCategoryPlaces"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/titleTvShows"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="30sp"
+                android:text="TV Shows"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewCategoryTvShows"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/titleSongs"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="30sp"
+                android:text="Songs"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewCategorySongs"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/titleVideoGames"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="30sp"
+                android:text="Video Games"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewCategoryVideoGames"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/titleCustom"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="30sp"
+                android:text="Custom"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewCategoryCustom"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none">
+
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+</RelativeLayout>

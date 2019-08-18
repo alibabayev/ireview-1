@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">IReview</string>
+    <string name="country">Country</string>
+    <string name="genre">Genre</string>
+    <string name="duration">Duration</string>
+    <string name="year">Year</string>
+    <string name="director">Director</string>
+    <string name="title">Title</string>
+    <string name="lead_actors">Lead Actors</string>
+    <string name="add_movie">Add Movie</string>
+
+    <string name="back4app_server_url">https://parseapi.back4app.com/</string>
+
+    <!-- Change the following strings as required -->
+    <string name="back4app_app_id">TZofpm0RW2jDWBmuSqGEF2r7sGZUt6KxEtzld0wt</string>
+    <string name="back4app_client_key">y3cK323CJOaZRwlKaOF8cid0HjXy68mmnc9dYvOL</string>
+
+    <string name="confirm_password_dialog">ConfirmPaswordDialog</string>
+
+    <string-array name="names">
+        <item>Your gender</item>
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+    </string-array>
+</resources>

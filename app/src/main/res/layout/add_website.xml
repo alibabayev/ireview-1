@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/WebsiteName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginRight="15dp"
+        android:layout_toRightOf="@id/WebsiteLoadImageButton"
+        android:ems="12"
+        android:hint="Name"
+        android:inputType="textPersonName"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:textSize="15dp" />
+
+    <EditText
+        android:id="@+id/WebsiteUse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/WebsiteName"
+        android:layout_toRightOf="@id/WebsiteLoadImageButton"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:textSize="15dp"
+        android:ems="12"
+        android:hint="Use"
+        android:inputType="textPersonName"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"/>
+
+    <ImageView
+        android:id="@+id/first_star"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:layout_below="@+id/WebsiteLoadImageButton"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/star_icon" />
+
+    <ImageView
+        android:id="@+id/second_star"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:layout_below="@+id/WebsiteLoadImageButton"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/first_star"
+        android:background="@drawable/star_icon" />
+
+    <ImageView
+        android:id="@+id/third_star"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:layout_below="@+id/WebsiteLoadImageButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/second_star"
+        android:background="@drawable/star_icon" />
+
+    <ImageView
+        android:id="@+id/fourth_star"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:layout_below="@+id/WebsiteLoadImageButton"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/third_star"
+        android:background="@drawable/star_icon" />
+
+    <ImageView
+        android:id="@+id/fifth_star"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:layout_below="@+id/WebsiteLoadImageButton"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/fourth_star"
+        android:background="@drawable/star_icon" />
+
+    <CheckBox
+        android:id="@+id/post_review"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/WebsiteUse"
+        android:layout_toRightOf="@id/WebsiteLoadImageButton"
+        android:text="Post Review"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="30dp"/>
+
+    <Button
+        android:id="@+id/WebsiteAddButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/WebsiteReview"
+        android:layout_marginTop="10dp"
+        android:onClick="addWebsite"
+        android:layout_centerHorizontal="true"
+        android:textSize="15dp"
+        android:textAllCaps="false"
+        android:text="Add Website"/>
+
+    <EditText
+        android:id="@+id/WebsiteReview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/third_star"
+        android:layout_marginTop="10dp"
+        android:ems="20"
+        android:textSize="15dp"
+        android:hint="Your Review"
+        android:gravity="top|left"
+        android:minLines="3"
+        android:maxLines="3"
+        android:layout_centerHorizontal="true"
+        android:inputType="textMultiLine"/>
+
+    <ImageView
+        android:id="@+id/WebsiteLogo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="30dp"
+        android:layout_weight="1"
+        android:background="@drawable/website"></ImageView>
+
+    <Button
+        android:id="@+id/WebsiteLoadLogoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="27dp"
+        android:textSize="15dp"
+        android:layout_below="@id/WebsiteLogo"
+        android:layout_gravity="center"
+        android:layout_weight="0"
+        android:textAllCaps="false"
+        android:text="Import Logo"></Button>
+
+    <ImageView
+        android:id="@+id/WebsiteUsingImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_below="@id/WebsiteLoadLogoButton"
+        android:layout_weight="1"
+        android:background="@drawable/u_website"></ImageView>
+
+    <Button
+        android:id="@+id/WebsiteLoadImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textAllCaps="false"
+        android:layout_marginLeft="24dp"
+        android:textSize="15dp"
+        android:layout_below="@id/WebsiteUsingImage"
+        android:layout_gravity="center"
+        android:layout_weight="0"
+        android:text="Import Image"></Button>
+
+</RelativeLayout>
