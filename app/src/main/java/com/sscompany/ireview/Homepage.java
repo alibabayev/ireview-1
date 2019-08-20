@@ -1,5 +1,7 @@
 package com.sscompany.ireview;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.sscompany.ireview.AddElementScreens.AddElement;
 import com.sscompany.ireview.Elements.*;
 import com.sscompany.ireview.Settings.*;
@@ -28,17 +30,21 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Homepage extends AppCompatActivity {
-
+public class Homepage extends AppCompatActivity
+{
     private DrawerLayout mDrawerLayout;
     public static String profileOfMineOrFriend = "";
     private ListView listView;
     private ArrayList<NewsFeedItem> newsFeedItems = new ArrayList<>();
 
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage);
+
+        mAuth = FirebaseAuth.getInstance();
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mDrawerLayout.addDrawerListener(
@@ -150,96 +156,6 @@ public class Homepage extends AppCompatActivity {
                 }
             }
         });
-
-        /*
-        ParseQuery<ParseObject> postQuery = ParseQuery.getQuery("Post");
-
-        postQuery.findInBackground(new FindCallback<ParseObject>()
-        {
-            @Override
-            public void done(List<ParseObject> objects, ParseException e)
-            {
-                System.out.println("OOOOOOOOOOOOKKKK");
-                if(e == null)
-                {
-                    System.out.println("NOOOOOOOOOOOOOOOOO");
-                    if(objects.size() > 0)
-                    {
-                        System.out.println("YESSSSSSSSSSSSSSSSSS");
-                        ParseUser current = ParseUser.getCurrentUser();
-                        String postingUserId = current.getObjectId();
-                        for(int i = 0; i < objects.size(); i++)
-                        {
-                            ParseObject obj = (ParseObject) objects.get(i);
-                            String itemId = obj.get("itemId").toString();
-
-                            Post post = new Post();
-                            post.setPostingDate(obj.get("postingTime").toString());
-                            post.setNumberOfLikes((int)obj.get("likeCount"));
-                            post.setItemId(itemId);
-                            post.setPostingUserId(postingUserId);
-
-                            NewsFeedItem newsFeedItem = new NewsFeedItem(post);
-                            newsFeedItems.add(newsFeedItem);
-                        }
-                    }
-                }
-            }*/
-
-
-
-
-
-
-        Post neww = new Post();
-
-
-
-
-        //First
-
-        /*
-        Post new1Post = new Post();
-        new1Post.setPostingUserId("hELC368siA");
-        new1Post.setNumberOfLikes(200);
-        new1Post.setNumberOfComments(10);
-        new1Post.setCaption("I want to share it again. Very Amazing Mouse");
-        new1Post.setNumberOfStarByUser(5);
-        new1Post.setUserReview("This mouse is very amazing. Thanks a lot, Microsoft!!!");
-        new1Post.setItemId("s7NWArZwSD");
-        new1Post.setPostingDate("10 minutes ago");
-
-        newsFeedItems.add(new NewsFeedItem(new1Post));
-
-        //Second
-
-        Post new2Post = new Post();
-        new2Post.setPostingUserId("UlgSc7H4XX");
-        new2Post.setNumberOfLikes(130);
-        new2Post.setNumberOfComments(15);
-        new2Post.setCaption("It was Good!");
-        new2Post.setNumberOfStarByUser(4);
-        new2Post.setUserReview("Good Song!");
-        new2Post.setItemId("P0n1xIG5pg");
-        new2Post.setPostingDate("53 minutes ago");
-
-        newsFeedItems.add(new NewsFeedItem(new2Post));
-
-        //Third
-        Post newPost = new Post();
-        newPost.setPostingUserId("hELC368siA");
-        newPost.setNumberOfLikes(156);
-        newPost.setNumberOfComments(5);
-        newPost.setCaption("Amazing Mouse");
-        newPost.setNumberOfStarByUser(5);
-        newPost.setUserReview("This mouse is amazing. Thanks Microsoft!!!");
-        newPost.setItemId("s7NWArZwSD");
-        newPost.setPostingDate("2 hours ago");
-
-        newsFeedItems.add(new NewsFeedItem(newPost));
-        */
-
-
     }
 
     @Override
@@ -252,5 +168,20 @@ public class Homepage extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // ------------------------- Firebase -------------------------------
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        if(currentUser == null)
+        {
+            Intent intent = new Intent(getApplicationContext(), LoginPage.class);
+            startActivity(intent);
+            finish();
+        }
+    }
 
 }

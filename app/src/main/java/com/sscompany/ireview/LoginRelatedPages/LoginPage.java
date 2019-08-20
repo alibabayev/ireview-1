@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -16,6 +18,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.sscompany.ireview.Homepage;
 import com.sscompany.ireview.R;
 import com.parse.LogInCallback;
@@ -25,117 +32,112 @@ import com.parse.ParseUser;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LoginPage extends AppCompatActivity implements View.OnKeyListener, View.OnClickListener {
+public class LoginPage extends AppCompatActivity implements View.OnKeyListener, View.OnClickListener
+{
+    private static final String TAG = "Login Activity";
 
-    EditText password;
-    EditText email;
+    private EditText emailText;
+    private EditText passwordText;
+
+    private String email;
+    private String password;
 
     private Pattern pattern;
     private Matcher matcher;
     private static final String USERNAME_PATTERN = "^(?=.{6,15}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$";
 
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+        //Username Pattern
         pattern = Pattern.compile(USERNAME_PATTERN);
 
+
+        //Firebase initializations
+        mAuth = FirebaseAuth.getInstance();
+
+        //Check the internet connection
+
         if(!isConnected(LoginPage.this)) buildDialog(LoginPage.this).show();
-        else {
-            Toast.makeText(LoginPage.this, "Welcome", Toast.LENGTH_SHORT).show();
-            setContentView(R.layout.login_page);
+        else
+        {
+            //Connected to Internet
 
-            RelativeLayout backgroundLayout = (RelativeLayout) findViewById(R.id.backgroundRelativeLayoutLogIn);
-            backgroundLayout.setOnClickListener(this);
-            ImageView logoImageView = (ImageView) findViewById(R.id.menuLogoLogIn);
-            logoImageView.setOnClickListener(this);
-
-            password = findViewById(R.id.passwordLoginText);
-
-            password.setOnKeyListener(new View.OnKeyListener() {
-                @Override
-                public boolean onKey(View v, int keyCode, KeyEvent event)
-                {
-                    if(keyCode == event.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
-                        logIn(v);
-                    }
-                    return false;
-                }
-            });
-
-            if (ParseUser.getCurrentUser() != null) {
-                Toast.makeText(this, "Logged In As  " + ParseUser.getCurrentUser().getUsername(), Toast.LENGTH_SHORT).show();
+            if (mAuth.getCurrentUser() != null) {
+                Toast.makeText(this, "Logged In As  " + mAuth.getCurrentUser().getDisplayName(), Toast.LENGTH_SHORT).show();
                 goToHomepage();
+                finish();
+            }
+            else
+            {
+                Toast.makeText(LoginPage.this, "Welcome", Toast.LENGTH_SHORT).show();
+                setContentView(R.layout.login_page);
+
+                RelativeLayout backgroundLayout = (RelativeLayout) findViewById(R.id.backgroundRelativeLayoutLogIn);
+                backgroundLayout.setOnClickListener(this);
+                ImageView logoImageView = (ImageView) findViewById(R.id.menuLogoLogIn);
+                logoImageView.setOnClickListener(this);
+
+                passwordText = findViewById(R.id.passwordLoginText);
+
+                passwordText.setOnKeyListener(new View.OnKeyListener() {
+                    @Override
+                    public boolean onKey(View v, int keyCode, KeyEvent event)
+                    {
+                        if(keyCode == event.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
+                            logIn(v);
+                        }
+                        return false;
+                    }
+                });
+
             }
         }
     }
 
     public void logIn(View view)
     {
-        email = (EditText) findViewById(R.id.emailLoginText);
-        password = (EditText) findViewById(R.id.passwordLoginText);
+        emailText = (EditText) findViewById(R.id.emailLoginText);
+        passwordText = (EditText) findViewById(R.id.passwordLoginText);
 
-        String emailOrUsername = email.getText().toString();
-        emailOrUsername.toLowerCase();
+        email = emailText.getText().toString();
+        password = passwordText.getText().toString();
 
-        if(email.getText().toString().matches("") || password.getText().toString().matches("")) {
+        email.toLowerCase();
+
+        if(email.equals("") || password.equals("")) {
             Toast.makeText(this, "An Email/Username and Password Are Required.", Toast.LENGTH_SHORT).show();
         }
-        else if(validate(emailOrUsername))
+        else
         {
-            ParseUser.logInInBackground(emailOrUsername, password.getText().toString(), new LogInCallback() {
-                @Override
-                public void done(ParseUser user, ParseException e)
-                {
-                    if(user != null) {
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d(TAG, "signInWithEmail:success");
+                            }
+                            else {
+                                // If sign in fails, display a message to the user.
+                                Log.w(TAG, "signInWithEmail:failure", task.getException());
+                                Toast.makeText(LoginPage.this, "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
+                                //updateUI(null);
+                            }
+                        }
+                    });
 
-                        if(user.getBoolean("emailVerified"))
-                        {
-                            Toast.makeText(LoginPage.this, "Login Successful. Welcome, " + user.getUsername() + "!", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(LoginPage.this, Homepage.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
-                        }
-                        else
-                        {
-                            ParseUser.logOut();
-                            Toast.makeText(LoginPage.this, "Login Failed. Please Verify Your Email First.", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                    else {
-                        ParseUser.logOut();
-                        Toast.makeText(LoginPage.this, "Login Failed. Please Enter Your Login Information Correctly.", Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
+            if (mAuth.getCurrentUser() != null) {
+                Toast.makeText(this, "Logged In As  " + mAuth.getCurrentUser().getDisplayName(), Toast.LENGTH_SHORT).show();
+                goToHomepage();
+                finish();
+            }
 
-        }
-        else {
-            ParseUser.logInInBackground(email.getText().toString(), password.getText().toString(), new LogInCallback() {
-                @Override
-                public void done(ParseUser user, ParseException e)
-                {
-                    if(user != null) {
-
-                        if(user.getBoolean("emailVerified"))
-                        {
-                            Toast.makeText(LoginPage.this, "Login Successful. Welcome, " + user.getUsername() + "!", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(LoginPage.this, Homepage.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
-                        }
-                        else
-                        {
-                            ParseUser.logOut();
-                            Toast.makeText(LoginPage.this, "Login Failed. Please Verify Your Email First.", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                    else {
-                        ParseUser.logOut();
-                        Toast.makeText(LoginPage.this, "Login Failed. Please Enter Your Login Information Correctly.", Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
         }
 
     }
@@ -203,7 +205,6 @@ public class LoginPage extends AppCompatActivity implements View.OnKeyListener, 
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
                 finish();
             }
         });
@@ -235,4 +236,23 @@ public class LoginPage extends AppCompatActivity implements View.OnKeyListener, 
         AlertDialog ok = builder.create();
         ok.show();
     }
+
+
+    // ------------------------- Firebase -------------------------------
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        if(currentUser == null)
+        {
+            Intent intent = new Intent(getApplicationContext(), LoginPage.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+
 }
