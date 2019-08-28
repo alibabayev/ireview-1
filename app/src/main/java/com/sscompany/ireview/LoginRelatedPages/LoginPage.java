@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -23,11 +24,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.parse.ParseUser;
 import com.sscompany.ireview.Homepage;
 import com.sscompany.ireview.R;
-import com.parse.LogInCallback;
-import com.parse.ParseException;
-import com.parse.ParseUser;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,6 +41,8 @@ public class LoginPage extends AppCompatActivity implements View.OnKeyListener, 
     private String email;
     private String password;
 
+    private Context mContext;
+
     private Pattern pattern;
     private Matcher matcher;
     private static final String USERNAME_PATTERN = "^(?=.{6,15}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$";
@@ -51,36 +52,43 @@ public class LoginPage extends AppCompatActivity implements View.OnKeyListener, 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.login_page);
 
+        System.out.println("In Login Page");
 
         //Username Pattern
         pattern = Pattern.compile(USERNAME_PATTERN);
 
+        //Initializing mContext
+        mContext = LoginPage.this;
 
-        //Firebase initializations
+        //Initializing Firebase Authentication
         mAuth = FirebaseAuth.getInstance();
 
         //Check the internet connection
-
         if(!isConnected(LoginPage.this)) buildDialog(LoginPage.this).show();
         else
         {
             //Connected to Internet
 
-            if (mAuth.getCurrentUser() != null) {
+            if (mAuth.getCurrentUser() != null)
+            {
+                System.out.println("NooooOOOOOoooooOOOOO");
                 Toast.makeText(this, "Logged In As  " + mAuth.getCurrentUser().getDisplayName(), Toast.LENGTH_SHORT).show();
                 goToHomepage();
                 finish();
             }
             else
             {
+                System.out.println("YessssssSSSS");
                 Toast.makeText(LoginPage.this, "Welcome", Toast.LENGTH_SHORT).show();
-                setContentView(R.layout.login_page);
 
-                RelativeLayout backgroundLayout = (RelativeLayout) findViewById(R.id.backgroundRelativeLayoutLogIn);
+                ConstraintLayout backgroundLayout = (ConstraintLayout) findViewById(R.id.backgroundRelativeLayoutLogIn);
                 backgroundLayout.setOnClickListener(this);
                 ImageView logoImageView = (ImageView) findViewById(R.id.menuLogoLogIn);
                 logoImageView.setOnClickListener(this);
+
+                System.out.println("NOOOOOSOOSOOSOOSO");
 
                 passwordText = findViewById(R.id.passwordLoginText);
 
@@ -88,14 +96,20 @@ public class LoginPage extends AppCompatActivity implements View.OnKeyListener, 
                     @Override
                     public boolean onKey(View v, int keyCode, KeyEvent event)
                     {
+                        System.out.println("KSKSKSKS");
                         if(keyCode == event.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
                             logIn(v);
+                            System.out.println("LMSLMSLSMS");
                         }
                         return false;
                     }
                 });
 
+                System.out.println("NDBDNNDBD");
+
             }
+
+            System.out.println("LASTTTALAYAS");
         }
     }
 
@@ -117,10 +131,31 @@ public class LoginPage extends AppCompatActivity implements View.OnKeyListener, 
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
+                        public void onComplete(@NonNull Task<AuthResult> task)
+                        {
+                            Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
+                            FirebaseUser user = mAuth.getCurrentUser();
+
+                            if (task.isSuccessful())
+                            {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "signInWithEmail:success");
+
+                                try
+                                {
+                                    if(user.isEmailVerified()){
+                                        Log.d(TAG, "onComplete: success. email is verified.");
+                                        Intent intent = new Intent(LoginPage.this, Homepage.class);
+                                        startActivity(intent);
+                                    }
+                                    else {
+                                        Toast.makeText(mContext, "Email is not verified \n check your email inbox.", Toast.LENGTH_SHORT).show();
+                                        mAuth.signOut();
+                                    }
+                                }
+                                catch (NullPointerException e){
+                                    Log.e(TAG, "onComplete: NullPointerException: " + e.getMessage() );
+                                }
                             }
                             else {
                                 // If sign in fails, display a message to the user.
@@ -164,7 +199,7 @@ public class LoginPage extends AppCompatActivity implements View.OnKeyListener, 
 
     public void signUp(View view)
     {
-        Intent intent = new Intent(getApplicationContext(), SignupPageActivity.class);
+        Intent intent = new Intent(getApplicationContext(), SignupPage.class);
         startActivity(intent);
     }
 
@@ -246,9 +281,9 @@ public class LoginPage extends AppCompatActivity implements View.OnKeyListener, 
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
-        if(currentUser == null)
+        if(currentUser != null)
         {
-            Intent intent = new Intent(getApplicationContext(), LoginPage.class);
+            Intent intent = new Intent(getApplicationContext(), Homepage.class);
             startActivity(intent);
             finish();
         }

@@ -104,7 +104,7 @@
             android:name=".LoginRelatedPages.VerificationCodePage"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".LoginRelatedPages.SignupPageActivity"
+            android:name=".LoginRelatedPages.SignupPage"
             android:screenOrientation="portrait" />
         <activity
             android:name=".LoginRelatedPages.LoginPage"

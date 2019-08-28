@@ -27,7 +27,7 @@ public class GenderSetting extends AppCompatActivity
 
         spinner = findViewById(R.id.spinner);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(GenderSetting.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.names));
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(GenderSetting.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.genders));
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 

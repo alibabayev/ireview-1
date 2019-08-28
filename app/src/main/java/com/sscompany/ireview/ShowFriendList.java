@@ -21,10 +21,15 @@ public class ShowFriendList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.friends_list);
 
+        User newUser = new User();
+        newUser.setUsername("alibabayev");
+        newUser.setDisplay_name("Ali Babayev");
+
         listItem = new ArrayList<>();
-        listItem.add(new User("Ali Babayev", "alibabayev"));
-        listItem.add(new User("Ali Babayev", "alibabayev"));
-        listItem.add(new User("Ali Babayev", "alibabayev"));
+        listItem.add(newUser);
+        listItem.add(newUser);
+        listItem.add(newUser);
+
         RecyclerView myRV = (RecyclerView) findViewById(R.id.recyclerViewFriendList);
         RecyclerViewAdapterFriendList myAdapter = new RecyclerViewAdapterFriendList(this, listItem);
 

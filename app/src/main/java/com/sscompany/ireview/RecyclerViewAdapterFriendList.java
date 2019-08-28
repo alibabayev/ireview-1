@@ -36,7 +36,7 @@ public class RecyclerViewAdapterFriendList extends RecyclerView.Adapter<Recycler
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        holder.item_names.setText(mData.get(position).getNames());
+        holder.item_names.setText(mData.get(position).getDisplay_name());
         holder.item_username.setText(mData.get(position).getUsername());
         holder.item_follower.setText("Following");
         /*
