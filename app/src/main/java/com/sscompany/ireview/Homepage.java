@@ -47,12 +47,6 @@ public class Homepage extends AppCompatActivity
 
         mAuth = FirebaseAuth.getInstance();
 
-        System.out.println("NOOOOOSSSS");
-
-        mAuth.signOut();
-        ParseUser.logOut();
-
-
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mDrawerLayout.addDrawerListener(
                 new DrawerLayout.DrawerListener() {
@@ -64,7 +58,7 @@ public class Homepage extends AppCompatActivity
                     @Override
                     public void onDrawerOpened(View drawerView) {
                         TextView navTitle = (TextView) findViewById(R.id.navHeaderTitle);
-                        navTitle.setText(ParseUser.getCurrentUser().getUsername());
+                        navTitle.setText(mAuth.getCurrentUser().getEmail());
                     }
 
                     @Override
@@ -118,9 +112,9 @@ public class Homepage extends AppCompatActivity
                             //startActivity(intent);
                         }
                         else if(menuItem.getTitle().toString().matches("Log out")) {
-                            if(ParseUser.getCurrentUser() != null) {
+                            if(mAuth.getCurrentUser() != null) {
                                 Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show();
-                                ParseUser.logOutInBackground();
+                                mAuth.signOut();
                                 Intent intent = new Intent(getApplicationContext(), LoginPage.class);
                                 startActivity(intent);
                             }
@@ -136,7 +130,7 @@ public class Homepage extends AppCompatActivity
 
         //News Feed
 
-        ParseQuery<ParseObject> postQuery = ParseQuery.getQuery("Post");
+        /*ParseQuery<ParseObject> postQuery = ParseQuery.getQuery("Post");
 
         postQuery.findInBackground(new FindCallback<ParseObject>() {
             @Override
@@ -162,7 +156,7 @@ public class Homepage extends AppCompatActivity
                     e.printStackTrace();
                 }
             }
-        });
+        });*/
     }
 
     @Override

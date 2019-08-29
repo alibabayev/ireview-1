@@ -1,6 +1,7 @@
 package com.sscompany.ireview.Elements;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
@@ -48,7 +49,7 @@ public class FirebaseMethods {
 
         User user = new User();
 
-        for (DataSnapshot ds: datasnapshot.child(userID).getChildren()){
+        for (DataSnapshot ds: datasnapshot.child(mContext.getString(R.string.dbname_users)).getChildren()){
             Log.d(TAG, "checkIfUsernameExists: datasnapshot: " + ds);
 
             user.setUsername(ds.getValue(User.class).getUsername());
@@ -68,13 +69,15 @@ public class FirebaseMethods {
      * @param password
      * @param username
      */
-    public void registerNewEmail(final String email, String password, final String username){
+    public void registerNewEmail(final String email, String password, final String username, final String display_name)
+    {
+        System.out.println("YesssSSSSSOKOKOKOKO");
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
-
+                        System.out.println("INsideIn");
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
@@ -82,13 +85,16 @@ public class FirebaseMethods {
                             Toast.makeText(mContext, R.string.auth_failed,
                                     Toast.LENGTH_SHORT).show();
 
+                            System.out.println("NonONONONoNONO");
+
                         }
                         else if(task.isSuccessful()){
                             //send verificaton email
+                            System.out.println("NoonONNonONokjJISISSSIIojokokokok");
                             sendVerificationEmail();
-
+                            System.out.println("Verification email is sent.");
                             userID = mAuth.getCurrentUser().getUid();
-                            Log.d(TAG, "onComplete: Authstate changed: " + userID);
+                            addNewUser(email, username, display_name, "");
                         }
 
                     }
@@ -96,7 +102,9 @@ public class FirebaseMethods {
     }
 
     public void sendVerificationEmail(){
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        System.out.println("Inside the sendVerificationEmail method.");
+        FirebaseUser user = mAuth.getCurrentUser();
 
         if(user != null){
             user.sendEmailVerification()

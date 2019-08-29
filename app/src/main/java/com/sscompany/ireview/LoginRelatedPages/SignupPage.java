@@ -17,9 +17,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -42,9 +39,10 @@ public class SignupPage extends AppCompatActivity implements View.OnKeyListener,
     private EditText passwordText;
     private EditText emailText;
     private EditText usernameText;
-    private EditText nameText;
+    private EditText display_nameText;
     private TextView loginText;
 
+    private String display_name;
     private String email;
     private String username;
     private String password;
@@ -88,7 +86,7 @@ public class SignupPage extends AppCompatActivity implements View.OnKeyListener,
         firebaseMethods = new FirebaseMethods(mContext);
 
         //Initializing EditTexts
-        nameText = (EditText) findViewById(R.id.nameText);
+        display_nameText = (EditText) findViewById(R.id.nameText);
         usernameText = (EditText) findViewById(R.id.usernameSignUpText);
         emailText = (EditText) findViewById(R.id.emailSignUp);
         passwordText = (EditText) findViewById(R.id.passwordSignUp);
@@ -138,13 +136,14 @@ public class SignupPage extends AppCompatActivity implements View.OnKeyListener,
         myRef = mFirebaseDatabase.getReference();
 
         //Getting EditText texts
+        display_name = display_nameText.getText().toString();
         email = emailText.getText().toString();
         username = usernameText.getText().toString();
         password = passwordText.getText().toString();
         passwordAgain = passwordAgainText.getText().toString();
 
-        if(username.equals("") || email.equals("") || password.equals("")) {
-            Toast.makeText(this, "A username, email and password are required.", Toast.LENGTH_SHORT).show();
+        if(display_name.equals("") || username.equals("") || email.equals("") || password.equals("")) {
+            Toast.makeText(this, "A display name, username, email and password are required.", Toast.LENGTH_SHORT).show();
         }
         else if(!validate(username))
         {
@@ -165,32 +164,17 @@ public class SignupPage extends AppCompatActivity implements View.OnKeyListener,
                     }
                     else
                     {
-                        mAuth.createUserWithEmailAndPassword(email, password)
-                                .addOnCompleteListener(SignupPage.this, new OnCompleteListener<AuthResult>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<AuthResult> task) {
-                                        if (task.isSuccessful()) {
-                                            Toast.makeText(SignupPage.this, "Authentication success.",
-                                                    Toast.LENGTH_SHORT).show();
-                                            // Sign in success, update UI with the signed-in user's information
-                                            Log.d(TAG, "createUserWithEmail:success");
-                                            //add new user to the database
-                                            firebaseMethods.addNewUser(email, username, "", "");
-                                        } else {
-                                            // If sign in fails, display a message to the user.
-                                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                            Toast.makeText(SignupPage.this, "Authentication failed.",
-                                                    Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                });
+                        firebaseMethods.registerNewEmail(email, password, username, display_name);
 
-                        if (mAuth.getCurrentUser() != null)
-                        {
+                        if (mAuth.getCurrentUser() != null) {
                             mAuth.signOut();
-                            Toast.makeText(mContext, "Signup successful. Sending verification email.", Toast.LENGTH_SHORT).show();
-                            finish();
                         }
+
+                        Toast.makeText(mContext, "Signup successful. Sending verification email.", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(SignupPage.this, LoginPage.class);
+                        startActivity(intent);
+                        finish();
+
                     }
                 }
 

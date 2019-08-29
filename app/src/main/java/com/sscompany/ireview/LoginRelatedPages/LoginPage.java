@@ -113,6 +113,10 @@ public class LoginPage extends AppCompatActivity implements View.OnKeyListener, 
         }
     }
 
+    /**
+     * Login Button is clicked
+     * @param view
+     */
     public void logIn(View view)
     {
         emailText = (EditText) findViewById(R.id.emailLoginText);
@@ -149,7 +153,7 @@ public class LoginPage extends AppCompatActivity implements View.OnKeyListener, 
                                         startActivity(intent);
                                     }
                                     else {
-                                        Toast.makeText(mContext, "Email is not verified \n check your email inbox.", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(mContext, "Email is not verified \n Check your email inbox.", Toast.LENGTH_SHORT).show();
                                         mAuth.signOut();
                                     }
                                 }
@@ -191,12 +195,20 @@ public class LoginPage extends AppCompatActivity implements View.OnKeyListener, 
         startActivity(intent);
     }
 
+    /**
+     * Forgot Password Button is clicked
+     * @param view
+     */
     public void forgotPassword(View view)
     {
         Intent intent = new Intent(getApplicationContext(), ForgotPassword.class);
         startActivity(intent);
     }
 
+    /**
+     * Sign Up Button is clicked
+     * @param view
+     */
     public void signUp(View view)
     {
         Intent intent = new Intent(getApplicationContext(), SignupPage.class);
@@ -213,6 +225,12 @@ public class LoginPage extends AppCompatActivity implements View.OnKeyListener, 
     }
 
 
+    /**
+     * Checks if user is connected to internet or not
+     *
+     * @param context
+     * @return
+     */
     public boolean isConnected(Context context) {
 
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
