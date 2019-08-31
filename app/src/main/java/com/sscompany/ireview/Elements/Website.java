@@ -1,70 +1,62 @@
 package com.sscompany.ireview.Elements;
 
-public class Website implements Item
+public class Website implements InterfaceItem
 {
-    private String category = null;
-    private String name = null;
-    private String use = null;
-    private int thumbnail;
-    private String publisher = null;
-    private String parseItemId = null;
+    private String name;
+    private String owner;
+    private String use;
+    private String cover_photo;
 
-    public Website(String name, String use)
-    {
-        setCategory();
+    public Website(String name, String use, String cover_photo) {
         this.name = name;
         this.use = use;
+        this.cover_photo = cover_photo;
+        setOwner("");
     }
 
-    @Override
-    public String getCategory()
-    {
-        return category;
+    public Website() {
+        setOwner("");
     }
 
-    @Override
-    public void setCategory()
-    {
-        this.category = "website";
-    }
-
-    @Override
-    public String getTitle() {
+    public String getName() {
         return name;
     }
 
-    @Override
-    public void setTitle(String title) {
-        name = title;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public String getUse() {
+        return use;
+    }
+
+    public void setUse(String use) {
+        this.use = use;
+    }
+
+    public String getCover_photo() {
+        return cover_photo;
+    }
+
+    public void setCover_photo(String cover_photo) {
+        this.cover_photo = cover_photo;
     }
 
     @Override
-    public int getThumbnail() {
-        return thumbnail;
-    }
-
-    @Override
-    public void setThumbnail(int thumbnail) {
-        this.thumbnail = thumbnail;
-    }
-
-    @Override
-    public String getPublisher() {
-        return publisher;
-    }
-
-    @Override
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
-    }
-
-    @Override
-    public String getId() {
-        return parseItemId;
-    }
-
-    @Override
-    public void setId(String id) {
-        parseItemId = id;
+    public String toString() {
+        return "Website{" +
+                "name='" + name + '\'' +
+                ", owner='" + owner + '\'' +
+                ", use='" + use + '\'' +
+                ", cover_photo='" + cover_photo + '\'' +
+                '}';
     }
 }

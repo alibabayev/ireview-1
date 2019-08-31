@@ -19,7 +19,7 @@ public class MyProfile extends AppCompatActivity {
     //private RecyclerView mRecyclerView;
     //private RecyclerView.Adapter mAdapter;
     //private RecyclerView.LayoutManager mLayoutManager;
-    List<Item> listItem;
+    List<InterfaceItem> listItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,13 +41,19 @@ public class MyProfile extends AppCompatActivity {
         */
 
         listItem = new ArrayList<>();
-        listItem.add(new Book("The Martian", "Book", 1990, "Drama", "1990", "English", R.drawable.themartian));
-        listItem.add(new Book("The Martian", "Book", 1990, "Drama", "1990", "English", R.drawable.themartian));
-        listItem.add(new Book("The Martian", "Book", 1990, "Drama", "1990", "English", R.drawable.themartian));
-        listItem.add(new Book("The Martian", "Book", 1990, "Drama", "1990", "English", R.drawable.themartian));
-        listItem.add(new Book("The Martian", "Book", 1990, "Drama", "1990", "English", R.drawable.themartian));
-        listItem.add(new Book("The Martian", "Book", 1990, "Drama", "1990", "English", R.drawable.themartian));
 
+        Book newBook = new Book();
+
+        newBook.setName("The Martian");
+        newBook.setGenre("Drama");
+        newBook.setOwner("Book");
+
+        listItem.add(newBook);
+        listItem.add(newBook);
+        listItem.add(newBook);
+        listItem.add(newBook);
+        listItem.add(newBook);
+        listItem.add(newBook);
 
         RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewCategoryBooks);
         RecyclerViewAdapter myAdapter1 = new RecyclerViewAdapter(this, listItem);

@@ -24,19 +24,20 @@ import java.util.List;
 public class AddElement extends AppCompatActivity
 {
     private String category;
-    final ArrayList<Item> itemBooks = new ArrayList<>();
-    final ArrayList<Item> itemMovies = new ArrayList<>();
-    final ArrayList<Item> itemMusics = new ArrayList<>();
-    final ArrayList<Item> itemTVShows = new ArrayList<>();
-    final ArrayList<Item> itemPlaces = new ArrayList<>();
-    final ArrayList<Item> itemGames = new ArrayList<>();
-    final ArrayList<Item> itemWebsites = new ArrayList<>();
+    final ArrayList<InterfaceItem> itemBooks = new ArrayList<>();
+    final ArrayList<InterfaceItem> itemMovies = new ArrayList<>();
+    final ArrayList<InterfaceItem> itemMusics = new ArrayList<>();
+    final ArrayList<InterfaceItem> itemTVShows = new ArrayList<>();
+    final ArrayList<InterfaceItem> itemPlaces = new ArrayList<>();
+    final ArrayList<InterfaceItem> itemGames = new ArrayList<>();
+    final ArrayList<InterfaceItem> itemWebsites = new ArrayList<>();
+
     Movie newMovie;
     Book newBook;
     Music newMusic;
     Place newPlace;
     TVShow newTVShow;
-    VideoGame newVideoGame;
+    Game newVideoGame;
     Website newWebsite;
     SearchView searchView;
     ListView listView;
@@ -76,7 +77,10 @@ public class AddElement extends AppCompatActivity
                     {
                         //bookNames.add(book.getString("name"));
                         //bookAuthors.add(book.getString("author"));
-                        newBook = new Book(book.getString("name"),book.getString("author"), book.getString("genre"));
+                        newBook = new Book();
+                        newBook.setName(book.getString("name"));
+                        newBook.setOwner(book.getString("author"));
+                        newBook.setGenre(book.getString("genre"));
                         itemBooks.add(newBook);
                     }
 
@@ -97,8 +101,8 @@ public class AddElement extends AppCompatActivity
 
     private void getData(String query)
     {
-        ArrayList<Item> output = new ArrayList<>();
-        ArrayList<Item> filteredOutput = new ArrayList<>();
+        ArrayList<InterfaceItem> output = new ArrayList<>();
+        ArrayList<InterfaceItem> filteredOutput = new ArrayList<>();
 
         if(category.equals("book"))
             for(int i = 0; i < itemBooks.size(); i++)
@@ -138,9 +142,9 @@ public class AddElement extends AppCompatActivity
 
         if (searchView != null)
         {
-            for(Item item: output)
+            for(InterfaceItem item: output)
             {
-                if(item.getTitle().toLowerCase().contains(query.toLowerCase()))
+                if(item.getName().toLowerCase().contains(query.toLowerCase()))
                 {
                     filteredOutput.add(item);
                 }
@@ -231,7 +235,11 @@ public class AddElement extends AppCompatActivity
                     {
                         //bookNames.add(book.getString("name"));
                         //bookAuthors.add(book.getString("author"));
-                        newBook = new Book(book.getString("name"),book.getString("author"), book.getString("genre"));
+                        newBook = new Book();
+                        newBook.setOwner(book.getString("author"));
+                        newBook.setName(book.getString("name"));
+                        newBook.setGenre(book.getString("genre"));
+
                         itemBooks.add(newBook);
                     }
 
@@ -279,23 +287,9 @@ public class AddElement extends AppCompatActivity
 
                     for(ParseObject movie: movieList)
                     {
-                        //bookNames.add(book.getString("name"));
-                        //bookAuthors.add(book.getString("author"));
-                        if(movie.getString("director") == null && movie.getString("leadActors") == null)
-                        {
-                            newMovie = new Movie(movie.getString("name"), movie.getString("genre"));
-                        }
-                        else if(movie.getString("director") == null)
-                        {
-                            newMovie = new Movie(movie.getString("name"), movie.getString("leadActors"), movie.getString("genre"), 1);
-                        }
-                        else if(movie.getString("leadActors") == null)
-                        {
-                            newMovie = new Movie(movie.getString("name"), movie.getString("director"), movie.getString("genre"));
-                        }
-                        else {
-                            newMovie = new Movie(movie.getString("name"), movie.getString("director"), movie.getString("leadActors"), movie.getString("genre"));
-                        }
+                        newMovie = new Movie();
+                        newMovie.setName(movie.getString("name"));
+                        newMovie.setOwner(movie.getString("director"));
 
                         itemMovies.add(newMovie);
                     }
@@ -341,7 +335,7 @@ public class AddElement extends AppCompatActivity
 
                     for(ParseObject place: placeList)
                     {
-                        newPlace = new Place(place.getString("name"), place.getString("address"), place.getString("typeOfPlace"));
+                        newPlace = new Place();
                         itemPlaces.add(newPlace);
                     }
 
@@ -424,44 +418,6 @@ public class AddElement extends AppCompatActivity
         });
 
         ParseQuery<ParseObject> games = ParseQuery.getQuery("Game");
-
-        games.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> gameList, ParseException e) {
-                if (e == null) {
-
-                    for(ParseObject game: gameList)
-                    {
-
-                        if(game.getString("developer") == null && game.getString("mode") == null)
-                        {
-                            newVideoGame = new VideoGame(game.getString("name"), game.getString("genre"));
-                        }
-                        else if(game.getString("developer") == null)
-                        {
-                            newVideoGame = new VideoGame(game.getString("name"), game.getString("genre"), game.getString("mode"), 1);
-                        }
-                        else if(game.getString("mode") == null)
-                        {
-                            newVideoGame = new VideoGame(game.getString("name"), game.getString("genre"), game.getString("developer"));
-                        }
-                        else {
-                            newVideoGame = new VideoGame(game.getString("name"), game.getString("genre"), game.getString("developer"), game.getString("mode"));
-                        }
-
-                        itemGames.add(newVideoGame);
-                    }
-
-                    listView = (ListView) findViewById(R.id.alreadyAdded);
-
-                    myAdapter = new AdapterForItemList(AddElement.this, itemGames);
-
-                    listView.setAdapter(myAdapter);
-
-                } else {
-                    Log.d("score", "Error: " + e.getMessage());
-                }
-            }
-        });
     }
 
     public void tvshow(View view)
@@ -493,21 +449,7 @@ public class AddElement extends AppCompatActivity
                     for(ParseObject tvshow: tvshowList)
                     {
 
-                        if(tvshow.getString("host") == null && tvshow.getString("favoriteEpisode") == null)
-                        {
-                            newTVShow = new TVShow(tvshow.getString("title"), tvshow.getString("genre"));
-                        }
-                        else if(tvshow.getString("host") == null)
-                        {
-                            newTVShow = new TVShow(tvshow.getString("title"), tvshow.getString("genre"), tvshow.getString("favoriteEpisode"), 1);
-                        }
-                        else if(tvshow.getString("favoriteEpisode") == null)
-                        {
-                            newTVShow = new TVShow(tvshow.getString("title"), tvshow.getString("host"), tvshow.getString("genre"));
-                        }
-                        else {
-                            newTVShow = new TVShow(tvshow.getString("title"), tvshow.getString("host"), tvshow.getString("genre"), tvshow.getString("favoriteEpisode"));
-                        }
+                        newTVShow = new TVShow();
 
                         itemTVShows.add(newTVShow);
                     }
@@ -552,7 +494,7 @@ public class AddElement extends AppCompatActivity
 
                     for(ParseObject website: websiteList)
                     {
-                        newWebsite = new Website(website.getString("name"), website.getString("use"));
+                        newWebsite = new Website();
                         itemWebsites.add(newWebsite);
                     }
 

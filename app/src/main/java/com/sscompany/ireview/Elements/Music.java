@@ -1,85 +1,62 @@
 package com.sscompany.ireview.Elements;
 
-public class Music implements Item
+public class Music implements InterfaceItem
 {
-    private String category = null;
-    private String name = null;
-    private String album = null;
-    private String artist = null;
-    private String genre = null;
-    private String duration = null;
-    private String language = null;
-    private int thumbnail;
-    private String parseItemId = null;
+    private String name;
+    private String owner;
+    private String genre;
+    private String cover_photo;
 
-    public Music(String name, String album, String artist, String genre, String duration, String language)
-    {
-        setCategory();
-        setTitle(name);
-        setPublisher(artist);
-        this.album = album;
+    public Music(String name, String owner, String genre, String cover_photo) {
+        this.name = name;
+        this.owner = owner;
         this.genre = genre;
-        this.duration = duration;
-        this.language = language;
+        this.cover_photo = cover_photo;
     }
 
-    public Music(String name, String artist, String genre, String language)
-    {
-        setCategory();
-        setTitle(name);
-        setPublisher(artist);
+    public Music() {
+
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
         this.genre = genre;
-        this.language = language;
+    }
+
+    public String getCover_photo() {
+        return cover_photo;
+    }
+
+    public void setCover_photo(String cover_photo) {
+        this.cover_photo = cover_photo;
     }
 
     @Override
-    public String getCategory() {
-        return category;
-    }
-
-    @Override
-    public void setCategory()
-    {
-        this.category = "music";
-    }
-
-    @Override
-    public String getTitle() {
-        return null;
-    }
-
-    @Override
-    public void setTitle(String title) {
-        name = title;
-    }
-
-    @Override
-    public int getThumbnail() {
-        return thumbnail;
-    }
-
-    @Override
-    public void setThumbnail(int thumbnail) {
-        this.thumbnail = thumbnail;
-    }
-
-    @Override
-    public String getPublisher() {
-        return artist;
-    }
-
-    @Override
-    public void setPublisher(String publisher) {
-        artist = publisher;
-    }
-
-    @Override
-    public String getId() {
-        return parseItemId;
-    }
-
-    @Override
-    public void setId(String id) {
-        parseItemId = id;
+    public String toString() {
+        return "Music{" +
+                "name='" + name + '\'' +
+                ", owner='" + owner + '\'' +
+                ", genre='" + genre + '\'' +
+                ", cover_photo='" + cover_photo + '\'' +
+                '}';
     }
 }

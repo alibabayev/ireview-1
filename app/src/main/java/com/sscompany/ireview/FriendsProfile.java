@@ -19,7 +19,7 @@ public class FriendsProfile extends AppCompatActivity {
     //private RecyclerView fRecyclerView;
     //private RecyclerView.Adapter fAdapter;
     //private RecyclerView.LayoutManager fLayoutManager;
-    List<Item> flistItem;
+    List<InterfaceItem> flistItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +27,13 @@ public class FriendsProfile extends AppCompatActivity {
         setContentView(R.layout.friends_profile);
 
         flistItem = new ArrayList<>();
-        flistItem.add(new Book("The Martian", "Book", 1990, "Drama", "1990", "English", R.drawable.themartian));
-        flistItem.add(new Book("The Martian", "Book", 1990, "Drama", "1990", "English", R.drawable.themartian));
-        flistItem.add(new Book("The Martian", "Book", 1990, "Drama", "1990", "English", R.drawable.themartian));
+        Book newBook = new Book();
+        newBook.setName("The Martian");
+        newBook.setGenre("Drama");
+        newBook.setOwner("Book");
+        flistItem.add(newBook);
+        flistItem.add(newBook);
+        flistItem.add(newBook);
 
         RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewCategoryBooks);
         RecyclerViewAdapter myAdapter1 = new RecyclerViewAdapter(this, flistItem);

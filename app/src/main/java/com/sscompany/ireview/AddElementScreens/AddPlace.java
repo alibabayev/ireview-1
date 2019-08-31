@@ -674,7 +674,7 @@ public class AddPlace extends AppCompatActivity implements View.OnKeyListener{
         }
         else {
 
-            Place newPlace = new Place(name.getText().toString(), address.getText().toString(), typeOfPlace.getText().toString());
+            Place newPlace = new Place();
 
             final ParseObject place = new ParseObject("Place");
 

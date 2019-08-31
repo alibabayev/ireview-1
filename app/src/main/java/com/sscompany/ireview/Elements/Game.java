@@ -1,20 +1,20 @@
 package com.sscompany.ireview.Elements;
 
-public class Movie implements InterfaceItem
+public class Game implements InterfaceItem
 {
     private String name;
     private String owner;
-    private String genre;
+    private String game_type;
     private String cover_photo;
 
-    public Movie(String name, String owner, String genre, String cover_photo) {
+    public Game(String name, String owner, String game_type, String cover_photo) {
         this.name = name;
         this.owner = owner;
-        this.genre = genre;
+        this.game_type = game_type;
         this.cover_photo = cover_photo;
     }
 
-    public Movie() {
+    public Game() {
 
     }
 
@@ -34,12 +34,12 @@ public class Movie implements InterfaceItem
         this.owner = owner;
     }
 
-    public String getGenre() {
-        return genre;
+    public String getGame_type() {
+        return game_type;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
+    public void setGame_type(String game_type) {
+        this.game_type = game_type;
     }
 
     public String getCover_photo() {
@@ -51,12 +51,11 @@ public class Movie implements InterfaceItem
     }
 
     @Override
-    public String
-    toString() {
-        return "Movie{" +
+    public String toString() {
+        return "Game{" +
                 "name='" + name + '\'' +
                 ", owner='" + owner + '\'' +
-                ", genre='" + genre + '\'' +
+                ", game_type='" + game_type + '\'' +
                 ", cover_photo='" + cover_photo + '\'' +
                 '}';
     }

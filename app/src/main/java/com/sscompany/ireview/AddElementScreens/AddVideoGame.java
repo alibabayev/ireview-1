@@ -651,7 +651,7 @@ public class AddVideoGame extends AppCompatActivity implements View.OnKeyListene
         EditText year = (EditText) findViewById(R.id.GameYear);
         EditText mode = (EditText) findViewById(R.id.GameMode);
 
-        VideoGame newVideoGame = new VideoGame(name.getText().toString(), genre.getText().toString(), developer.getText().toString(), Integer.parseInt(year.getText().toString()), mode.getText().toString());
+        Game newVideoGame = new Game(name.getText().toString(), genre.getText().toString(), developer.getText().toString(), Integer.parseInt(year.getText().toString()), mode.getText().toString());
 
         ParseObject videoGame = new ParseObject("Video Game");
 
@@ -678,7 +678,7 @@ public class AddVideoGame extends AppCompatActivity implements View.OnKeyListene
         }
         else {
 
-            VideoGame newVideoGame = new VideoGame(name.getText().toString(), genre.getText().toString(), developer.getText().toString(), mode.getText().toString());
+            Game newVideoGame = new Game(name.getText().toString(), genre.getText().toString(), developer.getText().toString(), mode.getText().toString());
 
             final ParseObject videoGame = new ParseObject("Game");
 

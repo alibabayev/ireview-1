@@ -656,7 +656,7 @@ public class AddWebsite extends AppCompatActivity implements View.OnKeyListener{
         }
         else {
 
-            Website newWebsite = new Website(name.getText().toString(), use.getText().toString());
+            Website newWebsite = new Website();
 
             final ParseObject website = new ParseObject("Website");
 

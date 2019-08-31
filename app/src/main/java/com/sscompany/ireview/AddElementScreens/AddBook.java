@@ -683,7 +683,7 @@ public class AddBook extends AppCompatActivity implements View.OnKeyListener{
             Toast.makeText(getApplicationContext(), "You need to rate the item by stars to post!", Toast.LENGTH_SHORT).show();
         }
         else {
-            Book newBook = new Book(name.getText().toString(), author.getText().toString(), genre.getText().toString());
+            Book newBook = new Book();
 
             final ParseObject book = new ParseObject("Book");
 
@@ -812,7 +812,7 @@ public class AddBook extends AppCompatActivity implements View.OnKeyListener{
             genre.setError( "Genre is required!" );
         }
         else {
-            Book newBook = new Book(name.getText().toString(), author.getText().toString(), genre.getText().toString());
+            Book newBook = new Book();
 
             ParseObject book = new ParseObject("Book");
 

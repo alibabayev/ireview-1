@@ -1,19 +1,40 @@
 package com.sscompany.ireview.Elements;
 
-public interface Item
+public class Item
 {
-    String getCategory();
-    void setCategory();
+    private String category;
+    private String item_id;
 
-    String getTitle();
-    void setTitle(String title);
+    public Item(String category, String item_id) {
+        this.category = category;
+        this.item_id = item_id;
+    }
 
-    int getThumbnail();
-    void setThumbnail(int thumbnail);
+    public Item() {
 
-    String getPublisher();
-    void setPublisher(String publisher);
+    }
 
-    String getId();
-    void setId(String id);
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getItem_id() {
+        return item_id;
+    }
+
+    public void setItem_id(String item_id) {
+        this.item_id = item_id;
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "category='" + category + '\'' +
+                ", item_id='" + item_id + '\'' +
+                '}';
+    }
 }

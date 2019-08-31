@@ -16,9 +16,9 @@ import java.util.List;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
 
     private Context mContext;
-    private List<Item> mData;
+    private List<InterfaceItem> mData;
 
-    public RecyclerViewAdapter(Context mContext, List<Item> mData) {
+    public RecyclerViewAdapter(Context mContext, List<InterfaceItem> mData) {
         this.mContext = mContext;
         this.mData = mData;
     }
@@ -35,8 +35,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.item_title.setText(mData.get(position).getTitle());
-        holder.image_item_thumbnail.setImageResource(mData.get(position).getThumbnail());
+        holder.item_title.setText(mData.get(position).getName());
+        //holder.image_item_thumbnail.setImageResource(mData.get(position).getCover_photo());
     }
 
     @Override

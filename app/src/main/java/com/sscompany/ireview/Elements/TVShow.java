@@ -1,114 +1,62 @@
 package com.sscompany.ireview.Elements;
 
-public class TVShow implements Item
+public class TVShow implements InterfaceItem
 {
-    private String category = null;
-    private String name = null;
-    private String director = null;
-    private String host = null;
-    private int year;
-    private String country = null;
-    private String genre = null;
-    private String episodeDuration = null;
-    private int seasons;
-    private String favoriteEpisode = null;
-    private int thumbnail;
-    private String parseItemId = null;
+    private String name;
+    private String owner;
+    private String genre;
+    private String cover_photo;
 
-    public TVShow(String name, String director, String host, int year, String country, String genre, String episodeDuration, int seasons, String favoriteEpisode)
-    {
-        setCategory();
-        setTitle(name);
-        setPublisher(host);
-        this.director = director;
-        this.year = year;
+    public TVShow(String name, String owner, String genre, String cover_photo) {
+        this.name = name;
+        this.owner = owner;
         this.genre = genre;
-        this.episodeDuration = episodeDuration;
-        this.country = country;
-        this.seasons = seasons;
-        this.favoriteEpisode = favoriteEpisode;
+        this.cover_photo = cover_photo;
     }
 
-    public TVShow(String name, String host, String genre, String favoriteEpisode)
-    {
-        setCategory();
-        setTitle(name);
-        setPublisher(host);
-        this.genre = genre;
-        this.favoriteEpisode = favoriteEpisode;
+    public TVShow() {
+
     }
 
-    public TVShow(String name, String genre, String favoriteEpisode, int noHost)
-    {
-        setCategory();
-        setTitle(name);
-        this.genre = genre;
-        this.favoriteEpisode = favoriteEpisode;
-    }
-
-    public TVShow(String name, String host, String genre)
-    {
-        setCategory();
-        setTitle(name);
-        this.genre = genre;
-        this.host = host;
-    }
-
-    public TVShow(String name, String genre)
-    {
-        setCategory();
-        setTitle(name);
-        this.genre = genre;
-    }
-
-    @Override
-    public String getCategory() {
-        return category;
-    }
-
-    @Override
-    public void setCategory()
-    {
-        this.category = "tvshow";
-    }
-
-    @Override
-    public String getTitle() {
+    public String getName() {
         return name;
     }
 
-    @Override
-    public void setTitle(String title) {
-        name = title;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public String getCover_photo() {
+        return cover_photo;
+    }
+
+    public void setCover_photo(String cover_photo) {
+        this.cover_photo = cover_photo;
     }
 
     @Override
-    public int getThumbnail() {
-        return thumbnail;
-    }
-
-    @Override
-    public void setThumbnail(int thumbnail) {
-        this.thumbnail = thumbnail;
-    }
-
-    @Override
-    public String getPublisher() {
-        return host;
-    }
-
-    @Override
-    public void setPublisher(String publisher) {
-        host = publisher;
-    }
-
-    @Override
-    public String getId() {
-        return parseItemId;
-    }
-
-    @Override
-    public void setId(String id) {
-        parseItemId = id;
+    public String toString() {
+        return "TVShow{" +
+                "name='" + name + '\'' +
+                ", owner='" + owner + '\'' +
+                ", genre='" + genre + '\'' +
+                ", cover_photo='" + cover_photo + '\'' +
+                '}';
     }
 }
