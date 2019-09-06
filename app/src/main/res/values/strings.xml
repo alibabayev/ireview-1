@@ -28,6 +28,18 @@
     <string name="dbname_users">users</string>
     <string name="dbname_user_account_settings">user_account_settings</string>
 
+    <!-- AddItem Strings -->
+    <string name="post_review">Post Review</string>
+    <string name="your_review">Your Review</string>
+
+    <string name="import_cover_photo">Import Cover Photo</string>
+    <string name="import_image">Import Image</string>
+
+    <string name="add_and_post">Add and Post</string>
+    <string name="add">Add</string>
+    <string name="post">Post</string>
+    <string name="save">Save</string>
+    <string name="save_and_post">Save and Post</string>
 
 
     <!-- GenderSettings Genders -->

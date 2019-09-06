@@ -60,15 +60,33 @@ public class AddWebsite extends AppCompatActivity implements View.OnKeyListener{
 
         starNumber = 0;
 
+        /**
+         * Star Initializations (filled / unfilled)
+         */
+        final Drawable filledStarDrawable = getResources().getDrawable(R.drawable.filled_star_icon);
+        final Drawable unfilledStarDrawable = getResources().getDrawable(R.drawable.star_icon);
+
+        /**
+         * Widget initializations
+         */
         final ImageView firstStar = findViewById(R.id.first_star);
         final ImageView secondStar = findViewById(R.id.second_star);
         final ImageView thirdStar = findViewById(R.id.third_star);
         final ImageView fourthStar = findViewById(R.id.fourth_star);
         final ImageView fifthStar = findViewById(R.id.fifth_star);
 
-        final Drawable filledStarDrawable = getResources().getDrawable(R.drawable.filled_star_icon);
-        final Drawable unfilledStarDrawable = getResources().getDrawable(R.drawable.star_icon);
+        websiteReview = findViewById(R.id.WebsiteReview);
+        postReview = findViewById(R.id.post_review);
 
+        websiteUsingImage = (ImageView) findViewById(R.id.WebsiteUsingImage);
+        buttonImportWebsiteImage = (Button) findViewById(R.id.WebsiteLoadImageButton);
+
+        websiteLogo = (ImageView) findViewById(R.id.WebsiteLogo);
+        buttonImportWebsiteLogo = (Button) findViewById(R.id.WebsiteLoadLogoButton);
+
+        /**
+         * Star rating onClickListener's
+         */
         firstStar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -178,16 +196,9 @@ public class AddWebsite extends AppCompatActivity implements View.OnKeyListener{
             }
         });
 
-        websiteReview = findViewById(R.id.WebsiteReview);
-
-        postReview = findViewById(R.id.post_review);
-
-        websiteUsingImage = (ImageView) findViewById(R.id.WebsiteUsingImage);
-        buttonImportWebsiteImage = (Button) findViewById(R.id.WebsiteLoadImageButton);
-
-        websiteLogo = (ImageView) findViewById(R.id.WebsiteLogo);
-        buttonImportWebsiteLogo = (Button) findViewById(R.id.WebsiteLoadLogoButton);
-
+        /**
+         * Import Website Image Button onClickListener
+         */
         buttonImportWebsiteImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -226,6 +237,9 @@ public class AddWebsite extends AppCompatActivity implements View.OnKeyListener{
             }
         });
 
+        /**
+         * Import Website Image Button onClickListener
+         */
         buttonImportWebsiteLogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -254,17 +268,17 @@ public class AddWebsite extends AppCompatActivity implements View.OnKeyListener{
                 });
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
-
-                /*
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE1);
-                }
-                */
             }
         });
     }
 
+    /**
+     * onActivityResult for getting image from gallery or taking photo
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK)
@@ -335,6 +349,14 @@ public class AddWebsite extends AppCompatActivity implements View.OnKeyListener{
         }
     }
 
+    /**
+     * Enter is pressed
+     *
+     * @param view
+     * @param i
+     * @param keyEvent
+     * @return
+     */
     @Override
     public boolean onKey(View view, int i, KeyEvent keyEvent) {
         if(i == keyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_DOWN) {

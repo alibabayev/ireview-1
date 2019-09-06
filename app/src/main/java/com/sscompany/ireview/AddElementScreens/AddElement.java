@@ -1,5 +1,6 @@
 package com.sscompany.ireview.AddElementScreens;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.sscompany.ireview.AdapterForItemList;
+import com.sscompany.ireview.AddItem;
 import com.sscompany.ireview.Elements.*;
 import com.sscompany.ireview.Homepage;
 import com.sscompany.ireview.R;
@@ -24,29 +26,33 @@ import java.util.List;
 public class AddElement extends AppCompatActivity
 {
     private String category;
-    final ArrayList<InterfaceItem> itemBooks = new ArrayList<>();
-    final ArrayList<InterfaceItem> itemMovies = new ArrayList<>();
-    final ArrayList<InterfaceItem> itemMusics = new ArrayList<>();
-    final ArrayList<InterfaceItem> itemTVShows = new ArrayList<>();
-    final ArrayList<InterfaceItem> itemPlaces = new ArrayList<>();
-    final ArrayList<InterfaceItem> itemGames = new ArrayList<>();
-    final ArrayList<InterfaceItem> itemWebsites = new ArrayList<>();
+    private final ArrayList<InterfaceItem> itemBooks = new ArrayList<>();
+    private final ArrayList<InterfaceItem> itemMovies = new ArrayList<>();
+    private final ArrayList<InterfaceItem> itemMusics = new ArrayList<>();
+    private final ArrayList<InterfaceItem> itemTVShows = new ArrayList<>();
+    private final ArrayList<InterfaceItem> itemPlaces = new ArrayList<>();
+    private final ArrayList<InterfaceItem> itemGames = new ArrayList<>();
+    private final ArrayList<InterfaceItem> itemWebsites = new ArrayList<>();
 
-    Movie newMovie;
-    Book newBook;
-    Music newMusic;
-    Place newPlace;
-    TVShow newTVShow;
-    Game newVideoGame;
-    Website newWebsite;
-    SearchView searchView;
-    ListView listView;
-    AdapterForItemList myAdapter;
+    private Context mContext;
+
+    private Movie newMovie;
+    private Book newBook;
+    private Music newMusic;
+    private Place newPlace;
+    private TVShow newTVShow;
+    private Game newVideoGame;
+    private Website newWebsite;
+    private SearchView searchView;
+    private ListView listView;
+    private AdapterForItemList myAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_element);
+
+        mContext = AddElement.this;
 
         category = "book";
         searchView = (SearchView) findViewById(R.id.searchView);
@@ -75,8 +81,6 @@ public class AddElement extends AppCompatActivity
 
                     for(ParseObject book: bookList)
                     {
-                        //bookNames.add(book.getString("name"));
-                        //bookAuthors.add(book.getString("author"));
                         newBook = new Book();
                         newBook.setName(book.getString("name"));
                         newBook.setOwner(book.getString("author"));
@@ -119,7 +123,7 @@ public class AddElement extends AppCompatActivity
             {
                 output.add(itemMusics.get(i));
             }
-        else if(category.equals("tvshow"))
+        else if(category.equals("tv_show"))
             for(int i = 0; i < itemTVShows.size(); i++)
             {
                 output.add(itemTVShows.get(i));
@@ -159,56 +163,39 @@ public class AddElement extends AppCompatActivity
 
     }
 
+    /**
+     * Add Manually Button is clicked
+     *
+     * @param view
+     */
     public void addManually(View view)
     {
-        if (category.equals("music"))
-        {
-            Intent intent = new Intent(getApplicationContext(), AddMusic.class);
-            startActivity(intent);
-        }
-        else if (category.equals("book"))
-        {
-            Intent intent = new Intent(getApplicationContext(), AddBook.class);
-            startActivity(intent);
-        }
-        else if(category.equals("movie"))
-        {
-            Intent intent = new Intent(getApplicationContext(), AddMovie.class);
-            startActivity(intent);
-        }
-        else if(category.equals("tvshow"))
-        {
-            Intent intent = new Intent(getApplicationContext(), AddTVShow.class);
-            startActivity(intent);
-        }
-        else if(category.equals("game"))
-        {
-            Intent intent = new Intent(getApplicationContext(), AddVideoGame.class);
-            startActivity(intent);
-        }
-        else if(category.equals("place"))
-        {
-            Intent intent = new Intent(getApplicationContext(), AddPlace.class);
-            startActivity(intent);
-        }
-        else if(category.equals("website"))
-        {
-            Intent intent = new Intent(getApplicationContext(), AddWebsite.class);
-            startActivity(intent);
-        }
+        Intent intent = new Intent(mContext, AddItem.class);
 
+        intent.putExtra("category", category);
+        intent.putExtra("action", "add");
+
+        startActivity(intent);
     }
 
+    /**
+     * Back Button is clicked
+     *
+     * @param view
+     */
     public void back(View view)
     {
         Intent intent = new Intent(getApplicationContext(), Homepage.class);
         startActivity(intent);
     }
 
+
     public void book(View view)
     {
         category = "book";
 
+
+        /*
         searchView = (SearchView) findViewById(R.id.searchView);
         searchView.setQueryHint("Search in " + category.substring(0, 1).toUpperCase() + category.substring(1) + "s");
         searchView.setIconifiedByDefault(true);
@@ -254,6 +241,7 @@ public class AddElement extends AppCompatActivity
                 }
             }
         });
+        */
 
     }
 
@@ -380,7 +368,7 @@ public class AddElement extends AppCompatActivity
 
                     for(ParseObject music: musicList)
                     {
-                        newMusic = new Music(music.getString("name"), music.getString("artist"), music.getString("genre"), music.getString("language"));
+                        newMusic = new Music();
                         itemMusics.add(newMusic);
                     }
 
@@ -397,7 +385,7 @@ public class AddElement extends AppCompatActivity
         });
     }
 
-    public void videoGame(View view)
+    public void game(View view)
     {
         category = "game";
 
@@ -420,9 +408,9 @@ public class AddElement extends AppCompatActivity
         ParseQuery<ParseObject> games = ParseQuery.getQuery("Game");
     }
 
-    public void tvshow(View view)
+    public void tv_show(View view)
     {
-        category = "tvshow";
+        category = "tv_show";
 
         searchView = (SearchView) findViewById(R.id.searchView);
         searchView.setQueryHint("Search in " + category.substring(0, 1).toUpperCase() + category.substring(1) + "s");

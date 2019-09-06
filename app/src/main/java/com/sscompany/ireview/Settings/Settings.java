@@ -8,6 +8,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 import com.sscompany.ireview.Homepage;
 import com.sscompany.ireview.LoginRelatedPages.DeleteAccount;
 import com.sscompany.ireview.R;
@@ -33,9 +35,9 @@ public class Settings extends AppCompatActivity {
 
         final ListView listView = (ListView) findViewById(R.id.list);
 
-        settingTypes[0] += "\n( " + ParseUser.getCurrentUser().get("Name") + " ) ";
-        settingTypes[1] += "\n( " + ParseUser.getCurrentUser().getUsername() + " ) ";
-        settingTypes[2] += "\n( " + ParseUser.getCurrentUser().getEmail() + " ) ";
+        settingTypes[0] += "\n( " + FirebaseAuth.getInstance().getCurrentUser().getDisplayName() + " ) ";
+        //settingTypes[1] += "\n( " + FirebaseAuth.getInstance().getCurrentUser().getUsername + " ) ";
+        settingTypes[2] += "\n( " + FirebaseAuth.getInstance().getCurrentUser().getEmail() + " ) ";
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, settingTypes);
         listView.setAdapter(adapter);

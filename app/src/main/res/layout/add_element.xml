@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="1dp"
                 android:background="@android:color/holo_blue_light"
-                android:onClick="tvshow"
+                android:onClick="tv_show"
                 android:text="TV Shows"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white" />
@@ -81,8 +81,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="1dp"
                 android:background="@android:color/holo_blue_light"
-                android:onClick="videoGame"
-                android:text="Video Games"
+                android:onClick="game"
+                android:text="Games"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white" />
 

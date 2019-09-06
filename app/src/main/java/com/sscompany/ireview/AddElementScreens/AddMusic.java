@@ -688,7 +688,7 @@ public class AddMusic extends AppCompatActivity implements View.OnKeyListener{
         }
         else {
 
-            Music newMusic = new Music(title.getText().toString(), artist.getText().toString(), genre.getText().toString(), language.getText().toString());
+            Music newMusic = new Music();
 
             final ParseObject music = new ParseObject("Music");
 

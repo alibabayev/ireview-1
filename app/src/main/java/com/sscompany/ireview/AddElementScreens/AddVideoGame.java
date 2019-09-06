@@ -56,7 +56,7 @@ public class AddVideoGame extends AppCompatActivity implements View.OnKeyListene
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_video_game);
+        setContentView(R.layout.add_game);
 
         starNumber = 0;
 

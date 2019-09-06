@@ -11,11 +11,11 @@ public class Website implements InterfaceItem
         this.name = name;
         this.use = use;
         this.cover_photo = cover_photo;
-        setOwner("");
+        setOwner("none");
     }
 
     public Website() {
-        setOwner("");
+        setOwner("none");
     }
 
     public String getName() {

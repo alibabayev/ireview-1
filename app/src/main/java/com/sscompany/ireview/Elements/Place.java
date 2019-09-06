@@ -13,11 +13,11 @@ public class Place implements InterfaceItem
         this.address = address;
         this.place_type = place_type;
         this.cover_photo = cover_photo;
-        setOwner("");
+        setOwner("none");
     }
 
     public Place() {
-        setOwner("");
+        setOwner("none");
     }
 
     public String getName() {

@@ -5,15 +5,22 @@ import java.util.ArrayList;
 public class Post
 {
     private String item_id;
+    private String item_name;
+    private String item_owner;
+    private String item_cover_photo;
     private String caption;
-    private int rating;
+    private float rating;
     private int like_count;
     private ArrayList likes;
     private String user_id;
     private String data_created;
 
-    public Post(String item_id, String caption, int rating, int like_count, ArrayList likes, String user_id, String data_created) {
+    public Post(String item_id, String item_name, String item_owner, String item_cover_photo, String caption, float rating, int like_count, ArrayList likes, String user_id, String data_created)
+    {
         this.item_id = item_id;
+        this.item_name = item_name;
+        this.item_owner = item_owner;
+        this.item_cover_photo = item_cover_photo;
         this.caption = caption;
         this.rating = rating;
         this.like_count = like_count;
@@ -34,6 +41,30 @@ public class Post
         this.item_id = item_id;
     }
 
+    public String getItem_name() {
+        return item_name;
+    }
+
+    public void setItem_name(String item_name) {
+        this.item_name = item_name;
+    }
+
+    public String getItem_owner() {
+        return item_owner;
+    }
+
+    public void setItem_owner(String item_owner) {
+        this.item_owner = item_owner;
+    }
+
+    public String getItem_cover_photo() {
+        return item_cover_photo;
+    }
+
+    public void setItem_cover_photo(String item_cover_photo) {
+        this.item_cover_photo = item_cover_photo;
+    }
+
     public String getCaption() {
         return caption;
     }
@@ -42,11 +73,11 @@ public class Post
         this.caption = caption;
     }
 
-    public int getRating() {
+    public float getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(float rating) {
         this.rating = rating;
     }
 
@@ -86,6 +117,9 @@ public class Post
     public String toString() {
         return "Post{" +
                 "item_id='" + item_id + '\'' +
+                ", item_name='" + item_name + '\'' +
+                ", item_owner='" + item_owner + '\'' +
+                ", item_cover_photo='" + item_cover_photo + '\'' +
                 ", caption='" + caption + '\'' +
                 ", rating=" + rating +
                 ", like_count=" + like_count +

@@ -659,7 +659,7 @@ public class AddMovie extends AppCompatActivity implements View.OnKeyListener{
         }
         else {
 
-            Movie newMovie = new Movie(title.getText().toString(), director.getText().toString(), leadActors.getText().toString(), genre.getText().toString());
+            Movie newMovie = new Movie();
 
             final ParseObject movie = new ParseObject("Movie");
 
