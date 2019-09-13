@@ -1,6 +1,7 @@
 package com.sscompany.ireview.Elements;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.CountDownTimer;
@@ -25,6 +26,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.sscompany.ireview.AddElementScreens.AddElement;
 import com.sscompany.ireview.AddItem;
 import com.sscompany.ireview.R;
 
@@ -121,7 +123,20 @@ public class FirebaseMethods {
                             sendVerificationEmail();
                             System.out.println("Verification email is sent.");
                             userID = mAuth.getCurrentUser().getUid();
-                            addNewUser(email, username, display_name, "");
+
+                            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("general_images/standard_profile_picture.png");
+
+                            storageReference.getDownloadUrl().addOnSuccessListener(
+                                    new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri)
+                                        {
+                                            Uri downloadUrl = uri;
+                                            String firebaseUri = downloadUrl.toString();
+
+                                            addNewUser(email, username, display_name, firebaseUri);
+                                        }
+                                    });
                         }
 
                     }
@@ -172,7 +187,6 @@ public class FirebaseMethods {
                 .child(userID)
                 .setValue(user);
 
-
         UserAccountSettings settings = new UserAccountSettings(
                 username,
                 display_name,
@@ -186,24 +200,6 @@ public class FirebaseMethods {
                 .child(userID)
                 .setValue(settings);
 
-    }
-
-    public void addNewPost(String itemId, String caption, float rating)
-    {
-        String newPostKey = myRef.child("posts").push().getKey();
-
-        Post newPost = new Post();
-
-        newPost.setCaption(caption);
-        newPost.setItem_id(itemId);
-        newPost.setLike_count(0);
-        newPost.setRating(rating);
-        newPost.setUser_id(userID);
-        newPost.setData_created(getTimestamp());
-
-        myRef.child("user_posts").child(userID).child(newPostKey).setValue(newPost);
-
-        myRef.child("posts").child(newPostKey).setValue(newPost);
     }
 
     public String getTimestamp(){

@@ -8,25 +8,26 @@ public class Post
     private String item_name;
     private String item_owner;
     private String item_cover_photo;
-    private String caption;
+    private String review;
     private float rating;
     private int like_count;
-    private ArrayList likes;
+    private ArrayList<String> likes;
     private String user_id;
     private String data_created;
+    private String post_id;
 
-    public Post(String item_id, String item_name, String item_owner, String item_cover_photo, String caption, float rating, int like_count, ArrayList likes, String user_id, String data_created)
-    {
+    public Post(String item_id, String item_name, String item_owner, String item_cover_photo, String review, float rating, int like_count, ArrayList<String> likes, String user_id, String data_created, String post_id) {
         this.item_id = item_id;
         this.item_name = item_name;
         this.item_owner = item_owner;
         this.item_cover_photo = item_cover_photo;
-        this.caption = caption;
+        this.review = review;
         this.rating = rating;
         this.like_count = like_count;
         this.likes = likes;
         this.user_id = user_id;
         this.data_created = data_created;
+        this.post_id = post_id;
     }
 
     public Post() {
@@ -65,12 +66,12 @@ public class Post
         this.item_cover_photo = item_cover_photo;
     }
 
-    public String getCaption() {
-        return caption;
+    public String getReview() {
+        return review;
     }
 
-    public void setCaption(String caption) {
-        this.caption = caption;
+    public void setReview(String review) {
+        this.review = review;
     }
 
     public float getRating() {
@@ -89,11 +90,11 @@ public class Post
         this.like_count = like_count;
     }
 
-    public ArrayList getLikes() {
+    public ArrayList<String> getLikes() {
         return likes;
     }
 
-    public void setLikes(ArrayList likes) {
+    public void setLikes(ArrayList<String> likes) {
         this.likes = likes;
     }
 
@@ -113,6 +114,14 @@ public class Post
         this.data_created = data_created;
     }
 
+    public String getPost_id() {
+        return post_id;
+    }
+
+    public void setPost_id(String post_id) {
+        this.post_id = post_id;
+    }
+
     @Override
     public String toString() {
         return "Post{" +
@@ -120,12 +129,13 @@ public class Post
                 ", item_name='" + item_name + '\'' +
                 ", item_owner='" + item_owner + '\'' +
                 ", item_cover_photo='" + item_cover_photo + '\'' +
-                ", caption='" + caption + '\'' +
+                ", review='" + review + '\'' +
                 ", rating=" + rating +
                 ", like_count=" + like_count +
                 ", likes=" + likes +
                 ", user_id='" + user_id + '\'' +
                 ", data_created='" + data_created + '\'' +
+                ", post_id='" + post_id + '\'' +
                 '}';
     }
 }

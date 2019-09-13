@@ -51,10 +51,13 @@ import com.sscompany.ireview.Elements.Music;
 import com.sscompany.ireview.Elements.Place;
 import com.sscompany.ireview.Elements.Post;
 import com.sscompany.ireview.Elements.TVShow;
+import com.sscompany.ireview.Elements.User;
+import com.sscompany.ireview.Elements.UserAccountSettings;
 import com.sscompany.ireview.Elements.Website;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 public class AddItem extends AppCompatActivity
 {
@@ -849,7 +852,7 @@ public class AddItem extends AppCompatActivity
         //Getting id for element (from one category) which will be located under category items classes
         String newElementKey = myRef.child(category + "s").push().getKey();
 
-        //Getting if for item (from any category) which will be located under items class
+        //Getting id for item (from any category) which will be located under items class
         String newItemKey = myRef.child("items").push().getKey();
 
         //Creating new Item (Not InterfaceItem)
@@ -879,29 +882,55 @@ public class AddItem extends AppCompatActivity
      *
      * @param itemId
      * @param item
-     * @param caption
+     * @param review
      * @param rating
      */
-    public void addNewPost(String itemId, InterfaceItem item, String caption, float rating)
+    public void addNewPost(String itemId, InterfaceItem item, String review, float rating)
     {
         String newPostKey = myRef.child("posts").push().getKey();
-        String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        final String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+        ArrayList<String> newLikesArray = new ArrayList<>();
+
+        //Creating and setting new post
         Post newPost = new Post();
 
-        newPost.setCaption(caption);
+        newPost.setReview(review);
         newPost.setItem_id(itemId);
         newPost.setItem_name(item.getName());
         newPost.setItem_owner(item.getOwner());
         newPost.setItem_cover_photo(item.getCover_photo());
         newPost.setLike_count(0);
+        newPost.setLikes(newLikesArray);
         newPost.setRating(rating);
         newPost.setUser_id(userID);
         newPost.setData_created(firebaseMethods.getTimestamp());
+        newPost.setPost_id(newPostKey);
 
+        //Adding post to user_posts
         myRef.child("user_posts").child(userID).child(newPostKey).setValue(newPost);
 
+        //Adding post to posts
         myRef.child("posts").child(newPostKey).setValue(newPost);
+
+        //Getting number of reviews of current user in order to increase it
+        FirebaseDatabase.getInstance().getReference()
+                .child("user_account_settings")
+                .child(userID)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        UserAccountSettings userAccountSettings = dataSnapshot.getValue(UserAccountSettings.class);
+
+                        //Increasing number of reviews for current user
+                        myRef.child("user_account_settings").child(userID).child("reviews").setValue(userAccountSettings.getReviews() + 1);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
 
         Log.d(TAG, "Review Posted");
     }

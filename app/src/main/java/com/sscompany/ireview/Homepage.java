@@ -2,11 +2,19 @@ package com.sscompany.ireview;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.sscompany.ireview.AddElementScreens.AddElement;
-import com.sscompany.ireview.Elements.*;
+import com.sscompany.ireview.Elements.Post;
+import com.sscompany.ireview.Elements.UserAccountSettings;
 import com.sscompany.ireview.Settings.*;
 import com.sscompany.ireview.LoginRelatedPages.*;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,30 +30,34 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class Homepage extends AppCompatActivity
 {
+    private static final String TAG = "Homepage";
+
+    private Context mContext;
+
     private DrawerLayout mDrawerLayout;
     public static String profileOfMineOrFriend = "";
     private ListView listView;
-    private ArrayList<NewsFeedItem> newsFeedItems = new ArrayList<>();
+    private ArrayList<FeedItem> feedItems = new ArrayList<>();
+    private static FeedAdapter feedAdapter;
 
     private FirebaseAuth mAuth;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage);
 
+        mContext = Homepage.this;
+
+        listView = findViewById(R.id.news_feed_list);
+
         mAuth = FirebaseAuth.getInstance();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mDrawerLayout.addDrawerListener(
@@ -129,34 +141,72 @@ public class Homepage extends AppCompatActivity
 
 
         //News Feed
+        Query query = databaseReference
+                .child("posts");
 
-        /*ParseQuery<ParseObject> postQuery = ParseQuery.getQuery("Post");
-
-        postQuery.findInBackground(new FindCallback<ParseObject>() {
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void done(List<ParseObject> objects, ParseException e) {
-                if (e == null)
+
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                for(DataSnapshot singleSnapshot : dataSnapshot.getChildren())
                 {
-                    System.out.println("YESSSSSSSSSSSSSSSSSS");
-                    ParseUser current = ParseUser.getCurrentUser();
-                    String postingUserId = current.getObjectId();
-                    for (ParseObject obj : objects)
-                    {
-                        System.out.println("nOOOOOOOOOOOOOOOO");
-                        String itemId = obj.get("itemId").toString();
+                    Post post = singleSnapshot.getValue(Post.class);
 
-                        NewsFeedItem newsFeedItem = new NewsFeedItem(obj.getObjectId());
-                        newsFeedItems.add(newsFeedItem);
-                    }
+                    final FeedItem feedItem = new FeedItem();
 
-                    listView = findViewById(R.id.news_feed_list);
-                    NewsFeedAdapter newsFeedAdapter = new NewsFeedAdapter(Homepage.this, newsFeedItems);
-                    listView.setAdapter(newsFeedAdapter);
-                } else {
-                    e.printStackTrace();
+                    feedItem.setCover_photo(post.getItem_cover_photo());
+                    feedItem.setDate(post.getData_created());
+                    feedItem.setItem_name(post.getItem_name());
+                    feedItem.setItem_owner(post.getItem_owner());
+                    feedItem.setLikes(post.getLike_count());
+                    feedItem.setRating(post.getRating());
+                    feedItem.setReview(post.getReview());
+                    feedItem.setUser_id(post.getUser_id());
+                    feedItem.setPost_id(post.getPost_id());
+
+                    Query query = FirebaseDatabase.getInstance().getReference()
+                            .child("user_account_settings")
+                            .child(post.getUser_id());
+
+                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot)
+                        {
+                            System.out.println();
+
+                            System.out.println("datasnapshot: " + dataSnapshot.getChildrenCount());
+
+                            String username = dataSnapshot.getValue(UserAccountSettings.class).getUsername();
+                            String profile_picture = dataSnapshot.getValue(UserAccountSettings.class).getProfile_photo();
+
+                            feedItem.setUsername(username);
+                            feedItem.setProfile_picture(profile_picture);
+
+                            Log.d(TAG, "onDataChange: found user: "
+                                    + dataSnapshot.getValue(UserAccountSettings.class).getUsername());
+
+                            feedItems.add(feedItem);
+
+                            feedAdapter = new FeedAdapter(feedItems, mContext);
+
+                            listView.setAdapter(feedAdapter);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
                 }
             }
-        });*/
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     @Override
