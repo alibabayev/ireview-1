@@ -142,6 +142,8 @@ public class SignupPage extends AppCompatActivity implements View.OnKeyListener,
         password = passwordText.getText().toString();
         passwordAgain = passwordAgainText.getText().toString();
 
+        username.toLowerCase();
+
         if(display_name.equals("") || username.equals("") || email.equals("") || password.equals("")) {
             Toast.makeText(this, "A display name, username, email and password are required.", Toast.LENGTH_SHORT).show();
         }

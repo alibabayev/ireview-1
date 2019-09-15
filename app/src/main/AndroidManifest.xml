@@ -25,6 +25,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".Settings.VerificationCodeEmailSettings"></activity>
         <activity
             android:name=".SearchActivity"
             android:screenOrientation="portrait" />
@@ -77,10 +78,10 @@
             android:name=".Settings.PasswordSetting"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Settings.EmailSetting"
+            android:name=".Settings.EmailSettings"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".LoginRelatedPages.DeleteAccount"
+            android:name=".Settings.DeleteAccount"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Settings.ProfilePictureSetting"

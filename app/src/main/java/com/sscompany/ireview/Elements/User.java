@@ -9,14 +9,15 @@ public class User {
     private String username;
     private String display_name;
     private long phone_number;
+    private String gender;
 
-
-    public User(String user_id, String email, String username, String display_name, long phone_number) {
+    public User(String user_id, String email, String username, String display_name, long phone_number, String gender) {
         this.user_id = user_id;
         this.email = email;
         this.username = username;
         this.display_name = display_name;
         this.phone_number = phone_number;
+        this.gender = gender;
     }
 
     public User() {
@@ -63,6 +64,14 @@ public class User {
         this.phone_number = phone_number;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -71,6 +80,7 @@ public class User {
                 ", username='" + username + '\'' +
                 ", display_name='" + display_name + '\'' +
                 ", phone_number=" + phone_number +
+                ", gender='" + gender + '\'' +
                 '}';
     }
 }

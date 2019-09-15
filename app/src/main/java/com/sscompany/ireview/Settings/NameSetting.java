@@ -9,9 +9,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 import com.sscompany.ireview.R;
-import com.parse.ParseException;
-import com.parse.ParseUser;
 
 public class NameSetting extends AppCompatActivity
 {
@@ -22,23 +23,22 @@ public class NameSetting extends AppCompatActivity
         setContentView(R.layout.name_setting);
 
         EditText name = findViewById(R.id.editText);
+
         name.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event)
             {
-                if(keyCode == event.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
-                    try {
-                        changeName(v);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
+                if(keyCode == event.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN)
+                {
+                    changeName(v);
                 }
                 return false;
             }
         });
     }
 
-    public void changeName(View view) throws ParseException {
+    public void changeName(View view)
+    {
         EditText name = findViewById(R.id.editText);
         String nameOfUser = name.getText().toString();
 
@@ -47,12 +47,18 @@ public class NameSetting extends AppCompatActivity
             Toast.makeText(getApplicationContext(), "Name should consist of at most 30 characters.", Toast.LENGTH_LONG);
         }
         else {
-            ParseUser user = ParseUser.getCurrentUser();
-            user.put("Name", nameOfUser);
-            user.save();
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            String user_id = user.getUid();
+
+            //Setting display_name under users class
+            FirebaseDatabase.getInstance().getReference().child("users").child(user_id).child("display_name").setValue(nameOfUser);
+
+            //Setting display_name under user_account_settings class
+            FirebaseDatabase.getInstance().getReference().child("user_account_settings").child(user_id).child("display_name").setValue(nameOfUser);
 
             Intent intent = new Intent(getApplicationContext(), Settings.class);
             startActivity(intent);
+            finish();
         }
     }
 
@@ -60,5 +66,6 @@ public class NameSetting extends AppCompatActivity
     {
         Intent intent = new Intent(getApplicationContext(), Settings.class);
         startActivity(intent);
+        finish();
     }
 }

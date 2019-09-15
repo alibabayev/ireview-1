@@ -2,6 +2,7 @@ package com.sscompany.ireview.Settings;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.sscompany.ireview.Elements.User;
 import com.sscompany.ireview.R;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -21,8 +29,6 @@ import java.util.regex.Pattern;
 
 public class UsernameSetting extends AppCompatActivity
 {
-    ArrayList<String> usernames = new ArrayList<>();
-
     private Pattern pattern;
     private Matcher matcher;
     private static final String USERNAME_PATTERN = "^(?=.{6,15}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$";
@@ -52,44 +58,71 @@ public class UsernameSetting extends AppCompatActivity
         });
     }
 
-    public void changeUsername(View view) throws ParseException {
-        ParseUser user = ParseUser.getCurrentUser();
+    public void changeUsername(View view) throws ParseException
+    {
         EditText username = findViewById(R.id.editText);
         String usernameOfUser = username.getText().toString();
 
         usernameOfUser.toLowerCase();
 
-        usernames = new ArrayList<>();
-
         if(!validate(usernameOfUser))
         {
             Toast.makeText(this, "Entered username is not valid. You read the username guidelines by pressing info button.", Toast.LENGTH_LONG).show();
         }
-        else if(usernameExists(usernameOfUser))
+        else
         {
-            Toast.makeText(UsernameSetting.this, "Username is already used by another user. Please enter another username.",Toast.LENGTH_LONG).show();
-        }
-        else {
-            user.setUsername(usernameOfUser);
-            user.save();
-
-            Intent intent = new Intent(getApplicationContext(), Settings.class);
-            startActivity(intent);
+            checkAndChange(usernameOfUser);
         }
 
     }
 
-    private boolean usernameExists(final String username) throws ParseException
+    private void checkAndChange(final String username) throws ParseException
     {
-        final ParseQuery<ParseUser> usernameQuery = ParseUser.getQuery();
-        usernameQuery.whereEqualTo("username", username);
+        //Checking if username exists
+        FirebaseDatabase.getInstance().getReference()
+                .child("users")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                    {
+                        boolean exists = false;
+                        for(DataSnapshot singleDataSnapshot:dataSnapshot.getChildren())
+                        {
+                            User user = singleDataSnapshot.getValue(User.class);
 
-        if(usernameQuery.count() == 0)
-            return false;
+                            if(username.equals(user.getUsername()))
+                            {
+                                exists = true;
+                                break;
+                            }
+                        }
 
-        else
-            return true;
+                        //Adding if username does not exist
+                        if(exists)
+                        {
+                            Toast.makeText(UsernameSetting.this, "Username is already used by another user. Please enter another username.",Toast.LENGTH_LONG).show();
+                        }
+                        else {
 
+                            String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                            //Setting username under the users class of database
+                            FirebaseDatabase.getInstance().getReference().child("users").child(user_id).child("username").setValue(username);
+
+                            //Setting username under the user_account_settings class of database
+                            FirebaseDatabase.getInstance().getReference().child("user_account_settings").child(user_id).child("username").setValue(username);
+
+                            Intent intent = new Intent(getApplicationContext(), Settings.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
     }
 
     public void cancel(View view)

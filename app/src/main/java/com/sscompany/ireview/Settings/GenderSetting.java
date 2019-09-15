@@ -9,21 +9,27 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 import com.sscompany.ireview.R;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
 public class GenderSetting extends AppCompatActivity
 {
-    Spinner spinner;
-    Toast alert;
+    private Spinner spinner;
+    private Toast alert;
+    private String user_id;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gender_setting);
 
-        alert = Toast.makeText(GenderSetting.this, "Please choose your gender!", Toast.LENGTH_SHORT);
+        //Initializing user_id
+        user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        alert = Toast.makeText(GenderSetting.this, "Please select your gender!", Toast.LENGTH_SHORT);
 
         spinner = findViewById(R.id.spinner);
 
@@ -49,8 +55,7 @@ public class GenderSetting extends AppCompatActivity
         }
         else
         {
-            ParseUser.getCurrentUser().put("gender", gender);
-            ParseUser.getCurrentUser().save();
+            FirebaseDatabase.getInstance().getReference().child("users").child(user_id).child("gender").setValue(gender);
 
             Intent intent = new Intent(GenderSetting.this, Settings.class);
             startActivity(intent);

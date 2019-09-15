@@ -1,6 +1,8 @@
 package com.sscompany.ireview.Settings;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -9,16 +11,38 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.sscompany.ireview.AddElementScreens.AddElement;
+import com.sscompany.ireview.Elements.ImageManagerClass;
+import com.sscompany.ireview.Elements.UserAccountSettings;
 import com.sscompany.ireview.R;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -27,13 +51,21 @@ import com.parse.ParseUser;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 
 public class ProfilePictureSetting extends AppCompatActivity
 {
-    ImageView profile;
-    ParseUser current;
-    Button changeProfile;
+    private static final String TAG = "ProfilePictureSetting";
+
+    private ImageView profile;
+    private Button changeProfile;
+
+    private String user_id;
+    private String profile_picture_url;
+
+    private Context mContext;
 
     private static AlertDialog alertDialog;
 
@@ -45,27 +77,55 @@ public class ProfilePictureSetting extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_picture_setting);
 
-        current = ParseUser.getCurrentUser();
+        mContext = ProfilePictureSetting.this;
+
+        //Initializing widgets
         profile = findViewById(R.id.profile_picture);
-
-        ParseFile imageFile = (ParseFile) current.get("profilePicture");
-
-        imageFile.getDataInBackground(new GetDataCallback() {
-            @Override
-            public void done(byte[] data, ParseException e) {
-                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                profile.setImageBitmap(bitmap);
-            }
-        });
-
-        profile.setOnClickListener(listenerImage);
-
         changeProfile = findViewById(R.id.change_profile_button);
 
+        //Getting user_id
+        user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        //Getting current profile picture url from user_account_settings class
+        FirebaseDatabase.getInstance().getReference()
+                .child("user_account_settings")
+                .child(user_id)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        UserAccountSettings userAccountSettings = dataSnapshot.getValue(UserAccountSettings.class);
+
+                        profile_picture_url = userAccountSettings.getProfile_photo();
+
+                        /*
+                        RequestOptions requestOptions = new RequestOptions();
+                        requestOptions.placeholder(R.drawable.image_placeholder);
+
+                        Glide.with(mContext).applyDefaultRequestOptions(requestOptions).load(profile_picture_url)
+                                .into(profile);
+                        */
+
+                        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                        StrictMode.setThreadPolicy(policy);
+                        try {
+                            URL url = new URL(profile_picture_url);
+                            Drawable d = new BitmapDrawable(getResources(), BitmapFactory.decodeStream((InputStream)url.getContent()));
+                            profile.setImageDrawable(d);
+                        } catch (IOException e) {
+                            Log.e(TAG, e.getMessage());
+                        }
+
+                        profile.setOnClickListener(listenerImage);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+
         alertDialog = null;
-
-
-        //profile.setImageDrawable((Drawable))(current.get("profilePicture"));
 
         changeProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,13 +155,216 @@ public class ProfilePictureSetting extends AppCompatActivity
                 });
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();
-                /*
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-                }*/
             }
         });
+    }
+
+    public void removeProfilePicture(View v)
+    {
+        if(alertDialog != null)
+            alertDialog.dismiss();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(ProfilePictureSetting.this, R.style.myDialog));
+
+        builder.setTitle("Remove Profile Picture")
+                .setMessage("Are you sure to remove your profile picture?")
+                .setPositiveButton("Remove", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("general_images/standard_profile_picture.png");
+
+                        storageReference.getDownloadUrl().addOnSuccessListener(
+                                new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri)
+                                    {
+                                        Uri downloadUrl = uri;
+                                        String general_profile_picture_url = downloadUrl.toString();
+
+                                        /*
+                                        RequestOptions requestOptions = new RequestOptions();
+                                        requestOptions.placeholder(R.drawable.image_placeholder);
+
+                                        Glide.with(mContext).applyDefaultRequestOptions(requestOptions).load(general_profile_picture_url)
+                                                .into(profile);
+                                        */
+
+                                        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                                        StrictMode.setThreadPolicy(policy);
+                                        try {
+                                            URL url = new URL(general_profile_picture_url);
+                                            Drawable d = new BitmapDrawable(getResources(), BitmapFactory.decodeStream((InputStream)url.getContent()));
+                                            profile.setImageDrawable(d);
+                                        } catch (IOException e) {
+                                            Log.e(TAG, e.getMessage());
+                                        }
+
+                                    }
+                                });
+                        //Drawable drawable = getResources().getDrawable(R.drawable.profile_picture_icon);
+                        //profile.setImageDrawable(drawable);
+                    }
+                })
+                .setIcon(R.drawable.alert_icon)
+                .setCancelable(false);
+
+        alertDialog = builder.create();
+        alertDialog.show();
+
+    }
+
+    public void save(View v)
+    {
+        profile.invalidate();
+
+        BitmapDrawable dr = (BitmapDrawable)((ImageView)profile).getDrawable();
+        final Bitmap bitmap = dr.getBitmap();
+
+        //Converting bitmap to bytes
+        final byte[] bytes = ImageManagerClass.getBytesFromBitmap(bitmap, 100);
+
+        //Creating new imageView and setting its drawable to general_profile_picture
+        final ImageView imageView = new ImageView(mContext);
+
+        FirebaseStorage.getInstance().getReference().child("general_images/standard_profile_picture.png")
+                .getDownloadUrl().addOnSuccessListener(
+                new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri)
+                    {
+                        Uri downloadUrl = uri;
+                        String general_profile_picture_url = downloadUrl.toString();
+
+                        /*
+                        RequestOptions requestOptions = new RequestOptions();
+                        requestOptions.placeholder(R.drawable.image_placeholder);
+
+                        Glide.with(mContext).applyDefaultRequestOptions(requestOptions).load(general_profile_picture_url)
+                                .into(imageView);
+                        */
+
+                        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                        StrictMode.setThreadPolicy(policy);
+                        try {
+                            URL url = new URL(general_profile_picture_url);
+                            Drawable d = new BitmapDrawable(getResources(), BitmapFactory.decodeStream((InputStream)url.getContent()));
+                            imageView.setImageDrawable(d);
+                        } catch (IOException e) {
+                            Log.e(TAG, e.getMessage());
+                        }
+
+                        //Getting bitmap of created imageView
+                        BitmapDrawable imageDrawable = (BitmapDrawable)((ImageView)imageView).getDrawable();
+                        Bitmap imageBitmap = imageDrawable.getBitmap();
+
+                        //If bitmap is equal to image bitmap, no need to upload photo
+                        if(imageBitmap.sameAs(bitmap))
+                        {
+                            //Adding general_profile_picture_url to profile_photo under user_account_settings class
+                            FirebaseDatabase.getInstance().getReference()
+                                    .child("user_account_settings")
+                                    .child(user_id)
+                                    .child("profile_photo")
+                                    .setValue(general_profile_picture_url);
+
+                            //Deleting uploaded profile picture
+                            FirebaseStorage.getInstance().getReference()
+                                    .child("users")
+                                    .child(user_id)
+                                    .child("profile_picture")
+                                    .delete();
+
+                            Intent intent = new Intent(getApplicationContext(), Settings.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                        //Else, we need to upload photo to the FirebaseStorage and setting url to user's profile_photo
+                        else
+                        {
+                            //Initializing storageReference according to category (folder)
+                            final StorageReference newStorageReference = FirebaseStorage.getInstance().getReference()
+                                    .child("users")
+                                    .child(user_id)
+                                    .child("profile_picture");
+
+                            //Creating an uploadTask in order to manage upload process of cover photo
+                            UploadTask uploadTask = null;
+                            uploadTask = newStorageReference.putBytes(bytes);
+
+                            //Creating a processDialog and initializing it
+                            final ProgressDialog progressDialog = new ProgressDialog(mContext);
+
+                            //Setting processDialog
+                            progressDialog.setTitle("Changing Profile Picture...\nPlease Wait...");
+                            progressDialog.setCancelable(false);
+                            progressDialog.show();
+
+                            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot)
+                                {
+                                    progressDialog.dismiss();
+                                }
+
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d(TAG, "onFailure: Changing profile picture failed.");
+                                    progressDialog.dismiss();
+                                    Toast.makeText(mContext, "Changing profile picture failed.", Toast.LENGTH_SHORT).show();
+                                }
+                            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onProgress(UploadTask.TaskSnapshot taskSnapshot)
+                                {
+                                    double progress = 100 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount();
+
+                                    progressDialog.setMessage("Progress " + (int)progress + "%");
+                                }
+                            }).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task)
+                                {
+                                    progressDialog.dismiss();
+
+                                    //Getting download link of profile picture and adding it to user's profile_photo
+                                    newStorageReference.getDownloadUrl().addOnSuccessListener(
+                                            new OnSuccessListener<Uri>() {
+                                                @Override
+                                                public void onSuccess(Uri uri)
+                                                {
+                                                    Uri downloadUrl = uri;
+                                                    String profile_picture_url = downloadUrl.toString();
+
+                                                    FirebaseDatabase.getInstance().getReference()
+                                                            .child("user_account_settings")
+                                                            .child(user_id)
+                                                            .child("profile_photo")
+                                                            .setValue(profile_picture_url);
+
+                                                    Intent intent = new Intent(mContext, Settings.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                }
+                                            });
+
+                                    Toast.makeText(mContext, "Profile Photo Changed!", Toast.LENGTH_SHORT).show();
+
+
+                                }
+
+                            });
+                        }
+
+                    }
+                });
+    }
+
+    public void cancel(View v)
+    {
+        Intent intent = new Intent(getApplicationContext(), Settings.class);
+        startActivity(intent);
+        finish();
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -246,63 +509,4 @@ public class ProfilePictureSetting extends AppCompatActivity
         }
 
     };
-
-    public void removeProfilePicture(View v)
-    {
-        if(alertDialog != null)
-            alertDialog.dismiss();
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(ProfilePictureSetting.this, R.style.myDialog));
-
-        builder.setTitle("Remove Profile Picture")
-                .setMessage("Are you sure to remove your profile picture?")
-                .setPositiveButton("Remove", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which)
-                    {
-                        Drawable drawable = getResources().getDrawable(R.drawable.profile_picture_icon);
-                        profile.setImageDrawable(drawable);
-                    }
-                })
-                .setIcon(R.drawable.alert_icon)
-                .setCancelable(false);
-
-        alertDialog = builder.create();
-        alertDialog.show();
-
-    }
-
-    public void save(View v)
-    {
-        profile.invalidate();
-
-        BitmapDrawable dr = (BitmapDrawable)((ImageView)profile).getDrawable();
-        Bitmap bitmap = dr.getBitmap();
-
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
-
-        byte[] byteArray = stream.toByteArray();
-
-        ParseFile fileImage = new ParseFile("profile.jpg", byteArray);
-
-        current.put("profilePicture", fileImage);
-
-        try {
-            current.save();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        Intent intent = new Intent(getApplicationContext(), Settings.class);
-        startActivity(intent);
-        finish();
-    }
-
-    public void cancel(View v)
-    {
-        Intent intent = new Intent(getApplicationContext(), Settings.class);
-        startActivity(intent);
-        finish();
-    }
 }

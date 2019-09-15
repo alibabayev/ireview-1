@@ -180,7 +180,8 @@ public class FirebaseMethods {
                 email,
                 username,
                 display_name,
-                1
+                1,
+                ""
         );
 
         myRef.child(mContext.getString(R.string.dbname_users))
