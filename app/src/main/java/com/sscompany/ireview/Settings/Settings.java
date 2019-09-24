@@ -14,8 +14,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.sscompany.ireview.Elements.User;
-import com.sscompany.ireview.Homepage;
+import com.sscompany.ireview.Models.User;
+import com.sscompany.ireview.Screens.Homepage;
 import com.sscompany.ireview.R;
 
 public class Settings extends AppCompatActivity

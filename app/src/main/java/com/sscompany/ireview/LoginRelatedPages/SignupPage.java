@@ -3,7 +3,6 @@ package com.sscompany.ireview.LoginRelatedPages;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,8 +21,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.sscompany.ireview.Elements.FirebaseMethods;
-import com.sscompany.ireview.Homepage;
+import com.sscompany.ireview.Models.FirebaseMethods;
+import com.sscompany.ireview.Screens.Homepage;
 import com.sscompany.ireview.R;
 import com.google.firebase.auth.FirebaseAuth;
 

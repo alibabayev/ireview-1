@@ -50,10 +50,10 @@ dependencies {
 
     implementation 'com.squareup.picasso:picasso:2.5.0'
 
-    //Sending verification code
-    compile files('libs/activation.jar')
-    compile files('libs/additional.jar')
-    compile files('libs/mail.jar')
+    //Sending email verification code
+    implementation files('libs/activation.jar')
+    implementation files('libs/additional.jar')
+    implementation files('libs/mail.jar')
 
 
     testImplementation 'junit:junit:4.12'
