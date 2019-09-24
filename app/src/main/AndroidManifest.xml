@@ -27,25 +27,25 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".Settings.VerificationCodeEmailSettings"></activity>
         <activity
-            android:name=".SearchActivity"
+            android:name=".Screens.SearchActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ShowBookProperties"
+            android:name=".Screens.ShowBookProperties"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".FriendsProfile"
+            android:name=".Screens.FriendsProfile"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".AddElementScreens.AddElement"
+            android:name=".AddElement"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ShowFriendList"
+            android:name=".Screens.ShowFriendList"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Settings.Settings"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MyProfile"
+            android:name=".Screens.MyProfile"
             android:screenOrientation="portrait" />
         <activity
             android:name=".AddItem"
@@ -96,7 +96,7 @@
             android:name=".Settings.UsernameSetting"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Homepage"
+            android:name=".Screens.Homepage"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Settings.ChangePasswordPage"
