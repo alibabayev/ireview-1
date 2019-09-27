@@ -38,7 +38,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.item_title.setText(mData.get(position).getName());
-        //holder.image_item_thumbnail.setImageResource(mData.get(position).getCover_photo());
+        //holder.image_item_thumbnail.setImageURI((Uri)mData.get(position).getCover_photo());
     }
 
     @Override

@@ -1,10 +1,13 @@
 package com.sscompany.ireview.Screens;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -12,6 +15,7 @@ import java.util.List;
 
 import static com.sscompany.ireview.Screens.Homepage.profileOfMineOrFriend;
 
+import com.sscompany.ireview.Adapters.RecyclerItemClickListener;
 import com.sscompany.ireview.Adapters.RecyclerViewAdapter;
 import com.sscompany.ireview.Models.*;
 import com.sscompany.ireview.R;
@@ -21,12 +25,18 @@ public class MyProfile extends AppCompatActivity {
     //private RecyclerView mRecyclerView;
     //private RecyclerView.Adapter mAdapter;
     //private RecyclerView.LayoutManager mLayoutManager;
-    List<InterfaceItem> listItem;
+    private List<InterfaceItem> listItem;
+
+    private Context mContext;
+
+    private GestureDetector mGestureDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_profile);
+
+        mContext = MyProfile.this;
         /*
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewCategories);
 
@@ -44,18 +54,55 @@ public class MyProfile extends AppCompatActivity {
 
         listItem = new ArrayList<>();
 
-        Book newBook = new Book();
+        listItem.add(new Book(
+                        "Book 1",
+                        "Author",
+                        "Drama",
+                        ""
+                )
+        );
 
-        newBook.setName("The Martian");
-        newBook.setGenre("Drama");
-        newBook.setOwner("Book");
+        listItem.add(new Book(
+                        "Book 2",
+                        "Author",
+                        "Drama",
+                        ""
+                )
+        );
 
-        listItem.add(newBook);
-        listItem.add(newBook);
-        listItem.add(newBook);
-        listItem.add(newBook);
-        listItem.add(newBook);
-        listItem.add(newBook);
+        listItem.add(new Book(
+                        "Book 3",
+                        "Author",
+                        "Drama",
+                        ""
+                )
+        );
+
+        listItem.add(new Book(
+                        "Book 4",
+                        "Author",
+                        "Drama",
+                        ""
+                )
+        );
+
+        listItem.add(new Book(
+                        "Book 5",
+                        "Author",
+                        "Drama",
+                        ""
+                )
+        );
+
+        listItem.add(new Book(
+                        "Book 6",
+                        "Author",
+                        "Drama",
+                        ""
+                )
+        );
+
+
 
         RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewCategoryBooks);
         RecyclerViewAdapter myAdapter1 = new RecyclerViewAdapter(this, listItem);
@@ -111,14 +158,21 @@ public class MyProfile extends AppCompatActivity {
         itemRecyclerView8.setAdapter(myAdapter8);
         itemRecyclerView8.setNestedScrollingEnabled(false);
 
+        final RecyclerView recyclerView = findViewById(R.id.recyclerViewCategoryBooks);
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(mContext, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position)
+                    {
+                        System.out.println("Name: " + listItem.get(position).getName() + " Owner: " + listItem.get(position).getOwner());
+                        // do whatever
+                    }
 
-        if(profileOfMineOrFriend.equals("Mine")){
+                    @Override public void onLongItemClick(View view, int position) {
+                        // do whatever
+                    }
+                })
+        );
 
-        }
     }
 
-    public void showItem(View view) {
-        Intent intent = new Intent(getApplicationContext(), ShowBookProperties.class);
-        startActivity(intent);
-    }
 }
