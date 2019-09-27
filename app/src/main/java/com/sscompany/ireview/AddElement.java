@@ -27,7 +27,7 @@ import com.sscompany.ireview.Screens.Homepage;
 
 import java.util.ArrayList;
 import java.util.List;
-
+//This is the version I uploaded for the test of github on my laptop
 public class AddElement extends AppCompatActivity
 {
     private String category;
