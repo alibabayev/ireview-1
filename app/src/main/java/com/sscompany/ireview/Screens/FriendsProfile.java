@@ -1,5 +1,6 @@
 package com.sscompany.ireview.Screens;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.sscompany.ireview.Adapters.RecyclerItemClickListener;
 import com.sscompany.ireview.Adapters.RecyclerViewAdapter;
 import com.sscompany.ireview.Models.*;
 import com.sscompany.ireview.R;
@@ -29,33 +31,396 @@ public class FriendsProfile extends AppCompatActivity {
     //private RecyclerView fRecyclerView;
     //private RecyclerView.Adapter fAdapter;
     //private RecyclerView.LayoutManager fLayoutManager;
-    List<InterfaceItem> flistItem;
+    private List<InterfaceItem> flistItem;
+    private List<InterfaceItem> bookList;
+    private List<InterfaceItem> movieList;
+    private List<InterfaceItem> musicList;
+    private List<InterfaceItem> tvShowList;
+    private List<InterfaceItem> placeList;
+    private List<InterfaceItem> gameList;
+    private List<InterfaceItem> websiteList;
+
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.friends_profile);
 
-        /*flistItem = new ArrayList<>();
-        Book newBook = new Book();
-        newBook.setName("The Martian");
-        newBook.setGenre("Drama");
-        newBook.setOwner("Book");
-        flistItem.add(newBook);
-        flistItem.add(newBook);
-        flistItem.add(newBook);*/
-        databaseReference.child("users").child(getIntent().getStringExtra("FRIENDID")).addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        //Initializing mContext
+        mContext = FriendsProfile.this;
 
+        bookList = new ArrayList<>();
+
+        databaseReference.child("user_items")
+                .child(getIntent().getStringExtra("FRIENDID"))
+                .child("books")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                       @Override
+                       public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                           for (DataSnapshot sampleDataSnapshot : dataSnapshot.getChildren())
+                           {
+                               Book book = sampleDataSnapshot.getValue(Book.class);
+                               bookList.add(book);
+                           }
+
+                           if(dataSnapshot.getChildrenCount() == 0)
+                           {
+                               findViewById(R.id.no_book).setVisibility(View.VISIBLE);
+                           }
+
+                           RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewBooks);
+                           RecyclerViewAdapter myAdapter1 = new RecyclerViewAdapter(mContext, bookList);
+                           GridLayoutManager gr1 = new GridLayoutManager(mContext, 3);
+                           itemRecyclerView1.setLayoutManager(gr1);
+                           itemRecyclerView1.setAdapter(myAdapter1);
+                           itemRecyclerView1.setNestedScrollingEnabled(false);
+                           itemRecyclerView1.setFocusable(false);
+
+                           RecyclerView recyclerView = findViewById(R.id.recyclerViewBooks);
+                           recyclerView.addOnItemTouchListener(
+                                   new RecyclerItemClickListener(mContext, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                                       @Override public void onItemClick(View view, int position)
+                                       {
+                                           System.out.println("Name: " + bookList.get(position).getName() + " Owner: " + bookList.get(position).getOwner());
+                                           // do whatever
+                                       }
+
+                                       @Override public void onLongItemClick(View view, int position) {
+                                           // do whatever
+                                       }
+                                   })
+                           );
+                       }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError)
+                    {
+
+                    }
+                });
+
+        //Getting Movies of currentUser and adding them to the movieList
+
+        movieList = new ArrayList<>();
+
+        databaseReference.child("user_items")
+                .child(getIntent().getStringExtra("FRIENDID"))
+                .child("movies")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                    {
+                        for (DataSnapshot sampleDataSnapshot : dataSnapshot.getChildren())
+                        {
+                            Movie movie = sampleDataSnapshot.getValue(Movie.class);
+                            movieList.add(movie);
+                        }
+
+                        if(dataSnapshot.getChildrenCount() == 0)
+                        {
+                            findViewById(R.id.no_movie).setVisibility(View.VISIBLE);
+                        }
+
+                        RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewMovies);
+                        RecyclerViewAdapter myAdapter1 = new RecyclerViewAdapter(mContext, movieList);
+                        GridLayoutManager gr1 = new GridLayoutManager(mContext, 3);
+                        itemRecyclerView1.setLayoutManager(gr1);
+                        itemRecyclerView1.setAdapter(myAdapter1);
+                        itemRecyclerView1.setNestedScrollingEnabled(false);
+                        itemRecyclerView1.setFocusable(false);
+
+                        RecyclerView recyclerView = findViewById(R.id.recyclerViewMovies);
+                        recyclerView.addOnItemTouchListener(
+                                new RecyclerItemClickListener(mContext, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                                    @Override public void onItemClick(View view, int position)
+                                    {
+                                        System.out.println("Name: " + movieList.get(position).getName() + " Owner: " + movieList.get(position).getOwner());
+                                        // do whatever
+                                    }
+
+                                    @Override public void onLongItemClick(View view, int position) {
+                                        // do whatever
+                                    }
+                                })
+                        );
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    public void onCancelled(@NonNull DatabaseError databaseError)
+                    {
 
                     }
-                }
+                });
+
+
+        //Getting Musics of currentUser and adding them to the musicList
+
+        musicList = new ArrayList<>();
+
+        databaseReference.child("user_items")
+                .child(getIntent().getStringExtra("FRIENDID"))
+                .child("musics")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                    {
+                        for (DataSnapshot sampleDataSnapshot : dataSnapshot.getChildren())
+                        {
+                            Music music = sampleDataSnapshot.getValue(Music.class);
+                            musicList.add(music);
+                        }
+
+                        if(dataSnapshot.getChildrenCount() == 0)
+                        {
+                            findViewById(R.id.no_music).setVisibility(View.VISIBLE);
+                        }
+
+                        RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewMusics);
+                        RecyclerViewAdapter myAdapter1 = new RecyclerViewAdapter(mContext, musicList);
+                        GridLayoutManager gr1 = new GridLayoutManager(mContext, 3);
+                        itemRecyclerView1.setLayoutManager(gr1);
+                        itemRecyclerView1.setAdapter(myAdapter1);
+                        itemRecyclerView1.setNestedScrollingEnabled(false);
+                        itemRecyclerView1.setFocusable(false);
+
+                        RecyclerView recyclerView = findViewById(R.id.recyclerViewMusics);
+                        recyclerView.addOnItemTouchListener(
+                                new RecyclerItemClickListener(mContext, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                                    @Override public void onItemClick(View view, int position)
+                                    {
+                                        System.out.println("Name: " + musicList.get(position).getName() + " Owner: " + musicList.get(position).getOwner());
+                                        // do whatever
+                                    }
+
+                                    @Override public void onLongItemClick(View view, int position) {
+                                        // do whatever
+                                    }
+                                })
+                        );
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError)
+                    {
+
+                    }
+                });
+
+
+        //Getting Places of currentUser and adding them to the placeList
+
+        placeList = new ArrayList<>();
+
+        databaseReference.child("user_items")
+                .child(getIntent().getStringExtra("FRIENDID"))
+                .child("places")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                    {
+                        for (DataSnapshot sampleDataSnapshot : dataSnapshot.getChildren())
+                        {
+                            Place place = sampleDataSnapshot.getValue(Place.class);
+                            bookList.add(place);
+                        }
+
+                        if(dataSnapshot.getChildrenCount() == 0)
+                        {
+                            findViewById(R.id.no_place).setVisibility(View.VISIBLE);
+                        }
+
+                        RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewPlaces);
+                        RecyclerViewAdapter myAdapter1 = new RecyclerViewAdapter(mContext, placeList);
+                        GridLayoutManager gr1 = new GridLayoutManager(mContext, 3);
+                        itemRecyclerView1.setLayoutManager(gr1);
+                        itemRecyclerView1.setAdapter(myAdapter1);
+                        itemRecyclerView1.setNestedScrollingEnabled(false);
+                        itemRecyclerView1.setFocusable(false);
+
+                        RecyclerView recyclerView = findViewById(R.id.recyclerViewPlaces);
+                        recyclerView.addOnItemTouchListener(
+                                new RecyclerItemClickListener(mContext, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                                    @Override public void onItemClick(View view, int position)
+                                    {
+                                        System.out.println("Name: " + placeList.get(position).getName() + " Owner: " + placeList.get(position).getOwner());
+                                        // do whatever
+                                    }
+
+                                    @Override public void onLongItemClick(View view, int position) {
+                                        // do whatever
+                                    }
+                                })
+                        );
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError)
+                    {
+
+                    }
+                });
+
+
+        //Getting TV Shows of currentUser and adding them to the tvShowList
+
+        tvShowList = new ArrayList<>();
+
+        databaseReference.child("user_items")
+                .child(getIntent().getStringExtra("FRIENDID"))
+                .child("tv_shows")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                    {
+                        for (DataSnapshot sampleDataSnapshot : dataSnapshot.getChildren())
+                        {
+                            TVShow tvShow = sampleDataSnapshot.getValue(TVShow.class);
+                            tvShowList.add(tvShow);
+                        }
+
+                        if(dataSnapshot.getChildrenCount() == 0)
+                        {
+                            findViewById(R.id.no_tvshow).setVisibility(View.VISIBLE);
+                        }
+
+                        RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewTVShows);
+                        RecyclerViewAdapter myAdapter1 = new RecyclerViewAdapter(mContext, tvShowList);
+                        GridLayoutManager gr1 = new GridLayoutManager(mContext, 3);
+                        itemRecyclerView1.setLayoutManager(gr1);
+                        itemRecyclerView1.setAdapter(myAdapter1);
+                        itemRecyclerView1.setNestedScrollingEnabled(false);
+                        itemRecyclerView1.setFocusable(false);
+
+                        RecyclerView recyclerView = findViewById(R.id.recyclerViewTVShows);
+                        recyclerView.addOnItemTouchListener(
+                                new RecyclerItemClickListener(mContext, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                                    @Override public void onItemClick(View view, int position)
+                                    {
+                                        System.out.println("Name: " + tvShowList.get(position).getName() + " Owner: " + tvShowList.get(position).getOwner());
+                                        // do whatever
+                                    }
+
+                                    @Override public void onLongItemClick(View view, int position) {
+                                        // do whatever
+                                    }
+                                })
+                        );
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError)
+                    {
+
+                    }
+                });
+
+        //Getting Games of currentUser and adding them to the gameList
+
+        gameList = new ArrayList<>();
+
+        databaseReference.child("user_items")
+                .child(getIntent().getStringExtra("FRIENDID"))
+                .child("games")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                    {
+                        for (DataSnapshot sampleDataSnapshot : dataSnapshot.getChildren())
+                        {
+                            Game game = sampleDataSnapshot.getValue(Game.class);
+                            gameList.add(game);
+                        }
+
+                        if(dataSnapshot.getChildrenCount() == 0)
+                        {
+                            findViewById(R.id.no_game).setVisibility(View.VISIBLE);
+                        }
+
+                        RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewGames);
+                        RecyclerViewAdapter myAdapter1 = new RecyclerViewAdapter(mContext, gameList);
+                        GridLayoutManager gr1 = new GridLayoutManager(mContext, 3);
+                        itemRecyclerView1.setLayoutManager(gr1);
+                        itemRecyclerView1.setAdapter(myAdapter1);
+                        itemRecyclerView1.setNestedScrollingEnabled(false);
+                        itemRecyclerView1.setFocusable(false);
+
+                        RecyclerView recyclerView = findViewById(R.id.recyclerViewGames);
+                        recyclerView.addOnItemTouchListener(
+                                new RecyclerItemClickListener(mContext, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                                    @Override public void onItemClick(View view, int position)
+                                    {
+                                        System.out.println("Name: " + gameList.get(position).getName() + " Owner: " + gameList.get(position).getOwner());
+                                        // do whatever
+                                    }
+
+                                    @Override public void onLongItemClick(View view, int position) {
+                                        // do whatever
+                                    }
+                                })
+                        );
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError)
+                    {
+
+                    }
+                });
+
+        //Getting Websites of currentUser and adding them to the websiteList
+
+        websiteList = new ArrayList<>();
+
+        databaseReference.child("user_items")
+                .child(getIntent().getStringExtra("FRIENDID"))
+                .child("websites")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                    {
+                        for (DataSnapshot sampleDataSnapshot : dataSnapshot.getChildren())
+                        {
+                            Website website = sampleDataSnapshot.getValue(Website.class);
+                            websiteList.add(website);
+                        }
+
+                        if(dataSnapshot.getChildrenCount() == 0)
+                        {
+                            findViewById(R.id.no_website).setVisibility(View.VISIBLE);
+                        }
+
+                        RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewWebsites);
+                        RecyclerViewAdapter myAdapter1 = new RecyclerViewAdapter(mContext, websiteList);
+                        GridLayoutManager gr1 = new GridLayoutManager(mContext, 3);
+                        itemRecyclerView1.setLayoutManager(gr1);
+                        itemRecyclerView1.setAdapter(myAdapter1);
+                        itemRecyclerView1.setNestedScrollingEnabled(false);
+                        itemRecyclerView1.setFocusable(false);
+
+                        RecyclerView recyclerView = findViewById(R.id.recyclerViewWebsites);
+                        recyclerView.addOnItemTouchListener(
+                                new RecyclerItemClickListener(mContext, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                                    @Override public void onItemClick(View view, int position)
+                                    {
+                                        System.out.println("Name: " + websiteList.get(position).getName() + " Owner: " + websiteList.get(position).getOwner());
+                                        // do whatever
+                                    }
+
+                                    @Override public void onLongItemClick(View view, int position) {
+                                        // do whatever
+                                    }
+                                })
+                        );
+
+
+                       }
+
+                       @Override
+                       public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                       }
+               }
         );
 
         RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewCategoryBooks);

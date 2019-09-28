@@ -29,8 +29,7 @@ import com.sscompany.ireview.R;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LoginPage extends AppCompatActivity implements View.OnKeyListener, View.OnClickListener
-{
+public class LoginPage extends AppCompatActivity implements View.OnKeyListener, View.OnClickListener {
     private static final String TAG = "Login Activity";
 
     private EditText emailText;
@@ -63,60 +62,52 @@ public class LoginPage extends AppCompatActivity implements View.OnKeyListener, 
         //Initializing Firebase Authentication
         mAuth = FirebaseAuth.getInstance();
 
-        //Check the internet connection
-        if(!isConnected(LoginPage.this)) buildDialog(LoginPage.this).show();
-        else
-        {
-            //Connected to Internet
 
-            if (mAuth.getCurrentUser() != null)
-            {
-                System.out.println("NooooOOOOOoooooOOOOO");
-                Toast.makeText(this, "Logged In As  " + mAuth.getCurrentUser().getDisplayName(), Toast.LENGTH_SHORT).show();
-                goToHomepage();
-                finish();
-            }
-            else
-            {
-                System.out.println("YessssssSSSS");
-                Toast.makeText(LoginPage.this, "Welcome", Toast.LENGTH_SHORT).show();
+        //Connected to Internet
 
-                ConstraintLayout backgroundLayout = (ConstraintLayout) findViewById(R.id.backgroundRelativeLayoutLogIn);
-                backgroundLayout.setOnClickListener(this);
-                ImageView logoImageView = (ImageView) findViewById(R.id.menuLogoLogIn);
-                logoImageView.setOnClickListener(this);
+        if (mAuth.getCurrentUser() != null) {
+            System.out.println("NooooOOOOOoooooOOOOO");
+            Toast.makeText(this, "Logged In As  " + mAuth.getCurrentUser().getDisplayName(), Toast.LENGTH_SHORT).show();
+            goToHomepage();
+            finish();
+        } else {
+            System.out.println("YessssssSSSS");
+            Toast.makeText(LoginPage.this, "Welcome", Toast.LENGTH_SHORT).show();
 
-                System.out.println("NOOOOOSOOSOOSOOSO");
+            ConstraintLayout backgroundLayout = (ConstraintLayout) findViewById(R.id.backgroundRelativeLayoutLogIn);
+            backgroundLayout.setOnClickListener(this);
+            ImageView logoImageView = (ImageView) findViewById(R.id.menuLogoLogIn);
+            logoImageView.setOnClickListener(this);
 
-                passwordText = findViewById(R.id.passwordLoginText);
+            System.out.println("NOOOOOSOOSOOSOOSO");
 
-                passwordText.setOnKeyListener(new View.OnKeyListener() {
-                    @Override
-                    public boolean onKey(View v, int keyCode, KeyEvent event)
-                    {
-                        System.out.println("KSKSKSKS");
-                        if(keyCode == event.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
-                            logIn(v);
-                            System.out.println("LMSLMSLSMS");
-                        }
-                        return false;
+            passwordText = findViewById(R.id.passwordLoginText);
+
+            passwordText.setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    System.out.println("KSKSKSKS");
+                    if (keyCode == event.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
+                        logIn(v);
+                        System.out.println("LMSLMSLSMS");
                     }
-                });
+                    return false;
+                }
+            });
 
-                System.out.println("NDBDNNDBD");
+            System.out.println("NDBDNNDBD");
 
-            }
-
-            System.out.println("LASTTTALAYAS");
         }
+
+        System.out.println("LASTTTALAYAS");
     }
 
     /**
      * Login Button is clicked
+     *
      * @param view
      */
-    public void logIn(View view)
-    {
+    public void logIn(View view) {
         emailText = (EditText) findViewById(R.id.emailLoginText);
         passwordText = (EditText) findViewById(R.id.passwordLoginText);
 
@@ -125,41 +116,33 @@ public class LoginPage extends AppCompatActivity implements View.OnKeyListener, 
 
         email.toLowerCase();
 
-        if(email.equals("") || password.equals("")) {
+        if (email.equals("") || password.equals("")) {
             Toast.makeText(this, "An Email/Username and Password Are Required.", Toast.LENGTH_SHORT).show();
-        }
-        else
-        {
+        } else {
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
-                        public void onComplete(@NonNull Task<AuthResult> task)
-                        {
+                        public void onComplete(@NonNull Task<AuthResult> task) {
                             Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
                             FirebaseUser user = mAuth.getCurrentUser();
 
-                            if (task.isSuccessful())
-                            {
+                            if (task.isSuccessful()) {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "signInWithEmail:success");
 
-                                try
-                                {
-                                    if(user.isEmailVerified()){
+                                try {
+                                    if (user.isEmailVerified()) {
                                         Log.d(TAG, "onComplete: success. email is verified.");
                                         Intent intent = new Intent(LoginPage.this, Homepage.class);
                                         startActivity(intent);
-                                    }
-                                    else {
+                                    } else {
                                         Toast.makeText(mContext, "Email is not verified \n Check your email inbox.", Toast.LENGTH_SHORT).show();
                                         mAuth.signOut();
                                     }
+                                } catch (NullPointerException e) {
+                                    Log.e(TAG, "onComplete: NullPointerException: " + e.getMessage());
                                 }
-                                catch (NullPointerException e){
-                                    Log.e(TAG, "onComplete: NullPointerException: " + e.getMessage() );
-                                }
-                            }
-                            else {
+                            } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w(TAG, "signInWithEmail:failure", task.getException());
                                 Toast.makeText(LoginPage.this, "Authentication failed.",
@@ -180,45 +163,43 @@ public class LoginPage extends AppCompatActivity implements View.OnKeyListener, 
     }
 
     @Override
-    public boolean onKey(View view, int i, KeyEvent keyEvent)
-    {
-        if(i == keyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+    public boolean onKey(View view, int i, KeyEvent keyEvent) {
+        if (i == keyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
             logIn(view);
         }
         return false;
     }
 
-    public void goToHomepage(){
+    public void goToHomepage() {
         Intent intent = new Intent(getApplicationContext(), Homepage.class);
         startActivity(intent);
     }
 
     /**
      * Forgot Password Button is clicked
+     *
      * @param view
      */
-    public void forgotPassword(View view)
-    {
+    public void forgotPassword(View view) {
         Intent intent = new Intent(getApplicationContext(), ForgotPassword.class);
         startActivity(intent);
     }
 
     /**
      * Sign Up Button is clicked
+     *
      * @param view
      */
-    public void signUp(View view)
-    {
+    public void signUp(View view) {
         Intent intent = new Intent(getApplicationContext(), SignupPage.class);
         startActivity(intent);
     }
 
     @Override
-    public void onClick(View view)
-    {
-        if(view.getId() == R.id.backgroundRelativeLayoutLogIn || view.getId() == R.id.menuLogo){
+    public void onClick(View view) {
+        if (view.getId() == R.id.backgroundRelativeLayoutLogIn || view.getId() == R.id.menuLogo) {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromInputMethod(getCurrentFocus().getWindowToken(),0);
+            inputMethodManager.hideSoftInputFromInputMethod(getCurrentFocus().getWindowToken(), 0);
         }
     }
 
@@ -238,11 +219,11 @@ public class LoginPage extends AppCompatActivity implements View.OnKeyListener, 
             NetworkInfo wifi = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
             NetworkInfo mobile = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
-            if((mobile != null && mobile.isConnectedOrConnecting()) || (wifi != null && wifi.isConnectedOrConnecting())) return true;
-        else
-            return false;
-        }
-        else
+            if ((mobile != null && mobile.isConnectedOrConnecting()) || (wifi != null && wifi.isConnectedOrConnecting()))
+                return true;
+            else
+                return false;
+        } else
             return false;
     }
 
@@ -263,13 +244,12 @@ public class LoginPage extends AppCompatActivity implements View.OnKeyListener, 
         return builder;
     }
 
-    public boolean validate(final String username)
-    {
+    public boolean validate(final String username) {
         matcher = pattern.matcher(username);
         return matcher.matches();
     }
 
-    private void alertDisplayer(String title,String message, final boolean error){
+    private void alertDisplayer(String title, String message, final boolean error) {
         AlertDialog.Builder builder = new AlertDialog.Builder(LoginPage.this)
                 .setTitle(title)
                 .setMessage(message)
@@ -277,7 +257,7 @@ public class LoginPage extends AppCompatActivity implements View.OnKeyListener, 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
-                        if(!error) {
+                        if (!error) {
                             Intent intent = new Intent(LoginPage.this, Homepage.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
@@ -294,16 +274,17 @@ public class LoginPage extends AppCompatActivity implements View.OnKeyListener, 
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        //Check the internet connection
+        if (!isConnected(LoginPage.this)) buildDialog(LoginPage.this).show();
+        else {
+            // Check if user is signed in (non-null) and update UI accordingly.
+            FirebaseUser currentUser = mAuth.getCurrentUser();
 
-        if(currentUser != null)
-        {
-            Intent intent = new Intent(getApplicationContext(), Homepage.class);
-            startActivity(intent);
-            finish();
+            if (currentUser != null) {
+                Intent intent = new Intent(getApplicationContext(), Homepage.class);
+                startActivity(intent);
+                finish();
+            }
         }
     }
-
-
 }

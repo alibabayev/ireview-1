@@ -51,27 +51,6 @@
             android:name=".AddItem"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".AddElementScreens.AddMusic"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".AddElementScreens.AddBook"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".AddElementScreens.AddMovie"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".AddElementScreens.AddTVShow"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".AddElementScreens.AddVideoGame"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".AddElementScreens.AddPlace"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".AddElementScreens.AddWebsite"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".Settings.NameSetting"
             android:screenOrientation="portrait" />
         <activity
