@@ -1,35 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    tools:context=".Screens.MyProfile">
-
-    <ImageView
-        android:id="@+id/MyProfilePicture"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp"
-        app:srcCompat="@drawable/logo"/>
+    tools:context=".Screens.MyProfile">\
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/MyProfilePicture">
+        app:layout_constraintTop_toBottomOf="@id/MyProfilePicture"
+        android:focusableInTouchMode="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/addBookProfile"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/plus" />
 
                 <TextView
                     android:id="@+id/titleBooks"
@@ -39,12 +38,141 @@
                     android:text="Books"
                     android:textSize="30sp" />
 
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
                 <ImageView
-                    android:id="@+id/addBookProfile"
+                    android:id="@+id/addMovieProfile"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:layout_alignParentRight="true"
-                    android:src="@drawable/plus"/>
+                    android:src="@drawable/plus" />
+
+                <TextView
+                    android:id="@+id/titleMovies"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:text="Movies"
+                    android:textSize="30sp" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/addMusicProfile"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/plus" />
+
+                <TextView
+                    android:id="@+id/titleMusics"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:text="Musics"
+                    android:textSize="30sp" />
+
+                <ImageView
+                    android:id="@+id/MyProfilePicture"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="30dp"
+                    app:srcCompat="@drawable/logo" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/addPlaceProfile"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/plus" />
+
+                <TextView
+                    android:id="@+id/titlePlaces"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:text="Places"
+                    android:textSize="30sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/addTVShowProfile"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/plus" />
+
+                <TextView
+                    android:id="@+id/titleTVShows"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:text="TV Shows"
+                    android:textSize="30sp" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/addGameProfile"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/plus" />
+
+                <TextView
+                    android:id="@+id/titleGames"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:text="Games"
+                    android:textSize="30sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/addWebsiteProfile"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/plus" />
+
+                <TextView
+                    android:id="@+id/titleWebsites"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:text="Websites"
+                    android:textSize="30sp" />
 
             </RelativeLayout>
 
@@ -52,252 +180,139 @@
                 android:id="@+id/no_book"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
                 android:text="No Item!"
                 android:textSize="20dp"
-                android:gravity="center"
-                android:visibility="gone"
-                />
+                android:visibility="gone" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerViewBooks"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </android.support.v7.widget.RecyclerView>
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/titleMovies"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
-                    android:textSize="30sp"
-                    android:text="Movies"/>
-
-                <ImageView
-                    android:id="@+id/addMovieProfile"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:layout_alignParentRight="true"
-                    android:src="@drawable/plus"/>
-
-            </RelativeLayout>
 
             <TextView
                 android:id="@+id/no_movie"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
                 android:text="No Item!"
                 android:textSize="20dp"
-                android:gravity="center"
-                android:visibility="gone"
-                />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerViewMovies"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="none">
-            </android.support.v7.widget.RecyclerView>
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/titleMusics"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
-                    android:textSize="30sp"
-                    android:text="Musics"/>
-
-                <ImageView
-                    android:id="@+id/addMusicProfile"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:layout_alignParentRight="true"
-                    android:src="@drawable/plus"/>
-
-            </RelativeLayout>
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/no_music"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
                 android:text="No Item!"
                 android:textSize="20dp"
-                android:gravity="center"
-                android:visibility="gone"
-                />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerViewMusics"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="none">
-            </android.support.v7.widget.RecyclerView>
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/titlePlaces"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
-                    android:textSize="30sp"
-                    android:text="Places"/>
-
-                <ImageView
-                    android:id="@+id/addPlaceProfile"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:layout_alignParentRight="true"
-                    android:src="@drawable/plus"/>
-
-            </RelativeLayout>
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/no_place"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
                 android:text="No Item!"
                 android:textSize="20dp"
-                android:gravity="center"
-                android:visibility="gone"
-                />
+                android:visibility="gone" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerViewPlaces"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="none">
-            </android.support.v7.widget.RecyclerView>
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/titleTVShows"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
-                    android:textSize="30sp"
-                    android:text="TV Shows"/>
-
-                <ImageView
-                    android:id="@+id/addTVShowProfile"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:layout_alignParentRight="true"
-                    android:src="@drawable/plus"/>
-
-            </RelativeLayout>
 
             <TextView
                 android:id="@+id/no_tvshow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
                 android:text="No Item!"
                 android:textSize="20dp"
-                android:gravity="center"
-                android:visibility="gone"
-                />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerViewTVShows"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="none">
-            </android.support.v7.widget.RecyclerView>
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/titleGames"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
-                    android:textSize="30sp"
-                    android:text="Games"/>
-
-                <ImageView
-                    android:id="@+id/addGameProfile"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:layout_alignParentRight="true"
-                    android:src="@drawable/plus"/>
-
-            </RelativeLayout>
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/no_game"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
                 android:text="No Item!"
                 android:textSize="20dp"
-                android:gravity="center"
-                android:visibility="gone"
-                />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerViewGames"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="none">
-            </android.support.v7.widget.RecyclerView>
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/titleWebsites"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
-                    android:textSize="30sp"
-                    android:text="Websites"/>
-
-                <ImageView
-                    android:id="@+id/addWebsiteProfile"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:layout_alignParentRight="true"
-                    android:src="@drawable/plus"/>
-
-            </RelativeLayout>
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/no_website"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
                 android:text="No Item!"
                 android:textSize="20dp"
-                android:gravity="center"
-                android:visibility="gone"
-                />
+                android:visibility="gone" />
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewBooks"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"></android.support.v7.widget.RecyclerView>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewMovies"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:scrollbars="none"></android.support.v7.widget.RecyclerView>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewMusics"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:scrollbars="none"></android.support.v7.widget.RecyclerView>
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewPlaces"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:scrollbars="none"></android.support.v7.widget.RecyclerView>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewTVShows"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:scrollbars="none"></android.support.v7.widget.RecyclerView>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewGames"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:scrollbars="none"></android.support.v7.widget.RecyclerView>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerViewWebsites"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scrollbars="none">
-            </android.support.v7.widget.RecyclerView>
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:scrollbars="none"></android.support.v7.widget.RecyclerView>
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
-</RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

@@ -93,7 +93,6 @@ public class MyProfile extends AppCompatActivity {
                         itemRecyclerView1.setLayoutManager(gr1);
                         itemRecyclerView1.setAdapter(myAdapter1);
                         itemRecyclerView1.setNestedScrollingEnabled(false);
-                        itemRecyclerView1.setFocusable(false);
 
                         RecyclerView recyclerView = findViewById(R.id.recyclerViewBooks);
                         recyclerView.addOnItemTouchListener(
@@ -146,7 +145,6 @@ public class MyProfile extends AppCompatActivity {
                         itemRecyclerView1.setLayoutManager(gr1);
                         itemRecyclerView1.setAdapter(myAdapter1);
                         itemRecyclerView1.setNestedScrollingEnabled(false);
-                        itemRecyclerView1.setFocusable(false);
 
                         RecyclerView recyclerView = findViewById(R.id.recyclerViewMovies);
                         recyclerView.addOnItemTouchListener(
@@ -200,7 +198,6 @@ public class MyProfile extends AppCompatActivity {
                         itemRecyclerView1.setLayoutManager(gr1);
                         itemRecyclerView1.setAdapter(myAdapter1);
                         itemRecyclerView1.setNestedScrollingEnabled(false);
-                        itemRecyclerView1.setFocusable(false);
 
                         RecyclerView recyclerView = findViewById(R.id.recyclerViewMusics);
                         recyclerView.addOnItemTouchListener(
@@ -254,7 +251,6 @@ public class MyProfile extends AppCompatActivity {
                         itemRecyclerView1.setLayoutManager(gr1);
                         itemRecyclerView1.setAdapter(myAdapter1);
                         itemRecyclerView1.setNestedScrollingEnabled(false);
-                        itemRecyclerView1.setFocusable(false);
 
                         RecyclerView recyclerView = findViewById(R.id.recyclerViewPlaces);
                         recyclerView.addOnItemTouchListener(
@@ -308,7 +304,6 @@ public class MyProfile extends AppCompatActivity {
                         itemRecyclerView1.setLayoutManager(gr1);
                         itemRecyclerView1.setAdapter(myAdapter1);
                         itemRecyclerView1.setNestedScrollingEnabled(false);
-                        itemRecyclerView1.setFocusable(false);
 
                         RecyclerView recyclerView = findViewById(R.id.recyclerViewTVShows);
                         recyclerView.addOnItemTouchListener(
@@ -361,7 +356,6 @@ public class MyProfile extends AppCompatActivity {
                         itemRecyclerView1.setLayoutManager(gr1);
                         itemRecyclerView1.setAdapter(myAdapter1);
                         itemRecyclerView1.setNestedScrollingEnabled(false);
-                        itemRecyclerView1.setFocusable(false);
 
                         RecyclerView recyclerView = findViewById(R.id.recyclerViewGames);
                         recyclerView.addOnItemTouchListener(
@@ -414,7 +408,6 @@ public class MyProfile extends AppCompatActivity {
                         itemRecyclerView1.setLayoutManager(gr1);
                         itemRecyclerView1.setAdapter(myAdapter1);
                         itemRecyclerView1.setNestedScrollingEnabled(false);
-                        itemRecyclerView1.setFocusable(false);
 
                         RecyclerView recyclerView = findViewById(R.id.recyclerViewWebsites);
                         recyclerView.addOnItemTouchListener(
@@ -438,64 +431,6 @@ public class MyProfile extends AppCompatActivity {
 
                     }
                 });
-
-        /*
-        RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewCategoryBooks);
-        RecyclerViewAdapter myAdapter1 = new RecyclerViewAdapter(this, listItem);
-        GridLayoutManager gr1 = new GridLayoutManager(this, 3);
-        itemRecyclerView1.setLayoutManager(gr1);
-        itemRecyclerView1.setAdapter(myAdapter1);
-        itemRecyclerView1.setNestedScrollingEnabled(false);
-        itemRecyclerView1.setFocusable(false);
-
-        RecyclerView itemRecyclerView2 = (RecyclerView) findViewById(R.id.recyclerViewCategoryMovies);
-        RecyclerViewAdapter myAdapter2 = new RecyclerViewAdapter(this, listItem);
-        itemRecyclerView2.setLayoutManager(new GridLayoutManager(this, 3));
-        itemRecyclerView2.setAdapter(myAdapter2);
-        itemRecyclerView2.setNestedScrollingEnabled(false);
-
-
-        RecyclerView itemRecyclerView3 = (RecyclerView) findViewById(R.id.recyclerViewCategoryRestaurants);
-        RecyclerViewAdapter myAdapter3 = new RecyclerViewAdapter(this, listItem);
-        itemRecyclerView3.setLayoutManager(new GridLayoutManager(this, 3));
-        itemRecyclerView3.setAdapter(myAdapter3);
-        itemRecyclerView3.setNestedScrollingEnabled(false);
-
-
-        RecyclerView itemRecyclerView4 = (RecyclerView) findViewById(R.id.recyclerViewCategoryPlaces);
-        RecyclerViewAdapter myAdapter4 = new RecyclerViewAdapter(this, listItem);
-        itemRecyclerView4.setLayoutManager(new GridLayoutManager(this, 3));
-        itemRecyclerView4.setAdapter(myAdapter4);
-        itemRecyclerView4.setNestedScrollingEnabled(false);
-
-
-        RecyclerView itemRecyclerView5 = (RecyclerView) findViewById(R.id.recyclerViewCategoryTvShows);
-        RecyclerViewAdapter myAdapter5 = new RecyclerViewAdapter(this, listItem);
-        itemRecyclerView5.setLayoutManager(new GridLayoutManager(this, 3));
-        itemRecyclerView5.setAdapter(myAdapter5);
-        itemRecyclerView5.setNestedScrollingEnabled(false);
-
-
-        RecyclerView itemRecyclerView6 = (RecyclerView) findViewById(R.id.recyclerViewCategorySongs);
-        RecyclerViewAdapter myAdapter6 = new RecyclerViewAdapter(this, listItem);
-        itemRecyclerView6.setLayoutManager(new GridLayoutManager(this, 3));
-        itemRecyclerView6.setAdapter(myAdapter6);
-        itemRecyclerView6.setNestedScrollingEnabled(false);
-
-
-        RecyclerView itemRecyclerView7 = (RecyclerView) findViewById(R.id.recyclerViewCategoryVideoGames);
-        RecyclerViewAdapter myAdapter7 = new RecyclerViewAdapter(this, listItem);
-        itemRecyclerView7.setLayoutManager(new GridLayoutManager(this, 3));
-        itemRecyclerView7.setAdapter(myAdapter7);
-        itemRecyclerView7.setNestedScrollingEnabled(false);
-
-        RecyclerView itemRecyclerView8 = (RecyclerView) findViewById(R.id.recyclerViewCategoryCustom);
-        RecyclerViewAdapter myAdapter8 = new RecyclerViewAdapter(this, listItem);
-        itemRecyclerView8.setLayoutManager(new GridLayoutManager(this, 3));
-        itemRecyclerView8.setAdapter(myAdapter8);
-        itemRecyclerView8.setNestedScrollingEnabled(false);
-
-         */
 
     }
 
