@@ -71,8 +71,8 @@
 
             <ImageView
                 android:id="@+id/cover_photo"
-                android:layout_width="100dp"
-                android:layout_height="150dp"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:src="@drawable/image_background"
@@ -91,8 +91,9 @@
                 android:rating="0"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/cover_photo"
-                app:layout_constraintTop_toBottomOf="@+id/description" />
+                app:layout_constraintTop_toBottomOf="@+id/description"/>
 
+            <!--style="?android:attr/ratingBarStyleSmall"-->
 
             <TextView
                 android:id="@+id/review"

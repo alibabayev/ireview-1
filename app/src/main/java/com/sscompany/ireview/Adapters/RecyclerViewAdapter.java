@@ -1,6 +1,8 @@
 package com.sscompany.ireview.Adapters;
 
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.sscompany.ireview.Models.*;
 import com.sscompany.ireview.R;
 
@@ -38,6 +40,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.item_title.setText(mData.get(position).getName());
+
+
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(R.drawable.image_placeholder);
+
+        Glide.with(mContext).applyDefaultRequestOptions(requestOptions).load(mData.get(position).getCover_photo())
+                .into(holder.image_item_thumbnail);
         //holder.image_item_thumbnail.setImageURI((Uri)mData.get(position).getCover_photo());
     }
 
@@ -57,4 +66,5 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             item_title = (TextView) itemView.findViewById(R.id.ItemTitle);
         }
     }
+
 }
