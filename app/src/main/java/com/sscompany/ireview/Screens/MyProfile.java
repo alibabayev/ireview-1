@@ -80,10 +80,6 @@ public class MyProfile extends AppCompatActivity {
                         {
                             Book book = sampleDataSnapshot.getValue(Book.class);
                             bookList.add(book);
-                            if(dataSnapshot.getChildrenCount() == 0)
-                            {
-                                findViewById(R.id.no_book).setVisibility(View.VISIBLE);
-                            }
                         }
 
                         if(dataSnapshot.getChildrenCount() == 0)
