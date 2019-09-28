@@ -1,12 +1,19 @@
 package com.sscompany.ireview.Screens;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.sscompany.ireview.Adapters.RecyclerViewAdapter;
 import com.sscompany.ireview.Models.*;
 import com.sscompany.ireview.R;
@@ -18,7 +25,7 @@ import static com.sscompany.ireview.Screens.Homepage.profileOfMineOrFriend;
 
 public class FriendsProfile extends AppCompatActivity {
 
-
+    private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
     //private RecyclerView fRecyclerView;
     //private RecyclerView.Adapter fAdapter;
     //private RecyclerView.LayoutManager fLayoutManager;
@@ -29,14 +36,27 @@ public class FriendsProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.friends_profile);
 
-        flistItem = new ArrayList<>();
+        /*flistItem = new ArrayList<>();
         Book newBook = new Book();
         newBook.setName("The Martian");
         newBook.setGenre("Drama");
         newBook.setOwner("Book");
         flistItem.add(newBook);
         flistItem.add(newBook);
-        flistItem.add(newBook);
+        flistItem.add(newBook);*/
+        databaseReference.child("users").child(getIntent().getStringExtra("FRIENDID")).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                }
+        );
 
         RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewCategoryBooks);
         RecyclerViewAdapter myAdapter1 = new RecyclerViewAdapter(this, flistItem);

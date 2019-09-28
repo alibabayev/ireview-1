@@ -1,12 +1,19 @@
 package com.sscompany.ireview.Screens;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.sscompany.ireview.Adapters.RecyclerViewAdapterFriendList;
 import com.sscompany.ireview.Models.User;
 import com.sscompany.ireview.R;
@@ -16,42 +23,78 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShowFriendList extends AppCompatActivity {
-    List<User> listItem;
+    List<User> listFriends;
+    List<String> listFriendIDs;
+    private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+    private int count = 0;
+    //protected int counterForFriends;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.friends_list);
 
-        User newUser = new User();
-        newUser.setUsername("alibabayev");
-        newUser.setDisplay_name("Ali Babayev");
+        listFriends = new ArrayList<>();
+        listFriendIDs = new ArrayList<>();
+        String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        databaseReference.child("friendship").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    String friendID = ds.getValue().toString();
+                    System.out.println("friendID: " + friendID);
+                    listFriendIDs.add(friendID);
+                }
+                addFriendsToList( (int)dataSnapshot.getChildrenCount());
+            }
 
-        listItem = new ArrayList<>();
-        listItem.add(newUser);
-        listItem.add(newUser);
-        listItem.add(newUser);
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+    }
+
+    private void addToAdapter() {
+        System.out.println("CHECK113");
         RecyclerView myRV = (RecyclerView) findViewById(R.id.recyclerViewFriendList);
-        RecyclerViewAdapterFriendList myAdapter = new RecyclerViewAdapterFriendList(this, listItem);
+        RecyclerViewAdapterFriendList myAdapter = new RecyclerViewAdapterFriendList(ShowFriendList.this, listFriends);
 
-        myRV.setLayoutManager(new LinearLayoutManager(this));
+        System.out.println("CHECK114");
+        myRV.setLayoutManager(new LinearLayoutManager(ShowFriendList.this));
         myRV.setAdapter(myAdapter);
+        System.out.println("CHECK115");
+    }
 
-        /*
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x;
-        ImageView imageview = (ImageView) findViewById(R.id.ItemImage);
-        imageview.setMinimumWidth(width / 3 - 10);
-        */
 
+    private void addFriendsToList(final int size)
+    {
+        count = 0;
+        for(int i = 0; i < listFriendIDs.size(); i++) {
+            databaseReference.child("users").child(listFriendIDs.get(i)).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    User friend = dataSnapshot.getValue(User.class);
+                    System.out.println("friendUsername: " + friend.getUsername());
+                    listFriends.add(friend);
+                    count++;
+                    if(count == size){
+                        addToAdapter();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            });
+
+        }
     }
 
     public void showFriend(View view) {
         Intent intent = new Intent(getApplicationContext(), FriendsProfile.class);
-        intent.putExtra("FRIENDID", view.getId());
+        intent.putExtra("FRIENDID", listFriendIDs.get(view.getId()));
         startActivity(intent);
     }
 }
