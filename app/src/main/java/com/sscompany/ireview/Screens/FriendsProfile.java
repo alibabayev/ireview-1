@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -89,6 +91,11 @@ public class FriendsProfile extends AppCompatActivity {
                                        @Override public void onLongItemClick(View view, int position) {
                                            // do whatever
                                        }
+
+                                       public void onTouch(View view, MotionEvent e, int position)
+                                       {
+
+                                       }
                                    })
                            );
                        }
@@ -141,6 +148,11 @@ public class FriendsProfile extends AppCompatActivity {
 
                                     @Override public void onLongItemClick(View view, int position) {
                                         // do whatever
+                                    }
+
+                                    public void onTouch(View view, MotionEvent e, int position)
+                                    {
+
                                     }
                                 })
                         );
@@ -196,6 +208,11 @@ public class FriendsProfile extends AppCompatActivity {
                                     @Override public void onLongItemClick(View view, int position) {
                                         // do whatever
                                     }
+
+                                    public void onTouch(View view, MotionEvent e, int position)
+                                    {
+
+                                    }
                                 })
                         );
                     }
@@ -249,6 +266,11 @@ public class FriendsProfile extends AppCompatActivity {
 
                                     @Override public void onLongItemClick(View view, int position) {
                                         // do whatever
+                                    }
+
+                                    public void onTouch(View view, MotionEvent e, int position)
+                                    {
+
                                     }
                                 })
                         );
@@ -304,6 +326,11 @@ public class FriendsProfile extends AppCompatActivity {
                                     @Override public void onLongItemClick(View view, int position) {
                                         // do whatever
                                     }
+
+                                    public void onTouch(View view, MotionEvent e, int position)
+                                    {
+
+                                    }
                                 })
                         );
                     }
@@ -357,6 +384,11 @@ public class FriendsProfile extends AppCompatActivity {
                                     @Override public void onLongItemClick(View view, int position) {
                                         // do whatever
                                     }
+
+                                    public void onTouch(View view, MotionEvent e, int position)
+                                    {
+
+                                    }
                                 })
                         );
                     }
@@ -409,6 +441,11 @@ public class FriendsProfile extends AppCompatActivity {
 
                                     @Override public void onLongItemClick(View view, int position) {
                                         // do whatever
+                                    }
+
+                                    public void onTouch(View view, MotionEvent e, int position)
+                                    {
+
                                     }
                                 })
                         );

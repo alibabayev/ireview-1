@@ -38,9 +38,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position)
+    {
         holder.item_title.setText(mData.get(position).getName());
-
 
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.placeholder(R.drawable.image_placeholder);
