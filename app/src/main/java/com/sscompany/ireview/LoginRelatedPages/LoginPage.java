@@ -241,6 +241,12 @@ public class LoginPage extends AppCompatActivity implements View.OnKeyListener, 
             }
         });
 
+        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                finish();
+            }
+        });
         return builder;
     }
 
@@ -286,5 +292,24 @@ public class LoginPage extends AppCompatActivity implements View.OnKeyListener, 
                 finish();
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i("Resume", "resume");
+        //Check the internet connection
+        if (!isConnected(LoginPage.this)) buildDialog(LoginPage.this).show();
+        else {
+            // Check if user is signed in (non-null) and update UI accordingly.
+            FirebaseUser currentUser = mAuth.getCurrentUser();
+
+            if (currentUser != null) {
+                Intent intent = new Intent(getApplicationContext(), Homepage.class);
+                startActivity(intent);
+                finish();
+            }
+        }
+
     }
 }

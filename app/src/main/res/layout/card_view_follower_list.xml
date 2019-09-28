@@ -5,7 +5,6 @@
     android:layout_margin="4dp"
     android:background="#ccc"
     android:clickable="true"
-    android:onClick="showFriend"
     android:orientation="horizontal">
 
     <LinearLayout
