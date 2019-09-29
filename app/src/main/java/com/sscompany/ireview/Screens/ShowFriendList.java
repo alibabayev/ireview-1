@@ -40,6 +40,8 @@ public class ShowFriendList extends AppCompatActivity {
         listFriends = new ArrayList<>();
         listFriendIDs = new ArrayList<>();
         String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+
         databaseReference.child("friendship").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
