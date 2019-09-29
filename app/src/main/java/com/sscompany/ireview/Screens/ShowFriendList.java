@@ -68,9 +68,8 @@ public class ShowFriendList extends AppCompatActivity {
         myRV.setAdapter(myAdapter);
         System.out.println("CHECK115");
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerViewBooks);
-        recyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(ShowFriendList.this, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+        myRV.addOnItemTouchListener(
+                new RecyclerItemClickListener(ShowFriendList.this, myRV ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position)
                     {
                         System.out.println("Name: " + listFriends.get(position).getDisplay_name() + " Owner: " +  listFriends.get(position).getUsername());

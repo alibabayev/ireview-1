@@ -69,7 +69,7 @@ public class FriendsProfile extends AppCompatActivity {
                                findViewById(R.id.no_book).setVisibility(View.VISIBLE);
                            }
 
-                           RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewBooks);
+                           RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewCategoryBooks);
                            RecyclerViewAdapter myAdapter1 = new RecyclerViewAdapter(mContext, bookList);
                            GridLayoutManager gr1 = new GridLayoutManager(mContext, 3);
                            itemRecyclerView1.setLayoutManager(gr1);
@@ -77,7 +77,7 @@ public class FriendsProfile extends AppCompatActivity {
                            itemRecyclerView1.setNestedScrollingEnabled(false);
                            itemRecyclerView1.setFocusable(false);
 
-                           RecyclerView recyclerView = findViewById(R.id.recyclerViewBooks);
+                           RecyclerView recyclerView = findViewById(R.id.recyclerViewCategoryBooks);
                            recyclerView.addOnItemTouchListener(
                                    new RecyclerItemClickListener(mContext, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
                                        @Override public void onItemClick(View view, int position)
@@ -122,7 +122,7 @@ public class FriendsProfile extends AppCompatActivity {
                             findViewById(R.id.no_movie).setVisibility(View.VISIBLE);
                         }
 
-                        RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewMovies);
+                        RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewCategoryMovies);
                         RecyclerViewAdapter myAdapter1 = new RecyclerViewAdapter(mContext, movieList);
                         GridLayoutManager gr1 = new GridLayoutManager(mContext, 3);
                         itemRecyclerView1.setLayoutManager(gr1);
@@ -130,7 +130,7 @@ public class FriendsProfile extends AppCompatActivity {
                         itemRecyclerView1.setNestedScrollingEnabled(false);
                         itemRecyclerView1.setFocusable(false);
 
-                        RecyclerView recyclerView = findViewById(R.id.recyclerViewMovies);
+                        RecyclerView recyclerView = findViewById(R.id.recyclerViewCategoryMovies);
                         recyclerView.addOnItemTouchListener(
                                 new RecyclerItemClickListener(mContext, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
                                     @Override public void onItemClick(View view, int position)
@@ -176,7 +176,7 @@ public class FriendsProfile extends AppCompatActivity {
                             findViewById(R.id.no_music).setVisibility(View.VISIBLE);
                         }
 
-                        RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewMusics);
+                        RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewCategorySongs);
                         RecyclerViewAdapter myAdapter1 = new RecyclerViewAdapter(mContext, musicList);
                         GridLayoutManager gr1 = new GridLayoutManager(mContext, 3);
                         itemRecyclerView1.setLayoutManager(gr1);
@@ -184,7 +184,7 @@ public class FriendsProfile extends AppCompatActivity {
                         itemRecyclerView1.setNestedScrollingEnabled(false);
                         itemRecyclerView1.setFocusable(false);
 
-                        RecyclerView recyclerView = findViewById(R.id.recyclerViewMusics);
+                        RecyclerView recyclerView = findViewById(R.id.recyclerViewCategorySongs);
                         recyclerView.addOnItemTouchListener(
                                 new RecyclerItemClickListener(mContext, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
                                     @Override public void onItemClick(View view, int position)
@@ -230,7 +230,7 @@ public class FriendsProfile extends AppCompatActivity {
                             findViewById(R.id.no_place).setVisibility(View.VISIBLE);
                         }
 
-                        RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewPlaces);
+                        RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewCategoryPlaces);
                         RecyclerViewAdapter myAdapter1 = new RecyclerViewAdapter(mContext, placeList);
                         GridLayoutManager gr1 = new GridLayoutManager(mContext, 3);
                         itemRecyclerView1.setLayoutManager(gr1);
@@ -238,7 +238,7 @@ public class FriendsProfile extends AppCompatActivity {
                         itemRecyclerView1.setNestedScrollingEnabled(false);
                         itemRecyclerView1.setFocusable(false);
 
-                        RecyclerView recyclerView = findViewById(R.id.recyclerViewPlaces);
+                        RecyclerView recyclerView = findViewById(R.id.recyclerViewCategoryPlaces);
                         recyclerView.addOnItemTouchListener(
                                 new RecyclerItemClickListener(mContext, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
                                     @Override public void onItemClick(View view, int position)
@@ -284,7 +284,7 @@ public class FriendsProfile extends AppCompatActivity {
                             findViewById(R.id.no_tvshow).setVisibility(View.VISIBLE);
                         }
 
-                        RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewTVShows);
+                        RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewCategoryTvShows);
                         RecyclerViewAdapter myAdapter1 = new RecyclerViewAdapter(mContext, tvShowList);
                         GridLayoutManager gr1 = new GridLayoutManager(mContext, 3);
                         itemRecyclerView1.setLayoutManager(gr1);
@@ -292,7 +292,7 @@ public class FriendsProfile extends AppCompatActivity {
                         itemRecyclerView1.setNestedScrollingEnabled(false);
                         itemRecyclerView1.setFocusable(false);
 
-                        RecyclerView recyclerView = findViewById(R.id.recyclerViewTVShows);
+                        RecyclerView recyclerView = findViewById(R.id.recyclerViewCategoryTvShows);
                         recyclerView.addOnItemTouchListener(
                                 new RecyclerItemClickListener(mContext, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
                                     @Override public void onItemClick(View view, int position)
@@ -337,7 +337,7 @@ public class FriendsProfile extends AppCompatActivity {
                             findViewById(R.id.no_game).setVisibility(View.VISIBLE);
                         }
 
-                        RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewGames);
+                        RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewCategoryVideoGames);
                         RecyclerViewAdapter myAdapter1 = new RecyclerViewAdapter(mContext, gameList);
                         GridLayoutManager gr1 = new GridLayoutManager(mContext, 3);
                         itemRecyclerView1.setLayoutManager(gr1);
@@ -345,7 +345,7 @@ public class FriendsProfile extends AppCompatActivity {
                         itemRecyclerView1.setNestedScrollingEnabled(false);
                         itemRecyclerView1.setFocusable(false);
 
-                        RecyclerView recyclerView = findViewById(R.id.recyclerViewGames);
+                        RecyclerView recyclerView = findViewById(R.id.recyclerViewCategoryVideoGames);
                         recyclerView.addOnItemTouchListener(
                                 new RecyclerItemClickListener(mContext, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
                                     @Override public void onItemClick(View view, int position)
