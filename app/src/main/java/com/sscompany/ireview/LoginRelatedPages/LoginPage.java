@@ -64,42 +64,44 @@ public class LoginPage extends AppCompatActivity implements View.OnKeyListener, 
 
 
         //Connected to Internet
+        if (!isConnected(LoginPage.this)) buildDialog(LoginPage.this).show();
+        else {
+            if (mAuth.getCurrentUser() != null) {
+                System.out.println("NooooOOOOOoooooOOOOO");
+                Toast.makeText(this, "Logged In As  " + mAuth.getCurrentUser().getDisplayName(), Toast.LENGTH_SHORT).show();
+                goToHomepage();
+                finish();
+            } else {
+                System.out.println("YessssssSSSS");
+                Toast.makeText(LoginPage.this, "Welcome", Toast.LENGTH_SHORT).show();
 
-        if (mAuth.getCurrentUser() != null) {
-            System.out.println("NooooOOOOOoooooOOOOO");
-            Toast.makeText(this, "Logged In As  " + mAuth.getCurrentUser().getDisplayName(), Toast.LENGTH_SHORT).show();
-            goToHomepage();
-            finish();
-        } else {
-            System.out.println("YessssssSSSS");
-            Toast.makeText(LoginPage.this, "Welcome", Toast.LENGTH_SHORT).show();
+                ConstraintLayout backgroundLayout = (ConstraintLayout) findViewById(R.id.backgroundRelativeLayoutLogIn);
+                backgroundLayout.setOnClickListener(this);
+                ImageView logoImageView = (ImageView) findViewById(R.id.menuLogoLogIn);
+                logoImageView.setOnClickListener(this);
 
-            ConstraintLayout backgroundLayout = (ConstraintLayout) findViewById(R.id.backgroundRelativeLayoutLogIn);
-            backgroundLayout.setOnClickListener(this);
-            ImageView logoImageView = (ImageView) findViewById(R.id.menuLogoLogIn);
-            logoImageView.setOnClickListener(this);
+                System.out.println("NOOOOOSOOSOOSOOSO");
 
-            System.out.println("NOOOOOSOOSOOSOOSO");
+                passwordText = findViewById(R.id.passwordLoginText);
 
-            passwordText = findViewById(R.id.passwordLoginText);
-
-            passwordText.setOnKeyListener(new View.OnKeyListener() {
-                @Override
-                public boolean onKey(View v, int keyCode, KeyEvent event) {
-                    System.out.println("KSKSKSKS");
-                    if (keyCode == event.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
-                        logIn(v);
-                        System.out.println("LMSLMSLSMS");
+                passwordText.setOnKeyListener(new View.OnKeyListener() {
+                    @Override
+                    public boolean onKey(View v, int keyCode, KeyEvent event) {
+                        System.out.println("KSKSKSKS");
+                        if (keyCode == event.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
+                            logIn(v);
+                            System.out.println("LMSLMSLSMS");
+                        }
+                        return false;
                     }
-                    return false;
-                }
-            });
+                });
 
-            System.out.println("NDBDNNDBD");
+                System.out.println("NDBDNNDBD");
 
+            }
+
+            System.out.println("LASTTTALAYAS");
         }
-
-        System.out.println("LASTTTALAYAS");
     }
 
     /**
@@ -109,6 +111,7 @@ public class LoginPage extends AppCompatActivity implements View.OnKeyListener, 
      */
     public void logIn(View view) {
         emailText = (EditText) findViewById(R.id.emailLoginText);
+
         passwordText = (EditText) findViewById(R.id.passwordLoginText);
 
         email = emailText.getText().toString();
