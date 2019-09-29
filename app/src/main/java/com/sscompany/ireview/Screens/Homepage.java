@@ -167,6 +167,7 @@ public class Homepage extends AppCompatActivity
                     feedItem.setReview(post.getReview());
                     feedItem.setUser_id(post.getUser_id());
                     feedItem.setPost_id(post.getPost_id());
+                    feedItem.setPost_image(post.getPost_image());
 
                     Query query = FirebaseDatabase.getInstance().getReference()
                             .child("user_account_settings")

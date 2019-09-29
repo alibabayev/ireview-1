@@ -19,8 +19,9 @@ public class Post
     private String user_id;
     private String data_created;
     private String post_id;
+    private String post_image;
 
-    public Post(String item_id, String item_name, String item_owner, String item_cover_photo, String review, float rating, int like_count, ArrayList<String> likes, String user_id, String data_created, String post_id) {
+    public Post(String item_id, String item_name, String item_owner, String item_cover_photo, String review, float rating, int like_count, ArrayList<String> likes, String user_id, String data_created, String post_id, String post_image) {
         this.item_id = item_id;
         this.item_name = item_name;
         this.item_owner = item_owner;
@@ -32,6 +33,7 @@ public class Post
         this.user_id = user_id;
         this.data_created = data_created;
         this.post_id = post_id;
+        this.post_image = post_image;
     }
 
     public Post() {
@@ -126,6 +128,14 @@ public class Post
         this.post_id = post_id;
     }
 
+    public String getPost_image() {
+        return post_image;
+    }
+
+    public void setPost_image(String post_image) {
+        this.post_image = post_image;
+    }
+
     @Override
     public String toString() {
         return "Post{" +
@@ -140,6 +150,7 @@ public class Post
                 ", user_id='" + user_id + '\'' +
                 ", data_created='" + data_created + '\'' +
                 ", post_id='" + post_id + '\'' +
+                ", post_image='" + post_image + '\'' +
                 '}';
     }
 }

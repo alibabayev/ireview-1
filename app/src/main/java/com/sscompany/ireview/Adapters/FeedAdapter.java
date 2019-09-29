@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -54,6 +55,8 @@ public class FeedAdapter extends ArrayAdapter<FeedItem> {
         TextView review;
         ImageView like;
         TextView likes;
+        ImageView postImage;
+        LinearLayout hide_show_line;
     }
 
     public FeedAdapter(ArrayList<FeedItem> feedItems, Context mContext) {
@@ -80,12 +83,14 @@ public class FeedAdapter extends ArrayAdapter<FeedItem> {
             viewHolder.cover_photo = (ImageView) convertView.findViewById(R.id.cover_photo);
             viewHolder.username = (TextView) convertView.findViewById(R.id.username);
             viewHolder.date = (TextView) convertView.findViewById(R.id.date);
-            viewHolder.description = (TextView) convertView.findViewById(R.id.name);
+            viewHolder.description = (TextView) convertView.findViewById(R.id.firstRow);
             viewHolder.rating_bar = (RatingBar) convertView.findViewById(R.id.rating_bar);
             viewHolder.review = (TextView) convertView.findViewById(R.id.review);
             //makeTextViewResizable(viewHolder.review, 3, "Show More", true);
             viewHolder.like = (ImageView) convertView.findViewById(R.id.like);
             viewHolder.likes = (TextView) convertView.findViewById(R.id.likes);
+            viewHolder.postImage = (ImageView) convertView.findViewById(R.id.post_image);
+            viewHolder.hide_show_line = (LinearLayout) convertView.findViewById(R.id.hide_show_line);
 
             result = convertView;
 
@@ -147,6 +152,8 @@ public class FeedAdapter extends ArrayAdapter<FeedItem> {
                             viewHolder.like.setImageResource(R.drawable.not_liked);
                         }
 
+
+
                     }
 
                     @Override
@@ -154,7 +161,6 @@ public class FeedAdapter extends ArrayAdapter<FeedItem> {
 
                     }
                 });
-
 
         //Setting onClickListener to like button
         viewHolder.like.setTag(viewHolder);
@@ -245,6 +251,44 @@ public class FeedAdapter extends ArrayAdapter<FeedItem> {
 
         Glide.with(mContext).applyDefaultRequestOptions(requestOptions).load(getItem(position).getProfile_picture())
                 .into(viewHolder.profile_picture);
+
+        //Checking if postImage is available
+        if(getItem(position).getPost_image() != null)
+        {
+            if(getItem(position).getPost_image().equals("")) {
+                viewHolder.hide_show_line.setVisibility(View.GONE);
+                viewHolder.postImage.setVisibility(View.GONE);
+            }
+        }
+        else
+        {
+            //Setting post image
+            requestOptions = new RequestOptions();
+            requestOptions.placeholder(R.drawable.image_placeholder);
+
+            Glide.with(mContext).applyDefaultRequestOptions(requestOptions).load(getItem(position).getPost_image())
+                    .into(viewHolder.postImage);
+
+            //Setting onClickListener for hide_show_line
+            viewHolder.hide_show_line.setClickable(true);
+            viewHolder.hide_show_line.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v)
+                {
+                    if(viewHolder.postImage.getVisibility() == View.GONE)
+                    {
+                        viewHolder.hide_show_line.getChildAt(0).setBackgroundResource(R.drawable.hide_arrow);
+                        viewHolder.postImage.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        viewHolder.postImage.setVisibility(View.GONE);
+                        viewHolder.hide_show_line.getChildAt(0).setBackgroundResource(R.drawable.show_arrow);
+                    }
+
+                }
+            });
+
+        }
 
         return convertView;
     }
