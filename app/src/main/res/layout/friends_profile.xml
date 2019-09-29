@@ -32,12 +32,24 @@
                 android:text="Book"
                 />
 
+            <TextView
+                android:id="@+id/no_book"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No Item!"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerViewCategoryBooks"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
             </android.support.v7.widget.RecyclerView>
+
 
             <TextView
                 android:id="@+id/titleMovies"
@@ -46,6 +58,18 @@
                 android:textSize="30sp"
                 android:text="Movies"
                 />
+
+
+            <TextView
+                android:id="@+id/no_movie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No Item!"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerViewCategoryMovies"
@@ -56,15 +80,26 @@
             </android.support.v7.widget.RecyclerView>
 
             <TextView
-                android:id="@+id/titleRestaurants"
+                android:id="@+id/titleMusics"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textSize="30sp"
-                android:text="Restaurants"
+                android:text="Movies"
                 />
 
+            <TextView
+                android:id="@+id/no_music"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No Item!"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerViewCategoryRestaurants"
+                android:id="@+id/recyclerViewCategoryMusics"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbars="none">
@@ -78,6 +113,17 @@
                 android:textSize="30sp"
                 android:text="Places"
                 />
+
+            <TextView
+                android:id="@+id/no_place"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No Item!"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerViewCategoryPlaces"
@@ -95,24 +141,19 @@
                 android:text="TV Shows"
                 />
 
+            <TextView
+                android:id="@+id/no_tvshow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No Item!"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerViewCategoryTvShows"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="none">
-
-            </android.support.v7.widget.RecyclerView>
-
-            <TextView
-                android:id="@+id/titleSongs"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textSize="30sp"
-                android:text="Songs"
-                />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerViewCategorySongs"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbars="none">
@@ -127,6 +168,17 @@
                 android:text="Video Games"
                 />
 
+            <TextView
+                android:id="@+id/no_game"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No Item!"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerViewCategoryVideoGames"
                 android:layout_width="match_parent"
@@ -136,20 +188,32 @@
             </android.support.v7.widget.RecyclerView>
 
             <TextView
-                android:id="@+id/titleCustom"
+                android:id="@+id/titleWebsites"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textSize="30sp"
-                android:text="Custom"
+                android:text="Video Games"
                 />
 
+            <TextView
+                android:id="@+id/no_website"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No Item!"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerViewCategoryCustom"
+                android:id="@+id/recyclerViewCategoryWebsites"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbars="none">
 
             </android.support.v7.widget.RecyclerView>
+
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
