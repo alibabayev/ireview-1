@@ -23,77 +23,126 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profile_picture"
-                android:layout_width="60sp"
-                android:layout_height="60sp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/profile_placeholder"
+            <Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:targetApi="lollipop">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_picture"
+                    android:layout_width="60sp"
+                    android:layout_height="60sp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/profile_placeholder"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Username"
+                        android:textSize="20sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        android:text="1 hour ago"
+                        android:textSize="15sp"/>
+
+                </LinearLayout>
+
+                <
+
+
+            </Toolbar>
+
+
+            <!--style="?android:attr/ratingBarStyleSmall"-->
 
             <TextView
-                android:id="@+id/username"
-                android:layout_width="wrap_content"
+                android:id="@+id/firstRow"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:text="Username"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/profile_picture"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:text="Movie"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toStartOf="@+id/cover_photo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rating_bar" />
 
             <TextView
-                android:id="@+id/date"
-                android:layout_width="wrap_content"
+                android:id="@+id/secondRow"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
-                android:text="1 hour ago"
-                android:textSize="15sp"
-                app:layout_constraintStart_toEndOf="@+id/profile_picture"
-                app:layout_constraintTop_toBottomOf="@+id/username" />
+                android:text="Movie"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toStartOf="@+id/cover_photo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/firstRow" />
 
             <TextView
-                android:id="@+id/description"
-                android:layout_width="match_parent"
+                android:id="@+id/thirdRow"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:text="Movie by Director"
+                android:layout_marginTop="5dp"
+                android:text="Movie"
                 android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/cover_photo"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/profile_picture" />
+                app:layout_constraintTop_toBottomOf="@+id/secondRow" />
+
+            <TextView
+                android:id="@+id/fourthRow"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:text="Movie"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toStartOf="@+id/cover_photo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/thirdRow" />
 
             <ImageView
                 android:id="@+id/cover_photo"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginStart="176dp"
+                android:layout_marginTop="20dp"
                 android:src="@drawable/image_background"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/description" />
+                app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
             <RatingBar
                 android:id="@+id/rating_bar"
+                style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:numStars="5"
-                android:stepSize="1"
-                android:rating="0"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/cover_photo"
-                app:layout_constraintTop_toBottomOf="@+id/description"/>
-
-            <!--style="?android:attr/ratingBarStyleSmall"-->
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
             <TextView
                 android:id="@+id/review"
@@ -104,53 +153,62 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="8dp"
                 android:singleLine="false"
-                android:text="I love Black Ops thrillers."
+                android:text="Review"
                 android:textSize="15sp"
-                app:layout_constraintBottom_toTopOf="@+id/like"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/cover_photo"
-                app:layout_constraintTop_toBottomOf="@+id/rating_bar" />
-
-            <ImageView
-                android:id="@+id/like"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="8dp"
-                android:src="@drawable/not_liked"
-                android:clickable="true"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cover_photo" />
+                app:layout_constraintTop_toBottomOf="@+id/cover_photo"
+                app:layout_constraintVertical_bias="0.83" />
 
-            <TextView
-                android:id="@+id/likes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:text="0"
-                android:textSize="15sp"
-                app:layout_constraintStart_toEndOf="@+id/like"
-                app:layout_constraintTop_toBottomOf="@+id/cover_photo" />
 
             <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/linearLayoutForImage"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <ImageView
+                    android:id="@+id/like"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="8dp"
+                    android:src="@drawable/not_liked"
+                    android:clickable="true"/>
+
+                <TextView
+                    android:id="@+id/likes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:text="0"
+                    android:textSize="15sp"/>
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:id="@+id/linearLayoutForImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
                 android:layout_marginTop="16dp"
-                android:orientation="vertical"
                 android:gravity="right"
-                app:layout_constraintTop_toBottomOf="@id/like">
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/review"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteX="8dp">
 
                 <LinearLayout
                     android:id="@+id/hide_show_line"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:background="@color/gray"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:orientation="vertical">
 
                     <Button
                         android:layout_width="30dp"
@@ -160,10 +218,10 @@
                 </LinearLayout>
 
                 <ImageView
-                    android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    android:src="@drawable/image_placeholder"
-                    android:scaleType="centerCrop" />
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/image_placeholder" />
 
             </LinearLayout>
 

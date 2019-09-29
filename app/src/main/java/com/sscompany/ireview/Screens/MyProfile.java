@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -19,12 +20,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 
 import static com.sscompany.ireview.Screens.Homepage.profileOfMineOrFriend;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -152,7 +157,8 @@ public class MyProfile extends AppCompatActivity
                         recyclerView.addOnItemTouchListener(
                                 new RecyclerItemClickListener(mContext, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                                     @Override
-                                    public void onItemClick(View view, int position) {
+                                    public void onItemClick(View view, int position)
+                                    {
                                         System.out.println("Name: " + bookList.get(position).getName() + " Owner: " + bookList.get(position).getOwner());
                                         // do whatever
                                         Intent intent = new Intent(mContext, AddItem.class);
@@ -169,11 +175,16 @@ public class MyProfile extends AppCompatActivity
                                     }
 
                                     @Override
-                                    public void onLongItemClick(View view, int position) {
+                                    public void onLongItemClick(View view, int position)
+                                    {
                                         isSpeakButtonLongPressed = true;
-                                        ImageView imageView;
-                                        imageView = (ImageView) ((LinearLayout)((CardView)recyclerView.getChildAt(position)).getChildAt(0)).getChildAt(0);
-                                        showCoverPhotoDialog(imageView);
+
+                                        ImageView imageView = (ImageView) ((LinearLayout)((CardView)recyclerView.getChildAt(position)).getChildAt(0)).getChildAt(0);
+                                        imageView.invalidate();
+                                        BitmapDrawable dr = (BitmapDrawable)((ImageView)imageView).getDrawable();
+                                        Bitmap bitmap = dr.getBitmap();
+
+                                        showCoverPhotoDialog(bitmap);
                                     }
 
                                     @Override
@@ -764,14 +775,32 @@ public class MyProfile extends AppCompatActivity
         });
     }
 
-    private void showCoverPhotoDialog(ImageView v)
+    private void showCoverPhotoDialog(Bitmap bitmap)
     {
-        Bitmap bitmap;
+
         ImageDialog = new AlertDialog.Builder(mContext);
+
         ImageView showImage = new ImageView(mContext);
-        v.invalidate();
-        BitmapDrawable dr = (BitmapDrawable)((ImageView)v).getDrawable();
-        bitmap = dr.getBitmap();
+
+        ImageView imageView = new ImageView(mContext);
+
+        /*
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(R.drawable.image_placeholder);
+
+        Glide.with(mContext).applyDefaultRequestOptions(requestOptions).load(cover_photo_url)
+                .into(imageView);
+
+
+
+
+        try {
+            URL url = new URL(cover_photo_url);
+            bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+        } catch(IOException e) {
+            System.out.println(e);
+        }
+        */
 
         //*********************************************************************************************************
         //MAX Width  MAX Height

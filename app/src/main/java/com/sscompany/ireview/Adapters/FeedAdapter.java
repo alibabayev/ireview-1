@@ -79,7 +79,7 @@ public class FeedAdapter extends ArrayAdapter<FeedItem>
             viewHolder.cover_photo = (ImageView) convertView.findViewById(R.id.cover_photo);
             viewHolder.username = (TextView) convertView.findViewById(R.id.username);
             viewHolder.date = (TextView) convertView.findViewById(R.id.date);
-            viewHolder.description = (TextView) convertView.findViewById(R.id.description);
+            viewHolder.description = (TextView) convertView.findViewById(R.id.name);
             viewHolder.rating_bar = (RatingBar) convertView.findViewById(R.id.rating_bar);
             viewHolder.review = (TextView) convertView.findViewById(R.id.review);
             viewHolder.like = (ImageView) convertView.findViewById(R.id.like);

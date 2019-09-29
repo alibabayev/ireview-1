@@ -138,9 +138,11 @@ public class AddItem extends AppCompatActivity
         imageImageView = findViewById(R.id.image);
         cover_photoImageView = findViewById(R.id.cover_photo);
 
+        /*
         //Setting review and stars widgets gone
         review.setVisibility(View.GONE);
         ratingBar.setVisibility(View.GONE);
+         */
 
         //Creating EditTexts of rightLinearLayout, setting sizes, and adding them to rightLinearLayout
         createEditTexts();
@@ -867,10 +869,10 @@ public class AddItem extends AppCompatActivity
             firstEditText.setHint("Title");
 
             secondEditText.setVisibility(View.VISIBLE);
-            secondEditText.setHint("Director");
+            secondEditText.setHint("Genre");
 
             thirdEditText.setVisibility(View.VISIBLE);
-            thirdEditText.setHint("Genre");
+            thirdEditText.setHint("Director");
 
             fourthEditText.setVisibility(View.VISIBLE);
             fourthEditText.setHint("Lead Actors");
@@ -881,10 +883,10 @@ public class AddItem extends AppCompatActivity
             firstEditText.setHint("Name");
 
             secondEditText.setVisibility(View.VISIBLE);
-            secondEditText.setHint("Singer");
+            secondEditText.setHint("Genre");
 
             thirdEditText.setVisibility(View.VISIBLE);
-            thirdEditText.setHint("Genre");
+            thirdEditText.setHint("Singer");
 
             fourthEditText.setVisibility(View.VISIBLE);
             fourthEditText.setHint("Language");
@@ -898,9 +900,10 @@ public class AddItem extends AppCompatActivity
             secondEditText.setHint("Place Type");
 
             thirdEditText.setVisibility(View.VISIBLE);
-            thirdEditText.setHint("Address");
+            thirdEditText.setHint("City");
 
-            fourthEditText.setVisibility(View.GONE);
+            fourthEditText.setVisibility(View.VISIBLE);
+            fourthEditText.setHint("City");
         }
         else if(categoryExtra.equals("tv_show"))
         {
@@ -908,24 +911,26 @@ public class AddItem extends AppCompatActivity
             firstEditText.setHint("Name");
 
             secondEditText.setVisibility(View.VISIBLE);
-            secondEditText.setHint("Host");
+            secondEditText.setHint("Genre");
 
             thirdEditText.setVisibility(View.VISIBLE);
-            thirdEditText.setHint("Genre");
+            thirdEditText.setHint("Host");
 
             fourthEditText.setVisibility(View.GONE);
         }
         else if(categoryExtra.equals("website"))
         {
             firstEditText.setVisibility(View.VISIBLE);
-            firstEditText.setHint("Web Address");
+            firstEditText.setHint("Title");
 
             secondEditText.setVisibility(View.VISIBLE);
             secondEditText.setHint("Use");
 
-            thirdEditText.setVisibility(View.GONE);
+            thirdEditText.setVisibility(View.VISIBLE);
+            thirdEditText.setHint("Company");
 
-            fourthEditText.setVisibility(View.GONE);
+            fourthEditText.setVisibility(View.VISIBLE);
+            fourthEditText.setHint("HTTP");
         }
         else if(categoryExtra.equals("game"))
         {
@@ -933,10 +938,10 @@ public class AddItem extends AppCompatActivity
             firstEditText.setHint("Name");
 
             secondEditText.setVisibility(View.VISIBLE);
-            secondEditText.setHint("Developer");
+            secondEditText.setHint("Game Type");
 
             thirdEditText.setVisibility(View.VISIBLE);
-            thirdEditText.setHint("Game Type");
+            thirdEditText.setHint("Developer");
 
             fourthEditText.setVisibility(View.GONE);
         }
