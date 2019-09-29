@@ -22,6 +22,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -303,163 +305,6 @@ public class AddItem extends AppCompatActivity
             }
         }
     }
-
-    /**
-     * onClickListener for imageImageView and cover_photoImageView
-     *
-     * Previewing image selected
-     *
-     */
-    private View.OnClickListener onClickListener = new View.OnClickListener() {
-
-        public void onClick(View v)
-        {
-            Bitmap bitmap;
-            AlertDialog.Builder ImageDialog = new AlertDialog.Builder(mContext);
-            ImageView showImage = new ImageView(mContext);
-            v.invalidate();
-            BitmapDrawable dr = (BitmapDrawable)((ImageView)v).getDrawable();
-            bitmap = dr.getBitmap();
-
-            //*********************************************************************************************************
-            //MAX Width  MAX Height
-            //*********************************************************************************************************
-
-            DisplayMetrics displayMetrics = new DisplayMetrics();
-            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-            int maxHeight = displayMetrics.heightPixels - 150;
-            int maxWidth = displayMetrics.widthPixels - 150;
-
-            int inWidth = bitmap.getWidth();
-            int inHeight = bitmap.getHeight();
-            int outWidth = inWidth;
-            int outHeight = inHeight;
-            if(inHeight > maxHeight){
-                outHeight = maxHeight;
-                outWidth = (int)((double)(maxHeight * inWidth) / (double)inHeight);
-            }
-            else if(inWidth > maxWidth){
-                outWidth = maxWidth;
-                outHeight = (int)((double)(maxWidth * inHeight) / (double)inWidth);
-            }
-
-            bitmap = Bitmap.createScaledBitmap(bitmap, outWidth, outHeight, false);
-
-            inWidth = bitmap.getWidth();
-            inHeight = bitmap.getHeight();
-            outWidth = inWidth;
-            outHeight = inHeight;
-
-            if(inHeight > maxHeight){
-                outHeight = maxHeight;
-                outWidth = (int)((double)(maxHeight * inWidth) / (double)inHeight);
-            }
-            else if(inWidth > maxWidth){
-                outWidth = maxWidth;
-                outHeight = (int)((double)(maxWidth * inHeight) / (double)inWidth);
-            }
-
-            bitmap = Bitmap.createScaledBitmap(bitmap, outWidth, outHeight, false);
-
-            //*********************************************************************************************************
-            //MIN Width  MIN Height
-            //*********************************************************************************************************
-
-            DisplayMetrics displayMetrics1 = new DisplayMetrics();
-            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics1);
-            int minHeight = displayMetrics.heightPixels - 200;
-            int minWidth = displayMetrics.widthPixels - 200;
-
-            inWidth = bitmap.getWidth();
-            inHeight = bitmap.getHeight();
-            outWidth = inWidth;
-            outHeight = inHeight;
-            if(inHeight < minHeight){
-                outHeight = minHeight;
-                outWidth = (int)((double)(minHeight * inWidth) / (double)inHeight);
-            }
-            else if(inWidth < minWidth){
-                outWidth = minWidth;
-                outHeight = (int)((double)(minWidth * inHeight) / (double)inWidth);
-            }
-
-            if(outWidth <= maxWidth && outHeight <= maxHeight) {
-                bitmap = Bitmap.createScaledBitmap(bitmap, outWidth, outHeight, false);
-            }
-
-            inWidth = bitmap.getWidth();
-            inHeight = bitmap.getHeight();
-            outWidth = inWidth;
-            outHeight = inHeight;
-
-            if(inHeight < minHeight){
-                outHeight = minHeight;
-                outWidth = (int)((double)(minHeight * inWidth) / (double)inHeight);
-            }
-            else if(inWidth < minWidth){
-                outWidth = minWidth;
-                outHeight = (int)((double)(minWidth * inHeight) / (double)inWidth);
-            }
-
-            if(outWidth <= maxWidth && outHeight <= maxHeight) {
-                bitmap = Bitmap.createScaledBitmap(bitmap, outWidth, outHeight, false);
-            }
-
-            showImage.setImageBitmap(bitmap);
-            ImageDialog.setView(showImage);
-            ImageDialog.setCancelable(true);
-            AlertDialog alertDialog = ImageDialog.create();
-            alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-
-            alertDialog.show();
-
-            alertDialog.getWindow().setLayout(bitmap.getWidth(), bitmap.getHeight());
-
-        }
-    };
-
-    /**
-     * onLongClickListener for imageImageView and cover_photoImageView
-     *
-     * Removing selected image
-     *
-     */
-    private View.OnLongClickListener onLongClickListener = new View.OnLongClickListener() {
-
-        @Override
-        public boolean onLongClick(final View v)
-        {
-            AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
-            alert.setTitle(null);
-            alert.setMessage("Are you sure to remove image?");
-            alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-
-                final ImageView imageView = (ImageView) v;
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    imageView.setImageDrawable(null);
-                    imageView.setOnClickListener(null);
-                    imageView.setBackgroundResource(R.drawable.image_background);
-                    imageView.setOnLongClickListener(null);
-                    dialog.dismiss();
-
-                }
-            });
-            alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                    dialog.dismiss();
-                }
-            });
-
-            alert.show();
-
-            return true;
-        }
-
-    };
 
     /**
      * When postReview checkBox is checked, review and stars will be visible,
@@ -1095,5 +940,194 @@ public class AddItem extends AppCompatActivity
 
             fourthEditText.setVisibility(View.GONE);
         }
+
+        if(actionExtra.equals("edit"))
+            setEditTextsForEdit();
     }
+
+    private void setEditTextsForEdit()
+    {
+        String first_row = predecessorIntent.getStringExtra("first_row");
+        String second_row = predecessorIntent.getStringExtra("second_row");
+        String third_row = predecessorIntent.getStringExtra("third_row");
+        String fourth_row = predecessorIntent.getStringExtra("fourth_row");
+
+        String cover_photo = predecessorIntent.getStringExtra("cover_photo");
+
+        firstEditText.setText(first_row);
+        secondEditText.setText(second_row);
+        thirdEditText.setText(third_row);
+        fourthEditText.setText(fourth_row);
+
+
+        //Setting profile_picture
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(R.drawable.image_placeholder);
+
+        Glide.with(mContext).applyDefaultRequestOptions(requestOptions).load(cover_photo)
+                .into(cover_photoImageView);
+
+        //Arranging cover_photoImageView
+        cover_photoImageView.setBackground(null);
+        cover_photoImageView.setOnClickListener(onClickListener);
+        cover_photoImageView.setLongClickable(true);
+        cover_photoImageView.setOnLongClickListener(onLongClickListener);
+    }
+
+    /**
+     * onClickListener for imageImageView and cover_photoImageView
+     *
+     * Previewing image selected
+     *
+     */
+    private View.OnClickListener onClickListener = new View.OnClickListener() {
+
+        public void onClick(View v)
+        {
+            Bitmap bitmap;
+            AlertDialog.Builder ImageDialog = new AlertDialog.Builder(mContext);
+            ImageView showImage = new ImageView(mContext);
+            v.invalidate();
+            BitmapDrawable dr = (BitmapDrawable)((ImageView)v).getDrawable();
+            bitmap = dr.getBitmap();
+
+            //*********************************************************************************************************
+            //MAX Width  MAX Height
+            //*********************************************************************************************************
+
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            int maxHeight = displayMetrics.heightPixels - 150;
+            int maxWidth = displayMetrics.widthPixels - 150;
+
+            int inWidth = bitmap.getWidth();
+            int inHeight = bitmap.getHeight();
+            int outWidth = inWidth;
+            int outHeight = inHeight;
+            if(inHeight > maxHeight){
+                outHeight = maxHeight;
+                outWidth = (int)((double)(maxHeight * inWidth) / (double)inHeight);
+            }
+            else if(inWidth > maxWidth){
+                outWidth = maxWidth;
+                outHeight = (int)((double)(maxWidth * inHeight) / (double)inWidth);
+            }
+
+            bitmap = Bitmap.createScaledBitmap(bitmap, outWidth, outHeight, false);
+
+            inWidth = bitmap.getWidth();
+            inHeight = bitmap.getHeight();
+            outWidth = inWidth;
+            outHeight = inHeight;
+
+            if(inHeight > maxHeight){
+                outHeight = maxHeight;
+                outWidth = (int)((double)(maxHeight * inWidth) / (double)inHeight);
+            }
+            else if(inWidth > maxWidth){
+                outWidth = maxWidth;
+                outHeight = (int)((double)(maxWidth * inHeight) / (double)inWidth);
+            }
+
+            bitmap = Bitmap.createScaledBitmap(bitmap, outWidth, outHeight, false);
+
+            //*********************************************************************************************************
+            //MIN Width  MIN Height
+            //*********************************************************************************************************
+
+            DisplayMetrics displayMetrics1 = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(displayMetrics1);
+            int minHeight = displayMetrics.heightPixels - 200;
+            int minWidth = displayMetrics.widthPixels - 200;
+
+            inWidth = bitmap.getWidth();
+            inHeight = bitmap.getHeight();
+            outWidth = inWidth;
+            outHeight = inHeight;
+            if(inHeight < minHeight){
+                outHeight = minHeight;
+                outWidth = (int)((double)(minHeight * inWidth) / (double)inHeight);
+            }
+            else if(inWidth < minWidth){
+                outWidth = minWidth;
+                outHeight = (int)((double)(minWidth * inHeight) / (double)inWidth);
+            }
+
+            if(outWidth <= maxWidth && outHeight <= maxHeight) {
+                bitmap = Bitmap.createScaledBitmap(bitmap, outWidth, outHeight, false);
+            }
+
+            inWidth = bitmap.getWidth();
+            inHeight = bitmap.getHeight();
+            outWidth = inWidth;
+            outHeight = inHeight;
+
+            if(inHeight < minHeight){
+                outHeight = minHeight;
+                outWidth = (int)((double)(minHeight * inWidth) / (double)inHeight);
+            }
+            else if(inWidth < minWidth){
+                outWidth = minWidth;
+                outHeight = (int)((double)(minWidth * inHeight) / (double)inWidth);
+            }
+
+            if(outWidth <= maxWidth && outHeight <= maxHeight) {
+                bitmap = Bitmap.createScaledBitmap(bitmap, outWidth, outHeight, false);
+            }
+
+            showImage.setImageBitmap(bitmap);
+            ImageDialog.setView(showImage);
+            ImageDialog.setCancelable(true);
+            AlertDialog alertDialog = ImageDialog.create();
+            alertDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+            alertDialog.show();
+
+            alertDialog.getWindow().setLayout(bitmap.getWidth(), bitmap.getHeight());
+
+        }
+    };
+
+    /**
+     * onLongClickListener for imageImageView and cover_photoImageView
+     *
+     * Removing selected image
+     *
+     */
+    private View.OnLongClickListener onLongClickListener = new View.OnLongClickListener() {
+
+        @Override
+        public boolean onLongClick(final View v)
+        {
+            AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
+            alert.setTitle(null);
+            alert.setMessage("Are you sure to remove image?");
+            alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                final ImageView imageView = (ImageView) v;
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    imageView.setImageDrawable(null);
+                    imageView.setOnClickListener(null);
+                    imageView.setBackgroundResource(R.drawable.image_background);
+                    imageView.setOnLongClickListener(null);
+                    dialog.dismiss();
+
+                }
+            });
+            alert.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    dialog.dismiss();
+                }
+            });
+
+            alert.show();
+
+            return true;
+        }
+
+    };
 }

@@ -12,8 +12,8 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
 
     public interface OnItemClickListener {
         public void onItemClick(View view, int position);
-
         public void onLongItemClick(View view, int position);
+        public void onTouch(View view, MotionEvent e, int position);
     }
 
     GestureDetector mGestureDetector;
@@ -22,12 +22,14 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
         mListener = listener;
         mGestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             @Override
-            public boolean onSingleTapUp(MotionEvent e) {
+            public boolean onSingleTapUp(MotionEvent e)
+            {
                 return true;
             }
 
             @Override
-            public void onLongPress(MotionEvent e) {
+            public void onLongPress(MotionEvent e)
+            {
                 View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
                 if (child != null && mListener != null) {
                     mListener.onLongItemClick(child, recyclerView.getChildAdapterPosition(child));
@@ -36,16 +38,25 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
         });
     }
 
-    @Override public boolean onInterceptTouchEvent(RecyclerView view, MotionEvent e) {
+    @Override public boolean onInterceptTouchEvent(RecyclerView view, MotionEvent e)
+    {
         View childView = view.findChildViewUnder(e.getX(), e.getY());
-        if (childView != null && mListener != null && mGestureDetector.onTouchEvent(e)) {
+        if (childView != null && mListener != null && mGestureDetector.onTouchEvent(e))
+        {
             mListener.onItemClick(childView, view.getChildAdapterPosition(childView));
             return true;
         }
+
+        if(childView != null)
+        {
+            mListener.onTouch(childView, e, view.getChildAdapterPosition(childView));
+        }
         return false;
+
     }
 
-    @Override public void onTouchEvent(RecyclerView view, MotionEvent motionEvent) { }
+    @Override
+    public void onTouchEvent(RecyclerView view, MotionEvent e) {}
 
     @Override
     public void onRequestDisallowInterceptTouchEvent (boolean disallowIntercept){}
