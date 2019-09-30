@@ -14,9 +14,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.sscompany.ireview.Adapters.RecyclerItemClickListener;
 import com.sscompany.ireview.Adapters.RecyclerViewAdapterFriendList;
+import com.sscompany.ireview.Models.Friendships;
 import com.sscompany.ireview.Models.User;
 import com.sscompany.ireview.R;
 import com.sscompany.ireview.Screens.FriendsProfile;
@@ -45,11 +47,9 @@ public class ShowFriendList extends AppCompatActivity {
         databaseReference.child("friendship").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                    String friendID = ds.getValue().toString();
-                    System.out.println("friendID: " + friendID);
-                    listFriendIDs.add(friendID);
-                }
+                GenericTypeIndicator<ArrayList<String>> temp = new GenericTypeIndicator<ArrayList<String>>() {};
+                listFriendIDs = dataSnapshot.getValue(temp);
+
                 addFriendsToList( (int)dataSnapshot.getChildrenCount());
             }
 
