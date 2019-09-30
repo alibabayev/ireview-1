@@ -129,6 +129,10 @@ public class FriendsProfile extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 GenericTypeIndicator<ArrayList<String>> temp = new GenericTypeIndicator<ArrayList<String>>() {};
                 ArrayList<String> friendshipList = dataSnapshot.getValue(temp);
+                if(friendshipList == null || friendshipList.size() == 0){
+                    friendshipList = new ArrayList<String>();
+                }
+
                 friendshipList.add(friendID);
 
                 databaseReference.child("friendship").child(userID).setValue(friendshipList);
