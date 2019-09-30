@@ -36,6 +36,19 @@
         android:layout_marginTop="10dp"
         android:src="@drawable/plus"
         android:onClick="clickToFollow"
+        android:visibility="visible"
+        />
+
+    <ImageView
+        android:id="@+id/RemoveFriendButton"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignLeft="@id/FriendNameText"
+        android:layout_below="@id/FriendNameText"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/tick"
+        android:onClick="clickToUnfollow"
+        android:visibility="invisible"
         />
 
     <TextView
