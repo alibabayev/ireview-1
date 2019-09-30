@@ -6,18 +6,87 @@
     android:layout_height="match_parent"
     tools:context=".Screens.FriendsProfile">
 
+
+
     <ImageView
-        android:id="@+id/FriendProfilePicture"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_centerHorizontal="true"
+        android:id="@+id/FriendProfileCoverPicture"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="30dp"
         android:layout_marginTop="30dp"
-        app:srcCompat="@drawable/logo"/>
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="30dp"
+        app:srcCompat="@drawable/logo" />
+
+    <TextView
+        android:id="@+id/FriendNameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/FriendProfileCoverPicture"
+        android:layout_marginTop="30dp"
+        android:textSize="25sp"
+        android:text="Name Surname" />
+
+    <ImageView
+        android:id="@+id/AddFriendButton"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignLeft="@id/FriendNameText"
+        android:layout_below="@id/FriendNameText"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/plus"
+        android:onClick="clickToFollow"
+        />
+
+    <TextView
+        android:id="@+id/ReviewCountText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/FriendNameText"
+        android:layout_toEndOf="@id/AddFriendButton"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:textSize="20sp"
+        android:text="000" />
+
+    <TextView
+        android:id="@+id/ReviewText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ReviewCountText"
+        android:layout_toEndOf="@id/AddFriendButton"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:textSize="15sp"
+        android:text="Reviews" />
+
+    <TextView
+        android:id="@+id/FollowerCountText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/FriendNameText"
+        android:layout_toEndOf="@id/ReviewCountText"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:textSize="20sp"
+        android:text="000" />
+
+    <TextView
+        android:id="@+id/FollowerText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/FollowerCountText"
+        android:layout_toEndOf="@id/ReviewCountText"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:textSize="15sp"
+        android:text="Reviews" />
+
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/FriendProfilePicture">
+        android:layout_below="@+id/FriendProfileCoverPicture">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,20 +97,129 @@
                 android:id="@+id/titleBooks"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textSize="30sp"
                 android:text="Book"
-                />
+                android:textSize="30sp" />
 
             <TextView
                 android:id="@+id/no_book"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
                 android:text="No Item!"
                 android:textSize="20dp"
-                android:gravity="center"
-                android:visibility="gone"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/titleMovies"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Movies"
+                android:textSize="30sp" />
+
+
+            <TextView
+                android:id="@+id/no_movie"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:text="No Item!"
+                android:textSize="20dp"
+                android:visibility="gone" />
+
+
+            <TextView
+                android:id="@+id/titleMusics"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Movies"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/no_music"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:text="No Item!"
+                android:textSize="20dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/titlePlaces"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Places"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/no_place"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:text="No Item!"
+                android:textSize="20dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/titleTvShows"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="TV Shows"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/no_tvshow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:text="No Item!"
+                android:textSize="20dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/titleVideoGames"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Video Games"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/no_game"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:text="No Item!"
+                android:textSize="20dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/titleWebsites"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Video Games"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/no_website"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:text="No Item!"
+                android:textSize="20dp"
+                android:visibility="gone" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerViewCategoryBooks"
@@ -49,27 +227,6 @@
                 android:layout_height="match_parent">
 
             </android.support.v7.widget.RecyclerView>
-
-
-            <TextView
-                android:id="@+id/titleMovies"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textSize="30sp"
-                android:text="Movies"
-                />
-
-
-            <TextView
-                android:id="@+id/no_movie"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="No Item!"
-                android:textSize="20dp"
-                android:gravity="center"
-                android:visibility="gone"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerViewCategoryMovies"
@@ -79,25 +236,6 @@
 
             </android.support.v7.widget.RecyclerView>
 
-            <TextView
-                android:id="@+id/titleMusics"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textSize="30sp"
-                android:text="Movies"
-                />
-
-            <TextView
-                android:id="@+id/no_music"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="No Item!"
-                android:textSize="20dp"
-                android:gravity="center"
-                android:visibility="gone"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"/>
-
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerViewCategoryMusics"
                 android:layout_width="match_parent"
@@ -105,25 +243,6 @@
                 android:scrollbars="none">
 
             </android.support.v7.widget.RecyclerView>
-
-            <TextView
-                android:id="@+id/titlePlaces"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textSize="30sp"
-                android:text="Places"
-                />
-
-            <TextView
-                android:id="@+id/no_place"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="No Item!"
-                android:textSize="20dp"
-                android:gravity="center"
-                android:visibility="gone"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerViewCategoryPlaces"
@@ -133,25 +252,6 @@
 
             </android.support.v7.widget.RecyclerView>
 
-            <TextView
-                android:id="@+id/titleTvShows"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textSize="30sp"
-                android:text="TV Shows"
-                />
-
-            <TextView
-                android:id="@+id/no_tvshow"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="No Item!"
-                android:textSize="20dp"
-                android:gravity="center"
-                android:visibility="gone"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"/>
-
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerViewCategoryTvShows"
                 android:layout_width="match_parent"
@@ -160,25 +260,6 @@
 
             </android.support.v7.widget.RecyclerView>
 
-            <TextView
-                android:id="@+id/titleVideoGames"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textSize="30sp"
-                android:text="Video Games"
-                />
-
-            <TextView
-                android:id="@+id/no_game"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="No Item!"
-                android:textSize="20dp"
-                android:gravity="center"
-                android:visibility="gone"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"/>
-
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerViewCategoryVideoGames"
                 android:layout_width="match_parent"
@@ -186,25 +267,6 @@
                 android:scrollbars="none">
 
             </android.support.v7.widget.RecyclerView>
-
-            <TextView
-                android:id="@+id/titleWebsites"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textSize="30sp"
-                android:text="Video Games"
-                />
-
-            <TextView
-                android:id="@+id/no_website"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="No Item!"
-                android:textSize="20dp"
-                android:gravity="center"
-                android:visibility="gone"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerViewCategoryWebsites"

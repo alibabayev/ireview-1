@@ -18,6 +18,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -50,6 +52,7 @@ public class FriendsProfile extends AppCompatActivity {
     private boolean isSpeakButtonLongPressed = false;
     private Context mContext;
     String friendID;
+    ImageView friendProfileCoverPicture;
 
     private AlertDialog.Builder ImageDialog;
     private AlertDialog alertDialog;
@@ -67,11 +70,45 @@ public class FriendsProfile extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
         friendID = getIntent().getStringExtra("FRIENDID");
+        //friendProfileCoverPicture = findViewById(R.id.FriendProfileCoverPicture);
+
+        databaseReference.child("user_account_settings")
+                .child(friendID)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String imageID = dataSnapshot.getValue(UserAccountSettings.class).getProfile_photo();
+
+                        setFriendProfilePicture(imageID);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
         setItemRecyclerViews();
 
         if (profileOfMineOrFriend.equals("Mine")) {
 
         }
+    }
+
+    public void clickToFollow(View view) {
+        ImageView img = (ImageView) view;
+        img.setImageResource(R.drawable.tick);
+    }
+
+
+    private void setFriendProfilePicture(String imageID) {
+        System.out.println("String ImageID = " + imageID);
+
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(R.drawable.image_placeholder);
+
+        Glide.with(mContext).applyDefaultRequestOptions(requestOptions)
+                .load(imageID).into(friendProfileCoverPicture);
     }
 
     private void setItemRecyclerViews() {
