@@ -47,10 +47,12 @@ public class ShowFriendList extends AppCompatActivity {
         databaseReference.child("friendship").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                GenericTypeIndicator<ArrayList<String>> temp = new GenericTypeIndicator<ArrayList<String>>() {};
+                GenericTypeIndicator<ArrayList<String>> temp = new GenericTypeIndicator<ArrayList<String>>() {
+                };
                 listFriendIDs = dataSnapshot.getValue(temp);
 
-                addFriendsToList( (int)dataSnapshot.getChildrenCount());
+                if (listFriendIDs != null && listFriendIDs.size() > 0)
+                    addFriendsToList((int) dataSnapshot.getChildrenCount());
             }
 
             @Override
@@ -72,21 +74,21 @@ public class ShowFriendList extends AppCompatActivity {
         System.out.println("CHECK115");
 
         myRV.addOnItemTouchListener(
-                new RecyclerItemClickListener(ShowFriendList.this, myRV ,new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position)
-                    {
-                        System.out.println("Name: " + listFriends.get(position).getDisplay_name() + " Owner: " +  listFriends.get(position).getUsername());
+                new RecyclerItemClickListener(ShowFriendList.this, myRV, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        System.out.println("Name: " + listFriends.get(position).getDisplay_name() + " Owner: " + listFriends.get(position).getUsername());
                         Intent intent = new Intent(getApplicationContext(), FriendsProfile.class);
                         intent.putExtra("FRIENDID", listFriendIDs.get(position));
                         startActivity(intent);
                     }
 
-                    @Override public void onLongItemClick(View view, int position) {
+                    @Override
+                    public void onLongItemClick(View view, int position) {
                         // do whatever
                     }
 
-                    public void onTouch(View view, MotionEvent e, int position)
-                    {
+                    public void onTouch(View view, MotionEvent e, int position) {
 
                     }
                 })
