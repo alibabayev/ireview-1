@@ -56,7 +56,6 @@ public class FeedAdapter extends ArrayAdapter<FeedItem> {
         ImageView like;
         TextView likes;
         ImageView postImage;
-        LinearLayout hide_show_line;
     }
 
     public FeedAdapter(ArrayList<FeedItem> feedItems, Context mContext) {
@@ -90,7 +89,6 @@ public class FeedAdapter extends ArrayAdapter<FeedItem> {
             viewHolder.like = (ImageView) convertView.findViewById(R.id.like);
             viewHolder.likes = (TextView) convertView.findViewById(R.id.likes);
             viewHolder.postImage = (ImageView) convertView.findViewById(R.id.post_image);
-            viewHolder.hide_show_line = (LinearLayout) convertView.findViewById(R.id.hide_show_line);
 
             result = convertView;
 
@@ -253,41 +251,20 @@ public class FeedAdapter extends ArrayAdapter<FeedItem> {
                 .into(viewHolder.profile_picture);
 
         //Checking if postImage is available
-        if(getItem(position).getPost_image() != null)
+        if(getItem(position).getPost_image().equals("none"))
         {
-            if(getItem(position).getPost_image().equals("")) {
-                viewHolder.hide_show_line.setVisibility(View.GONE);
-                viewHolder.postImage.setVisibility(View.GONE);
-            }
+            viewHolder.postImage.setVisibility(View.GONE);
         }
         else
         {
+            viewHolder.postImage.setVisibility(View.VISIBLE);
+
             //Setting post image
             requestOptions = new RequestOptions();
             requestOptions.placeholder(R.drawable.image_placeholder);
 
             Glide.with(mContext).applyDefaultRequestOptions(requestOptions).load(getItem(position).getPost_image())
                     .into(viewHolder.postImage);
-
-            //Setting onClickListener for hide_show_line
-            viewHolder.hide_show_line.setClickable(true);
-            viewHolder.hide_show_line.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v)
-                {
-                    if(viewHolder.postImage.getVisibility() == View.GONE)
-                    {
-                        viewHolder.hide_show_line.getChildAt(0).setBackgroundResource(R.drawable.hide_arrow);
-                        viewHolder.postImage.setVisibility(View.VISIBLE);
-                    }
-                    else {
-                        viewHolder.postImage.setVisibility(View.GONE);
-                        viewHolder.hide_show_line.getChildAt(0).setBackgroundResource(R.drawable.show_arrow);
-                    }
-
-                }
-            });
-
         }
 
         return convertView;
