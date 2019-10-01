@@ -659,7 +659,7 @@ public class AddItem extends AppCompatActivity
                                 //If user wants to post addNewPost method is called
                                 if(postReviewCheckBox.isChecked())
                                 {
-                                    addNewPost(itemId, item, review.getText().toString(), ratingBar.getRating());
+                                    addNewPost(itemId, item, review.getText().toString(), ratingBar.getRating(), category);
                                 }
 
                                 //After adding item and posting review, Add Element activity starts
@@ -727,7 +727,7 @@ public class AddItem extends AppCompatActivity
      * @param review
      * @param rating
      */
-    public void addNewPost(String itemId, InterfaceItem item, String review, float rating)
+    public void addNewPost(String itemId, InterfaceItem item, String review, float rating, String category)
     {
         String newPostKey = myRef.child("posts").push().getKey();
         final String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -748,6 +748,7 @@ public class AddItem extends AppCompatActivity
         newPost.setUser_id(userID);
         newPost.setData_created(firebaseMethods.getTimestamp());
         newPost.setPost_id(newPostKey);
+        newPost.setCategory(category);
 
         //Adding post to user_posts
         myRef.child("user_posts").child(userID).child(newPostKey).setValue(newPost);

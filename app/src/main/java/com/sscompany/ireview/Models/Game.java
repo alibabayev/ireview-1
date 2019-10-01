@@ -9,16 +9,18 @@ public class Game implements InterfaceItem
     private String owner;
     private String game_type;
     private String cover_photo;
+    private String category;
 
     public Game(String name, String owner, String game_type, String cover_photo) {
         this.name = name;
         this.owner = owner;
         this.game_type = game_type;
         this.cover_photo = cover_photo;
+        setCategory("Video Games");
     }
 
     public Game() {
-
+        setCategory("Video Games");
     }
 
     public String getName() {
@@ -54,12 +56,23 @@ public class Game implements InterfaceItem
     }
 
     @Override
+    public String getCategory() {
+        return category;
+    }
+
+    @Override
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    @Override
     public String toString() {
         return "Game{" +
                 "name='" + name + '\'' +
                 ", owner='" + owner + '\'' +
                 ", game_type='" + game_type + '\'' +
                 ", cover_photo='" + cover_photo + '\'' +
+                ", category='" + category + '\'' +
                 '}';
     }
 }

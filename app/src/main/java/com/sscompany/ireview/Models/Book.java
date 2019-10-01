@@ -9,16 +9,18 @@ public class Book implements InterfaceItem
     private String owner;
     private String genre;
     private String cover_photo;
+    private String category;
 
     public Book(String name, String owner, String genre, String cover_photo) {
         this.name = name;
         this.owner = owner;
         this.genre = genre;
         this.cover_photo = cover_photo;
+        setCategory("Books");
     }
 
     public Book() {
-
+        setCategory("Books");
     }
 
     public String getName() {
@@ -54,12 +56,23 @@ public class Book implements InterfaceItem
     }
 
     @Override
+    public String getCategory() {
+        return category;
+    }
+
+    @Override
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    @Override
     public String toString() {
         return "Book{" +
                 "name='" + name + '\'' +
                 ", owner='" + owner + '\'' +
                 ", genre='" + genre + '\'' +
                 ", cover_photo='" + cover_photo + '\'' +
+                ", category='" + category + '\'' +
                 '}';
     }
 }

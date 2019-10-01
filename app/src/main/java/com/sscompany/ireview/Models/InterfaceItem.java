@@ -14,4 +14,7 @@ public interface InterfaceItem
 
     void setCover_photo(String cover_photo);
     String getCover_photo();
+
+    void setCategory(String category);
+    String getCategory();
 }

@@ -11,6 +11,7 @@ public class Music implements InterfaceItem
     private String genre;
     private String language;
     private String cover_photo;
+    private String category;
 
     public Music(String name, String owner, String genre, String language, String cover_photo) {
         this.name = name;
@@ -18,10 +19,11 @@ public class Music implements InterfaceItem
         this.genre = genre;
         this.language = language;
         this.cover_photo = cover_photo;
+        setCategory("Songs");
     }
 
     public Music() {
-
+        setCategory("Songs");
     }
 
     @Override
@@ -71,6 +73,16 @@ public class Music implements InterfaceItem
     }
 
     @Override
+    public String getCategory() {
+        return category;
+    }
+
+    @Override
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    @Override
     public String toString() {
         return "Music{" +
                 "name='" + name + '\'' +
@@ -78,6 +90,7 @@ public class Music implements InterfaceItem
                 ", genre='" + genre + '\'' +
                 ", language='" + language + '\'' +
                 ", cover_photo='" + cover_photo + '\'' +
+                ", category='" + category + '\'' +
                 '}';
     }
 }

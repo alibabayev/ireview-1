@@ -11,6 +11,7 @@ public class Place implements InterfaceItem
     private String place_type;
     private String cover_photo;
     private String owner;
+    private String category;
 
     public Place(String name, String address, String place_type, String cover_photo) {
         this.name = name;
@@ -18,10 +19,12 @@ public class Place implements InterfaceItem
         this.place_type = place_type;
         this.cover_photo = cover_photo;
         setOwner("none");
+        setCategory("Places");
     }
 
     public Place() {
         setOwner("none");
+        setCategory("Places");
     }
 
     public String getName() {
@@ -65,12 +68,24 @@ public class Place implements InterfaceItem
     }
 
     @Override
+    public String getCategory() {
+        return category;
+    }
+
+    @Override
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    @Override
     public String toString() {
         return "Place{" +
                 "name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 ", place_type='" + place_type + '\'' +
                 ", cover_photo='" + cover_photo + '\'' +
+                ", owner='" + owner + '\'' +
+                ", category='" + category + '\'' +
                 '}';
     }
 }

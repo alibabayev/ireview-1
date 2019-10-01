@@ -1,6 +1,9 @@
 package com.sscompany.ireview.Adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
@@ -8,12 +11,14 @@ import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -26,7 +31,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.sscompany.ireview.AddItem;
 import com.sscompany.ireview.FeedItem;
+import com.sscompany.ireview.Models.Book;
 import com.sscompany.ireview.Models.Post;
 import com.sscompany.ireview.R;
 
@@ -56,6 +63,7 @@ public class FeedAdapter extends ArrayAdapter<FeedItem> {
         ImageView like;
         TextView likes;
         ImageView postImage;
+        ImageView three_dots;
     }
 
     public FeedAdapter(ArrayList<FeedItem> feedItems, Context mContext) {
@@ -89,6 +97,7 @@ public class FeedAdapter extends ArrayAdapter<FeedItem> {
             viewHolder.like = (ImageView) convertView.findViewById(R.id.like);
             viewHolder.likes = (TextView) convertView.findViewById(R.id.likes);
             viewHolder.postImage = (ImageView) convertView.findViewById(R.id.post_image);
+            viewHolder.three_dots = convertView.findViewById(R.id.three_dots);
 
             result = convertView;
 
@@ -267,6 +276,107 @@ public class FeedAdapter extends ArrayAdapter<FeedItem> {
                     .into(viewHolder.postImage);
         }
 
+        //Adding menu if poster is not current user
+        if(!getItem(position).getUser_id().equals(current_user_id))
+        {
+            viewHolder.three_dots.setVisibility(View.GONE);
+        }
+        else
+        {
+            viewHolder.three_dots.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    //creating a popup menu
+                    PopupMenu popup = new PopupMenu(mContext, viewHolder.three_dots);
+                    //inflating menu from xml resource
+                    popup.inflate(R.menu.menu_for_own_post);
+                    //adding click listener
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            switch (item.getItemId()) {
+                                case R.id.edit:
+                                    //Edit clicked
+
+                                    AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
+                                    alert.setTitle(null);
+                                    alert.setMessage("Are you sure to edit the post?");
+                                    alert.setPositiveButton("YES", new DialogInterface.OnClickListener()
+                                    {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which)
+                                        {
+                                            // do whatever
+                                            Intent intent = new Intent(mContext, AddItem.class);
+
+                                            intent.putExtra("action", "edit");
+                                            intent.putExtra("category", getItem(position).getCategory());
+                                            intent.putExtra("first_row", getItem(position).getItem_name());
+                                            intent.putExtra("second_row", getItem(position).getItem_owner());
+                                            intent.putExtra("third_row", "");
+                                            intent.putExtra("fourth_row", "");
+                                            intent.putExtra("cover_photo", getItem(position).getCover_photo());
+
+                                            mContext.startActivity(intent);
+                                        }
+                                    });
+                                    alert.setNegativeButton("NO", new DialogInterface.OnClickListener()
+                                    {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+
+                                    alert.show();
+
+
+                                    break;
+                                case R.id.delete:
+                                    //Delete Item is clicked
+
+                                    alert = new AlertDialog.Builder(mContext);
+                                    alert.setTitle(null);
+                                    alert.setMessage("Are you sure to edit the post?");
+                                    alert.setPositiveButton("YES", new DialogInterface.OnClickListener()
+                                    {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which)
+                                        {
+                                            FirebaseDatabase.getInstance().getReference().child("user_posts")
+                                                .child(current_user_id)
+                                                .child(getItem(position).getPost_id())
+                                                .removeValue();
+
+                                            FirebaseDatabase.getInstance().getReference().child("posts")
+                                                    .child(getItem(position).getPost_id())
+                                                    .removeValue();
+                                        }
+                                    });
+                                    alert.setNegativeButton("NO", new DialogInterface.OnClickListener()
+                                    {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+
+                                    alert.show();
+
+
+                                    break;
+                            }
+                            return false;
+                        }
+                    });
+                    //displaying the popup
+                    popup.show();
+
+                }
+            });
+
+        }
         return convertView;
     }
 

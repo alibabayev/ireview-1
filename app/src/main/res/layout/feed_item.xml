@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <Toolbar
+            <RelativeLayout
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -36,6 +36,7 @@
                     android:id="@+id/profile_picture"
                     android:layout_width="60sp"
                     android:layout_height="60sp"
+                    android:layout_centerVertical="true"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
                     android:src="@drawable/profile_placeholder"
@@ -45,14 +46,15 @@
                 <LinearLayout
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toEndOf="@id/profile_picture">
 
                     <TextView
                         android:id="@+id/username"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
                         android:text="Username"
                         android:textSize="20sp"
                         android:textStyle="bold"/>
@@ -68,7 +70,18 @@
 
                 </LinearLayout>
 
-            </Toolbar>
+                <ImageView
+                    android:id="@+id/three_dots"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/three_dots"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentEnd="true" />
+
+
+
+            </RelativeLayout>
 
 
             <!--style="?android:attr/ratingBarStyleSmall"-->

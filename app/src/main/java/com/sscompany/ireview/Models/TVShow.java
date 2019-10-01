@@ -10,16 +10,18 @@ public class TVShow implements InterfaceItem
     private String owner;
     private String genre;
     private String cover_photo;
+    private String category;
 
     public TVShow(String name, String owner, String genre, String cover_photo) {
         this.name = name;
         this.owner = owner;
         this.genre = genre;
         this.cover_photo = cover_photo;
+        setCategory("TV Shows");
     }
 
     public TVShow() {
-
+        setCategory("TV Shows");
     }
 
     public String getName() {
@@ -55,12 +57,23 @@ public class TVShow implements InterfaceItem
     }
 
     @Override
+    public String getCategory() {
+        return category;
+    }
+
+    @Override
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    @Override
     public String toString() {
         return "TVShow{" +
                 "name='" + name + '\'' +
                 ", owner='" + owner + '\'' +
                 ", genre='" + genre + '\'' +
                 ", cover_photo='" + cover_photo + '\'' +
+                ", category='" + category + '\'' +
                 '}';
     }
 }

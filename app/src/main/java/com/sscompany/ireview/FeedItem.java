@@ -14,8 +14,9 @@ public class FeedItem
     private int likes;
     private String post_id;
     private String post_image;
+    private String category;
 
-    public FeedItem(String user_id, String username, String profile_picture, String cover_photo, String item_name, String item_owner, String date, float rating, String review, int likes, String post_id, String post_image) {
+    public FeedItem(String user_id, String username, String profile_picture, String cover_photo, String item_name, String item_owner, String date, float rating, String review, int likes, String post_id, String post_image, String category) {
         this.user_id = user_id;
         this.username = username;
         this.profile_picture = profile_picture;
@@ -28,6 +29,7 @@ public class FeedItem
         this.likes = likes;
         this.post_id = post_id;
         this.post_image = post_image;
+        this.category = category;
     }
 
     public FeedItem() {
@@ -128,6 +130,14 @@ public class FeedItem
 
     public void setPost_image(String post_image) {
         this.post_image = post_image;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     @Override

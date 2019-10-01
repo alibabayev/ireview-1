@@ -10,16 +10,19 @@ public class Website implements InterfaceItem
     private String owner;
     private String use;
     private String cover_photo;
+    private String category;
 
     public Website(String name, String use, String cover_photo) {
         this.name = name;
         this.use = use;
         this.cover_photo = cover_photo;
         setOwner("none");
+        setCategory("Websites");
     }
 
     public Website() {
         setOwner("none");
+        setCategory("Websites");
     }
 
     public String getName() {
@@ -52,6 +55,16 @@ public class Website implements InterfaceItem
 
     public void setCover_photo(String cover_photo) {
         this.cover_photo = cover_photo;
+    }
+
+    @Override
+    public String getCategory() {
+        return category;
+    }
+
+    @Override
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     @Override

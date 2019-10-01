@@ -11,6 +11,7 @@ public class Movie implements InterfaceItem
     private String genre;
     private String lead_actors;
     private String cover_photo;
+    private String category;
 
     public Movie(String name, String owner, String genre, String lead_actors, String cover_photo) {
         this.name = name;
@@ -18,10 +19,11 @@ public class Movie implements InterfaceItem
         this.genre = genre;
         this.lead_actors = lead_actors;
         this.cover_photo = cover_photo;
+        setCategory("Movies");
     }
 
     public Movie() {
-
+        setCategory("Movies");
     }
 
     @Override
@@ -71,6 +73,16 @@ public class Movie implements InterfaceItem
     }
 
     @Override
+    public String getCategory() {
+        return category;
+    }
+
+    @Override
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    @Override
     public String toString() {
         return "Movie{" +
                 "name='" + name + '\'' +
@@ -78,6 +90,7 @@ public class Movie implements InterfaceItem
                 ", genre='" + genre + '\'' +
                 ", lead_actors='" + lead_actors + '\'' +
                 ", cover_photo='" + cover_photo + '\'' +
+                ", category='" + category + '\'' +
                 '}';
     }
 }
