@@ -2,14 +2,13 @@
 <!-- Use DrawerLayout as root container for activity -->
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
@@ -31,9 +30,6 @@
 
         </android.support.v7.widget.Toolbar>
 
-
-
-
         <HorizontalScrollView
             android:id="@+id/horizontalScrollView"
             android:layout_width="match_parent"
@@ -50,9 +46,13 @@
                     android:id="@+id/categoryButtonAll"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="1dp"
                     android:background="@android:color/holo_blue_light"
                     android:text="All"
-                    android:textColor="@android:color/white" />
+                    android:state_focused="false"
+                    android:state_pressed="true"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"  />
 
                 <Button
                     android:id="@+id/categoryButtonBooks"
@@ -61,6 +61,8 @@
                     android:layout_marginLeft="1dp"
                     android:background="@android:color/holo_blue_light"
                     android:text="Books"
+                    android:state_focused="false"
+                    android:state_pressed="true"
                     android:textAllCaps="false"
                     android:textColor="@android:color/white" />
 
@@ -71,18 +73,11 @@
                     android:layout_marginLeft="1dp"
                     android:background="@android:color/holo_blue_light"
                     android:text="Movies"
+                    android:state_focused="false"
+                    android:state_pressed="true"
                     android:textAllCaps="false"
                     android:textColor="@android:color/white" />
 
-                <Button
-                    android:id="@+id/categoryButtonRestaurants"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="1dp"
-                    android:background="@android:color/holo_blue_light"
-                    android:text="Restaurants"
-                    android:textAllCaps="false"
-                    android:textColor="@android:color/white" />
 
                 <Button
                     android:id="@+id/categoryButtonPlaces"
@@ -91,6 +86,8 @@
                     android:layout_marginLeft="1dp"
                     android:background="@android:color/holo_blue_light"
                     android:text="Places"
+                    android:state_focused="false"
+                    android:state_pressed="true"
                     android:textAllCaps="false"
                     android:textColor="@android:color/white" />
 
@@ -100,17 +97,21 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="1dp"
                     android:background="@android:color/holo_blue_light"
-                    android:text="TvShows"
+                    android:text="Tv Shows"
+                    android:state_focused="false"
+                    android:state_pressed="true"
                     android:textAllCaps="false"
                     android:textColor="@android:color/white" />
 
                 <Button
-                    android:id="@+id/categorySongs"
+                    android:id="@+id/categoryButtonSongs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="1dp"
                     android:background="@android:color/holo_blue_light"
                     android:text="Songs"
+                    android:state_focused="false"
+                    android:state_pressed="true"
                     android:textAllCaps="false"
                     android:textColor="@android:color/white" />
 
@@ -121,18 +122,21 @@
                     android:layout_marginLeft="1dp"
                     android:background="@android:color/holo_blue_light"
                     android:text="Video Games"
+                    android:state_focused="false"
+                    android:state_pressed="true"
                     android:textAllCaps="false"
                     android:textColor="@android:color/white" />
 
                 <Button
-                    android:id="@+id/categoryButtonCustom"
+                    android:id="@+id/categoryButtonWebsites"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="1dp"
                     android:background="@android:color/holo_blue_light"
-                    android:text="Custom"
+                    android:text="Websites"
                     android:textAllCaps="false"
                     android:textColor="@android:color/white" />
+
             </LinearLayout>
         </HorizontalScrollView>
 

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class Post
 {
     private String item_id;
+    private String category;
     private String item_name;
     private String item_owner;
     private String item_cover_photo;
@@ -46,6 +47,12 @@ public class Post
 
     public void setItem_id(String item_id) {
         this.item_id = item_id;
+    }
+
+    public String getCategory() { return category;}
+
+    public void setCategory(String category){
+        this.category = category;
     }
 
     public String getItem_name() {

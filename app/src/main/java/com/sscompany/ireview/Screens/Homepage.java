@@ -19,6 +19,7 @@ import com.sscompany.ireview.LoginRelatedPages.*;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -29,13 +30,14 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class Homepage extends AppCompatActivity
+public class Homepage extends AppCompatActivity implements View.OnClickListener
 {
     private static final String TAG = "Homepage";
 
@@ -49,6 +51,8 @@ public class Homepage extends AppCompatActivity
 
     private FirebaseAuth mAuth;
     private DatabaseReference databaseReference;
+    private Button[] categoryButtons;
+    private String[] buttonNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +65,27 @@ public class Homepage extends AppCompatActivity
 
         mAuth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference();
+
+        categoryButtons = new Button[8];
+        categoryButtons[0] = findViewById(R.id.categoryButtonAll);
+        categoryButtons[1] = findViewById(R.id.categoryButtonBooks);
+        categoryButtons[2] = findViewById(R.id.categoryButtonMovies);
+        categoryButtons[3] = findViewById(R.id.categoryButtonTvShows);
+        categoryButtons[4] = findViewById(R.id.categoryButtonPlaces);
+        categoryButtons[5] = findViewById(R.id.categoryButtonSongs);
+        categoryButtons[6] = findViewById(R.id.categoryButtonVideoGames);
+        categoryButtons[7] = findViewById(R.id.categoryButtonWebsites);
+
+
+        buttonNames = new String[8];
+        buttonNames[0] = "all";
+        buttonNames[1] = "book";
+        buttonNames[2] = "movie";
+        buttonNames[3] = "tvshow";
+        buttonNames[4] = "place";
+        buttonNames[5] = "song";
+        buttonNames[6] = "videogame";
+        buttonNames[7] = "website";
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mDrawerLayout.addDrawerListener(
@@ -147,13 +172,17 @@ public class Homepage extends AppCompatActivity
         Query query = databaseReference
                 .child("posts");
 
+        for(int i = 0; i < buttonNames.length; i++) {
+            categoryButtons[i].setOnClickListener(this);
+        }
+
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-
             public void onDataChange(DataSnapshot dataSnapshot)
             {
                 for(DataSnapshot singleSnapshot : dataSnapshot.getChildren())
                 {
+
                     Post post = singleSnapshot.getValue(Post.class);
 
                     final FeedItem feedItem = new FeedItem();
@@ -202,6 +231,82 @@ public class Homepage extends AppCompatActivity
 
                         }
                     });
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        for(int i = 0; i < buttonNames.length; i++) {
+            categoryButtons[i].setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
+        }
+
+        final Button tempButton = (Button) v;
+
+        tempButton.setBackgroundColor(Color.GREEN);
+        Query query = databaseReference.child("posts");
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                    Post post = singleSnapshot.getValue(Post.class);
+                    Log.i("CHECKPRINT", tempButton.getText().toString());
+                    if (tempButton.getText().toString().equals("All") || tempButton.getText().toString().equals(post.getCategory())) {
+
+                        final FeedItem feedItem = new FeedItem();
+
+                        feedItem.setCover_photo(post.getItem_cover_photo());
+                        feedItem.setDate(post.getData_created());
+                        feedItem.setItem_name(post.getItem_name());
+                        feedItem.setItem_owner(post.getItem_owner());
+                        feedItem.setLikes(post.getLike_count());
+                        feedItem.setRating(post.getRating());
+                        feedItem.setReview(post.getReview());
+                        feedItem.setUser_id(post.getUser_id());
+                        feedItem.setPost_id(post.getPost_id());
+                        feedItem.setPost_image(post.getPost_image());
+
+                        Query query = FirebaseDatabase.getInstance().getReference()
+                                .child("user_account_settings")
+                                .child(post.getUser_id());
+
+                        query.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                System.out.println();
+
+                                System.out.println("datasnapshot: " + dataSnapshot.getChildrenCount());
+
+                                String username = dataSnapshot.getValue(UserAccountSettings.class).getUsername();
+                                String profile_picture = dataSnapshot.getValue(UserAccountSettings.class).getProfile_photo();
+
+                                feedItem.setUsername(username);
+                                feedItem.setProfile_picture(profile_picture);
+
+                                Log.d(TAG, "onDataChange: found user: "
+                                        + dataSnapshot.getValue(UserAccountSettings.class).getUsername());
+
+                                feedItems.add(feedItem);
+
+                                feedAdapter = new FeedAdapter(feedItems, mContext);
+
+                                listView.setAdapter(feedAdapter);
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
                 }
             }
 
