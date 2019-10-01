@@ -17,6 +17,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -55,6 +56,9 @@ public class FriendsProfile extends AppCompatActivity {
     String friendID;
     String userID;
     ImageView friendProfileCoverPicture;
+    TextView name_and_surnameTextView;
+    TextView followerCounterTextView;
+    TextView followingCounterTextView;
 
     private AlertDialog.Builder ImageDialog;
     private AlertDialog alertDialog;
@@ -74,13 +78,19 @@ public class FriendsProfile extends AppCompatActivity {
         friendID = getIntent().getStringExtra("FRIENDID");
         friendProfileCoverPicture = findViewById(R.id.FriendProfileCoverPicture);
 
+        name_and_surnameTextView = findViewById(R.id.FriendNameText);
+        followerCounterTextView = findViewById(R.id.FollowerCountText);
+        followingCounterTextView = findViewById(R.id.FollowingsCountText);
+
+
         databaseReference.child("user_account_settings")
                 .child(friendID)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         String imageID = dataSnapshot.getValue(UserAccountSettings.class).getProfile_photo();
-
+                        String textName = dataSnapshot.getValue(UserAccountSettings.class).getDisplay_name();
+                        name_and_surnameTextView.setText(textName);
                         setFriendProfilePicture(imageID);
                     }
 
@@ -89,6 +99,7 @@ public class FriendsProfile extends AppCompatActivity {
 
                     }
                 });
+        updateFollowingNumber();
         checkFriendship();
         setItemRecyclerViews();
 
@@ -97,13 +108,30 @@ public class FriendsProfile extends AppCompatActivity {
         }
     }
 
+    private void updateFollowingNumber() {
+        databaseReference.child("friendship").child(friendID).addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int followingCount = (int) dataSnapshot.getChildrenCount();
+                followingCounterTextView.setText(Integer.toString(followingCount));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     private void checkFriendship() {
         databaseReference.child("friendship").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                GenericTypeIndicator<ArrayList<String>> temp = new GenericTypeIndicator<ArrayList<String>>() {};
+                GenericTypeIndicator<ArrayList<String>> temp = new GenericTypeIndicator<ArrayList<String>>() {
+                };
                 ArrayList<String> friendshipList = dataSnapshot.getValue(temp);
-                if(friendshipList.indexOf(friendID) != -1) {
+                if (friendshipList.indexOf(friendID) != -1) {
                     ImageView img1 = findViewById(R.id.AddFriendButton);
                     ImageView img2 = findViewById(R.id.RemoveFriendButton);
 
@@ -127,12 +155,13 @@ public class FriendsProfile extends AppCompatActivity {
         databaseReference.child("friendship").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                GenericTypeIndicator<ArrayList<String>> temp = new GenericTypeIndicator<ArrayList<String>>() {};
+                GenericTypeIndicator<ArrayList<String>> temp = new GenericTypeIndicator<ArrayList<String>>() {
+                };
                 ArrayList<String> friendshipList = dataSnapshot.getValue(temp);
-                if(friendshipList == null || friendshipList.size() == 0){
+                if (friendshipList == null || friendshipList.size() == 0) {
                     friendshipList = new ArrayList<String>();
                 }
-                
+
                 friendshipList.add(friendID);
 
                 databaseReference.child("friendship").child(userID).setValue(friendshipList);
@@ -148,16 +177,16 @@ public class FriendsProfile extends AppCompatActivity {
         img2.setVisibility(View.VISIBLE);
     }
 
-
     public void clickToUnfollow(View view) {
         ImageView img1 = (ImageView) view;
         ImageView img2 = findViewById(R.id.AddFriendButton);
         databaseReference.child("friendship").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                GenericTypeIndicator<ArrayList<String>> temp = new GenericTypeIndicator<ArrayList<String>>() {};
+                GenericTypeIndicator<ArrayList<String>> temp = new GenericTypeIndicator<ArrayList<String>>() {
+                };
                 ArrayList<String> friendshipList = dataSnapshot.getValue(temp);
-                if(friendshipList.indexOf(friendID) != -1)
+                if (friendshipList.indexOf(friendID) != -1)
                     friendshipList.remove(friendshipList.indexOf(friendID));
 
                 databaseReference.child("friendship").child(userID).setValue(friendshipList);

@@ -52,48 +52,48 @@
         />
 
     <TextView
-        android:id="@+id/ReviewCountText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/FriendNameText"
-        android:layout_toEndOf="@id/AddFriendButton"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="30dp"
-        android:textSize="20sp"
-        android:text="000" />
-
-    <TextView
-        android:id="@+id/ReviewText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ReviewCountText"
-        android:layout_toEndOf="@id/AddFriendButton"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="30dp"
-        android:textSize="15sp"
-        android:text="Reviews" />
-
-    <TextView
         android:id="@+id/FollowerCountText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/FriendNameText"
-        android:layout_toEndOf="@id/ReviewCountText"
+        android:layout_toEndOf="@id/AddFriendButton"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="40dp"
         android:textSize="20sp"
-        android:text="000" />
+        android:text="0" />
 
     <TextView
-        android:id="@+id/FollowerText"
+        android:id="@+id/FollowersText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/FollowerCountText"
-        android:layout_toEndOf="@id/ReviewCountText"
+        android:layout_toEndOf="@id/AddFriendButton"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="40dp"
         android:textSize="15sp"
-        android:text="Reviews" />
+        android:text="F-ers" />
+
+    <TextView
+        android:id="@+id/FollowingsCountText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/FriendNameText"
+        android:layout_toEndOf="@id/FollowerCountText"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="40dp"
+        android:textSize="20sp"
+        android:text="0" />
+
+    <TextView
+        android:id="@+id/FollowingsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/FollowerCountText"
+        android:layout_toEndOf="@id/FollowerCountText"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="40dp"
+        android:textSize="15sp"
+        android:text="F-ings" />
 
 
     <android.support.v4.widget.NestedScrollView
