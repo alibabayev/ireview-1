@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -51,8 +52,16 @@ public class ShowFriendList extends AppCompatActivity {
                 };
                 listFriendIDs = dataSnapshot.getValue(temp);
 
-                if (listFriendIDs != null && listFriendIDs.size() > 0)
+                if (listFriendIDs != null && listFriendIDs.size() > 0) {
                     addFriendsToList((int) dataSnapshot.getChildrenCount());
+                }
+                else{
+                    RecyclerView rv = findViewById(R.id.recyclerViewFriendList);
+                    TextView textView = findViewById(R.id.NoFollowingText);
+
+                    rv.setVisibility(View.GONE);
+                    textView.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -117,5 +126,12 @@ public class ShowFriendList extends AppCompatActivity {
             });
 
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(getApplicationContext(), Homepage.class);
+        startActivity(intent);
     }
 }

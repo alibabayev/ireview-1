@@ -132,7 +132,7 @@ public class FriendsProfile extends AppCompatActivity {
                 if(friendshipList == null || friendshipList.size() == 0){
                     friendshipList = new ArrayList<String>();
                 }
-
+                
                 friendshipList.add(friendID);
 
                 databaseReference.child("friendship").child(userID).setValue(friendshipList);
