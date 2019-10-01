@@ -124,13 +124,19 @@
                 android:textSize="20dp"
                 android:visibility="gone" />
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewCategoryBooks"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </android.support.v7.widget.RecyclerView>
+
             <TextView
                 android:id="@+id/titleMovies"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Movies"
                 android:textSize="30sp" />
-
 
             <TextView
                 android:id="@+id/no_movie"
@@ -143,12 +149,19 @@
                 android:textSize="20dp"
                 android:visibility="gone" />
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewCategoryMovies"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none">
+
+            </android.support.v7.widget.RecyclerView>
 
             <TextView
                 android:id="@+id/titleMusics"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Movies"
+                android:text="Songs"
                 android:textSize="30sp" />
 
             <TextView
@@ -161,6 +174,14 @@
                 android:text="No Item!"
                 android:textSize="20dp"
                 android:visibility="gone" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewCategoryMusics"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none">
+
+            </android.support.v7.widget.RecyclerView>
 
             <TextView
                 android:id="@+id/titlePlaces"
@@ -180,6 +201,14 @@
                 android:textSize="20dp"
                 android:visibility="gone" />
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewCategoryPlaces"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none">
+
+            </android.support.v7.widget.RecyclerView>
+
             <TextView
                 android:id="@+id/titleTvShows"
                 android:layout_width="match_parent"
@@ -197,6 +226,14 @@
                 android:text="No Item!"
                 android:textSize="20dp"
                 android:visibility="gone" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewCategoryTvShows"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none">
+
+            </android.support.v7.widget.RecyclerView>
 
             <TextView
                 android:id="@+id/titleVideoGames"
@@ -216,11 +253,19 @@
                 android:textSize="20dp"
                 android:visibility="gone" />
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewCategoryVideoGames"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none">
+
+            </android.support.v7.widget.RecyclerView>
+
             <TextView
                 android:id="@+id/titleWebsites"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Video Games"
+                android:text="Websites"
                 android:textSize="30sp" />
 
             <TextView
@@ -233,53 +278,6 @@
                 android:text="No Item!"
                 android:textSize="20dp"
                 android:visibility="gone" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerViewCategoryBooks"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            </android.support.v7.widget.RecyclerView>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerViewCategoryMovies"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="none">
-
-            </android.support.v7.widget.RecyclerView>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerViewCategoryMusics"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="none">
-
-            </android.support.v7.widget.RecyclerView>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerViewCategoryPlaces"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="none">
-
-            </android.support.v7.widget.RecyclerView>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerViewCategoryTvShows"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="none">
-
-            </android.support.v7.widget.RecyclerView>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerViewCategoryVideoGames"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="none">
-
-            </android.support.v7.widget.RecyclerView>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerViewCategoryWebsites"

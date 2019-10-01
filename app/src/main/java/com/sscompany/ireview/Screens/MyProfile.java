@@ -19,6 +19,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.net.URL;
@@ -76,6 +77,10 @@ public class MyProfile extends AppCompatActivity
     private ImageView add_game;
     private ImageView add_website;
 
+    ImageView myProfileCoverPicture;
+    TextView name_and_surnameTextView;
+    TextView followerCounterTextView;
+    TextView followingCounterTextView;
 
 
     @Override
@@ -92,12 +97,62 @@ public class MyProfile extends AppCompatActivity
         //Initializing currentUser's userId
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+        myProfileCoverPicture = findViewById(R.id.MyProfileCoverPicture);
+
+        name_and_surnameTextView = findViewById(R.id.myNameText);
+        followerCounterTextView = findViewById(R.id.FollowerCountText);
+        followingCounterTextView = findViewById(R.id.FollowingsCountText);
+
+        myRef.child("user_account_settings")
+                .child(userId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String imageID = dataSnapshot.getValue(UserAccountSettings.class).getProfile_photo();
+                        String textName = dataSnapshot.getValue(UserAccountSettings.class).getDisplay_name();
+                        name_and_surnameTextView.setText(textName);
+                        setProfilePicture(imageID);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+        updateFollowingNumber();
+
         //Initializing and Adding onClickListeners for add buttons
         initAddButtons();
 
         //Setting item recycler views
         setItemRecyclerViews();
 
+    }
+
+    private void updateFollowingNumber() {
+        myRef.child("friendship").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int followingCount = (int) dataSnapshot.getChildrenCount();
+                followingCounterTextView.setText(Integer.toString(followingCount));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void setProfilePicture(String imageID) {
+        System.out.println("String ImageID = " + imageID);
+
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(R.drawable.image_placeholder);
+
+        Glide.with(mContext).applyDefaultRequestOptions(requestOptions)
+                .load(imageID).into(myProfileCoverPicture);
     }
 
     private void setItemRecyclerViews()
