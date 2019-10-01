@@ -239,4 +239,8 @@ public class Homepage extends AppCompatActivity
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
+    }
 }
