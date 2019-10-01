@@ -851,7 +851,7 @@ public class AddItem extends AppCompatActivity
         }
 
         //Organizing EditTexts according to categories
-        if(categoryExtra.equals("book"))
+        if(categoryExtra.equals("Books"))
         {
             firstEditText.setVisibility(View.VISIBLE);
             firstEditText.setHint("Name");
@@ -864,7 +864,7 @@ public class AddItem extends AppCompatActivity
 
             fourthEditText.setVisibility(View.GONE);
         }
-        else if(categoryExtra.equals("movie"))
+        else if(categoryExtra.equals("Movies"))
         {
             firstEditText.setVisibility(View.VISIBLE);
             firstEditText.setHint("Title");
@@ -878,7 +878,7 @@ public class AddItem extends AppCompatActivity
             fourthEditText.setVisibility(View.VISIBLE);
             fourthEditText.setHint("Lead Actors");
         }
-        else if(categoryExtra.equals("music"))
+        else if(categoryExtra.equals("Songs"))
         {
             firstEditText.setVisibility(View.VISIBLE);
             firstEditText.setHint("Name");
@@ -892,7 +892,7 @@ public class AddItem extends AppCompatActivity
             fourthEditText.setVisibility(View.VISIBLE);
             fourthEditText.setHint("Language");
         }
-        else if(categoryExtra.equals("place"))
+        else if(categoryExtra.equals("Places"))
         {
             firstEditText.setVisibility(View.VISIBLE);
             firstEditText.setHint("Name");
@@ -904,9 +904,9 @@ public class AddItem extends AppCompatActivity
             thirdEditText.setHint("City");
 
             fourthEditText.setVisibility(View.VISIBLE);
-            fourthEditText.setHint("City");
+            fourthEditText.setHint("Address");
         }
-        else if(categoryExtra.equals("tv_show"))
+        else if(categoryExtra.equals("TV Shows"))
         {
             firstEditText.setVisibility(View.VISIBLE);
             firstEditText.setHint("Name");
@@ -919,7 +919,7 @@ public class AddItem extends AppCompatActivity
 
             fourthEditText.setVisibility(View.GONE);
         }
-        else if(categoryExtra.equals("website"))
+        else if(categoryExtra.equals("Websites"))
         {
             firstEditText.setVisibility(View.VISIBLE);
             firstEditText.setHint("Title");
@@ -933,7 +933,7 @@ public class AddItem extends AppCompatActivity
             fourthEditText.setVisibility(View.VISIBLE);
             fourthEditText.setHint("HTTP");
         }
-        else if(categoryExtra.equals("game"))
+        else if(categoryExtra.equals("Video Games"))
         {
             firstEditText.setVisibility(View.VISIBLE);
             firstEditText.setHint("Name");

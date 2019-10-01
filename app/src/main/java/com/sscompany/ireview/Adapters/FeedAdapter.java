@@ -284,6 +284,7 @@ public class FeedAdapter extends ArrayAdapter<FeedItem> {
         }
         else
         {
+            viewHolder.three_dots.setVisibility(View.VISIBLE);
             viewHolder.three_dots.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

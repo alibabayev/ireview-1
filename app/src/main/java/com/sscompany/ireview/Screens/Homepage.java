@@ -176,10 +176,11 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener
             categoryButtons[i].setOnClickListener(this);
         }
 
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
             {
+                feedItems = new ArrayList<>();
                 for(DataSnapshot singleSnapshot : dataSnapshot.getChildren())
                 {
 
@@ -197,6 +198,7 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener
                     feedItem.setUser_id(post.getUser_id());
                     feedItem.setPost_id(post.getPost_id());
                     feedItem.setPost_image(post.getPost_image());
+                    feedItem.setCategory(post.getCategory());
 
                     Query query = FirebaseDatabase.getInstance().getReference()
                             .child("user_account_settings")
