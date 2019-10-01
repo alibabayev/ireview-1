@@ -191,7 +191,7 @@
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
                     android:textSize="30sp"
-                    android:text="Musics"/>
+                    android:text="Songs"/>
 
                 <ImageView
                     android:id="@+id/addMusicProfile"
