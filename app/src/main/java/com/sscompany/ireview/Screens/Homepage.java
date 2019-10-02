@@ -30,6 +30,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,13 +51,15 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener
     private FirebaseAuth mAuth;
     private DatabaseReference databaseReference;
     private Button[] categoryButtons;
+
+    private SearchView searchView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homepage);
 
         mContext = Homepage.this;
-
         listView = findViewById(R.id.news_feed_list);
 
         mAuth = FirebaseAuth.getInstance();
@@ -155,10 +158,26 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener
 
         onClick(findViewById(R.id.categoryButtonAll));
 
+        searchView = findViewById(R.id.searchInHome);
+        searchView.setOnClickListener(this);
+
         for(int i = 0; i < categoryButtons.length; i++) {
             categoryButtons[i].setOnClickListener(this);
         }
+
+
     }
+
+    public void searchInHome(View v){
+        Intent intent = new Intent(getApplicationContext(),SearchActivity.class);
+        startActivity(intent);
+    }
+
+    /*private void initSearchView() {
+        searchView = findViewById(R.id.searchInHome);
+        searchView.setQueryHint("Search friends");
+        searchView.setIconifiedByDefault(true);
+    }*/
 
     private int counterForAdapter;
 
