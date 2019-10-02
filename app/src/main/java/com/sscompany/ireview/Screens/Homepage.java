@@ -44,14 +44,12 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener
     private DrawerLayout mDrawerLayout;
     public static String profileOfMineOrFriend = "";
     private ListView listView;
-    private ArrayList<FeedItem> feedItems = new ArrayList<>();
+    private ArrayList<FeedItem> feedItems;
     private static FeedAdapter feedAdapter;
 
     private FirebaseAuth mAuth;
     private DatabaseReference databaseReference;
     private Button[] categoryButtons;
-    private String[] buttonNames;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,17 +71,6 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener
         categoryButtons[5] = findViewById(R.id.categoryButtonSongs);
         categoryButtons[6] = findViewById(R.id.categoryButtonVideoGames);
         categoryButtons[7] = findViewById(R.id.categoryButtonWebsites);
-
-
-        buttonNames = new String[8];
-        buttonNames[0] = "all";
-        buttonNames[1] = "book";
-        buttonNames[2] = "movie";
-        buttonNames[3] = "tvshow";
-        buttonNames[4] = "place";
-        buttonNames[5] = "song";
-        buttonNames[6] = "videogame";
-        buttonNames[7] = "website";
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mDrawerLayout.addDrawerListener(
@@ -168,15 +155,19 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener
 
         onClick(findViewById(R.id.categoryButtonAll));
 
-        for(int i = 0; i < buttonNames.length; i++) {
+        for(int i = 0; i < categoryButtons.length; i++) {
             categoryButtons[i].setOnClickListener(this);
         }
     }
 
+    private int counterForAdapter;
+
     @Override
     public void onClick(View v) {
+        feedItems = new ArrayList<>();
 
-        for(int i = 0; i < buttonNames.length; i++) {
+        counterForAdapter = 0;
+        for(int i = 0; i < categoryButtons.length; i++) {
             categoryButtons[i].setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
         }
 
@@ -189,10 +180,12 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                final int childrenCount = (int) dataSnapshot.getChildrenCount();
                 for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
                     Post post = singleSnapshot.getValue(Post.class);
                     Log.i("CHECKPRINT", tempButton.getText().toString());
-                    if (tempButton.getText().toString().equals("All") || tempButton.getText().toString().equals(post.getCategory())) {
+                    final String postCategoryName = post.getCategory();
+                    final String buttonName = tempButton.getText().toString();
 
                         final FeedItem feedItem = new FeedItem();
 
@@ -226,12 +219,14 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener
 
                                 Log.d(TAG, "onDataChange: found user: "
                                         + dataSnapshot.getValue(UserAccountSettings.class).getUsername());
-
-                                feedItems.add(feedItem);
-
-                                feedAdapter = new FeedAdapter(feedItems, mContext);
-
-                                listView.setAdapter(feedAdapter);
+                                if (buttonName.equals("All") || buttonName.equals(postCategoryName)) {
+                                    feedItems.add(feedItem);
+                                }
+                                counterForAdapter++;
+                                if(counterForAdapter == childrenCount){
+                                    feedAdapter = new FeedAdapter(feedItems, mContext);
+                                    listView.setAdapter(feedAdapter);
+                                }
                             }
 
                             @Override
@@ -241,7 +236,6 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener
                         });
                     }
                 }
-            }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {

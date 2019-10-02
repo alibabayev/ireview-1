@@ -81,7 +81,7 @@ public class AddElement extends AppCompatActivity implements AdapterForItemList.
     private void initSearchView()
     {
         searchView = (SearchView) findViewById(R.id.searchView);
-        searchView.setQueryHint("Search in " + category + "s");
+        searchView.setQueryHint("Search in " + category.toUpperCase() + "s");
         searchView.setIconifiedByDefault(true);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

@@ -94,7 +94,7 @@ public class FeedAdapter extends ArrayAdapter<FeedItem> {
             viewHolder.description = (TextView) convertView.findViewById(R.id.firstRow);
             viewHolder.rating_bar = (RatingBar) convertView.findViewById(R.id.rating_bar);
             viewHolder.review = (TextView) convertView.findViewById(R.id.review);
-            //makeTextViewResizable(viewHolder.review, 3, "See More", true);
+
             viewHolder.like = (ImageView) convertView.findViewById(R.id.like);
             viewHolder.likes = (TextView) convertView.findViewById(R.id.likes);
             viewHolder.postImage = (ImageView) convertView.findViewById(R.id.post_image);
@@ -129,7 +129,7 @@ public class FeedAdapter extends ArrayAdapter<FeedItem> {
 
         //Setting review
         viewHolder.review.setText(getItem(position).getReview());
-        //makeTextViewResizable(viewHolder.review, 3, "Show More", true);
+        makeTextViewResizable(viewHolder.review, 3, "See More", true);
 
         //Setting like button and like_count
         databaseReference.child("posts")
@@ -382,43 +382,43 @@ public class FeedAdapter extends ArrayAdapter<FeedItem> {
         return convertView;
     }
 
-    public static void makeTextViewResizable(final TextView tv, final int maxLine, final String expandText, final boolean viewMore) {
+    public static void makeTextViewResizable(final TextView textView, final int maxLine, final String expandText, final boolean viewMore) {
 
-        if (tv.getTag() == null) {
-            tv.setTag(tv.getText());
+        if (textView.getTag() == null) {
+            textView.setTag(textView.getText());
         }
-        ViewTreeObserver vto = tv.getViewTreeObserver();
+        ViewTreeObserver vto = textView.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
             @SuppressWarnings("deprecation")
             @Override
             public void onGlobalLayout() {
 
-                ViewTreeObserver obs = tv.getViewTreeObserver();
+                ViewTreeObserver obs = textView.getViewTreeObserver();
                 obs.removeGlobalOnLayoutListener(this);
                 if (maxLine == 0) {
-                    int lineEndIndex = tv.getLayout().getLineEnd(0);
-                    String text = tv.getText().subSequence(0, lineEndIndex - expandText.length() + 1) + " " + expandText;
-                    tv.setText(text);
-                    tv.setMovementMethod(LinkMovementMethod.getInstance());
-                    tv.setText(
-                            addClickablePartTextViewResizable(Html.fromHtml(tv.getText().toString()), tv, maxLine, expandText,
+                    int lineEndIndex = textView.getLayout().getLineEnd(0);
+                    String text = textView.getText().subSequence(0, lineEndIndex - expandText.length() + 1) + " " + expandText;
+                    textView.setText(text);
+                    textView.setMovementMethod(LinkMovementMethod.getInstance());
+                    textView.setText(
+                            addClickablePartTextViewResizable(Html.fromHtml(textView.getText().toString()), textView, maxLine, expandText,
                                     viewMore), TextView.BufferType.SPANNABLE);
-                } else if (maxLine > 0 && tv.getLineCount() >= maxLine) {
-                    int lineEndIndex = tv.getLayout().getLineEnd(maxLine - 1);
-                    String text = tv.getText().subSequence(0, lineEndIndex - expandText.length() + 1) + " " + expandText;
-                    tv.setText(text);
-                    tv.setMovementMethod(LinkMovementMethod.getInstance());
-                    tv.setText(
-                            addClickablePartTextViewResizable(Html.fromHtml(tv.getText().toString()), tv, maxLine, expandText,
+                } else if (maxLine > 0 && textView.getLineCount() >= maxLine) {
+                    int lineEndIndex = textView.getLayout().getLineEnd(maxLine - 1);
+                    String text = textView.getText().subSequence(0, lineEndIndex - expandText.length() + 1) + " " + expandText;
+                    textView.setText(text);
+                    textView.setMovementMethod(LinkMovementMethod.getInstance());
+                    textView.setText(
+                            addClickablePartTextViewResizable(Html.fromHtml(textView.getText().toString()), textView, maxLine, expandText,
                                     viewMore), TextView.BufferType.SPANNABLE);
                 } else {
-                    int lineEndIndex = tv.getLayout().getLineEnd(tv.getLayout().getLineCount() - 1);
-                    String text = tv.getText().subSequence(0, lineEndIndex) + " " + expandText;
-                    tv.setText(text);
-                    tv.setMovementMethod(LinkMovementMethod.getInstance());
-                    tv.setText(
-                            addClickablePartTextViewResizable(Html.fromHtml(tv.getText().toString()), tv, lineEndIndex, expandText,
+                    int lineEndIndex = textView.getLayout().getLineEnd(textView.getLayout().getLineCount() - 1);
+                    String text = textView.getText().subSequence(0, lineEndIndex) + " " + expandText;
+                    textView.setText(text);
+                    textView.setMovementMethod(LinkMovementMethod.getInstance());
+                    textView.setText(
+                            addClickablePartTextViewResizable(Html.fromHtml(textView.getText().toString()), textView, lineEndIndex, expandText,
                                     viewMore), TextView.BufferType.SPANNABLE);
                 }
             }
@@ -426,7 +426,7 @@ public class FeedAdapter extends ArrayAdapter<FeedItem> {
 
     }
 
-    private static SpannableStringBuilder addClickablePartTextViewResizable(final Spanned strSpanned, final TextView tv,
+    private static SpannableStringBuilder addClickablePartTextViewResizable(final Spanned strSpanned, final TextView textView,
                                                                             final int maxLine, final String spanableText, final boolean viewMore) {
         String str = strSpanned.toString();
         SpannableStringBuilder ssb = new SpannableStringBuilder(strSpanned);
@@ -438,15 +438,15 @@ public class FeedAdapter extends ArrayAdapter<FeedItem> {
                 @Override
                 public void onClick(View widget) {
                     if (viewMore) {
-                        tv.setLayoutParams(tv.getLayoutParams());
-                        tv.setText(tv.getTag().toString(), TextView.BufferType.SPANNABLE);
-                        tv.invalidate();
-                        makeTextViewResizable(tv, -1, "See Less", false);
+                        textView.setLayoutParams(textView.getLayoutParams());
+                        textView.setText(textView.getTag().toString(), TextView.BufferType.SPANNABLE);
+                        textView.invalidate();
+                        makeTextViewResizable(textView, -1, "See Less", false);
                     } else {
-                        tv.setLayoutParams(tv.getLayoutParams());
-                        tv.setText(tv.getTag().toString(), TextView.BufferType.SPANNABLE);
-                        tv.invalidate();
-                        makeTextViewResizable(tv, 3, ".. See More", true);
+                        textView.setLayoutParams(textView.getLayoutParams());
+                        textView.setText(textView.getTag().toString(), TextView.BufferType.SPANNABLE);
+                        textView.invalidate();
+                        makeTextViewResizable(textView, 3, ".. See More", true);
                     }
                 }
             }, str.indexOf(spanableText), str.indexOf(spanableText) + spanableText.length(), 0);

@@ -97,7 +97,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="1dp"
                     android:background="@android:color/holo_blue_light"
-                    android:text="Tv Shows"
+                    android:text="TV Shows"
                     android:state_focused="false"
                     android:state_pressed="true"
                     android:textAllCaps="false"
