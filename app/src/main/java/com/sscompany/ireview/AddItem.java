@@ -40,12 +40,12 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.sscompany.ireview.Models.Book;
 import com.sscompany.ireview.Models.FirebaseMethods;
-import com.sscompany.ireview.Models.Game;
+import com.sscompany.ireview.Models.Song;
+import com.sscompany.ireview.Models.VideoGame;
 import com.sscompany.ireview.Models.ImageManagerClass;
 import com.sscompany.ireview.Models.InterfaceItem;
 import com.sscompany.ireview.Models.Item;
 import com.sscompany.ireview.Models.Movie;
-import com.sscompany.ireview.Models.Music;
 import com.sscompany.ireview.Models.Place;
 import com.sscompany.ireview.Models.Post;
 import com.sscompany.ireview.Models.TVShow;
@@ -351,25 +351,26 @@ public class AddItem extends AppCompatActivity
             /*
              * For Book
              */
-            if(categoryExtra.equals("book")) {
+            if(categoryExtra.equals("Books"))
+            {
                 String name = firstEditText.getText().toString();
-                String author = secondEditText.getText().toString();
-                String genre = thirdEditText.getText().toString();
+                String genre = secondEditText.getText().toString();
+                String author = thirdEditText.getText().toString();
 
                 if (name.equals("") || author.equals("") || genre.equals("") || cover_photoImageView.getDrawable() == null)
                 {
-                    Toast.makeText(mContext, "Book name, author, genre and cover photo are required", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Book name, genre, author and cover photo are required", Toast.LENGTH_SHORT).show();
                 }
                 else if(postReviewCheckBox.isChecked() && ratingBar.getRating() == 0)
                 {
-                    Toast.makeText(mContext, "In order to post, you should rate the item!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "In order to post or add item to your account, at least you should rate the item!", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
                     final Book newItem = new Book();
                     newItem.setName(name);
+                    newItem.setType(genre);
                     newItem.setOwner(author);
-                    newItem.setGenre(genre);
                     newItem.setCover_photo("none");
 
                     cover_photoImageView.invalidate();
@@ -383,61 +384,60 @@ public class AddItem extends AppCompatActivity
             /*
              * For Movie
              */
-            if(categoryExtra.equals("movie")) {
+            if(categoryExtra.equals("Movies")) {
                 String title = firstEditText.getText().toString();
-                String director = secondEditText.getText().toString();
-                String genre = thirdEditText.getText().toString();
+                String genre = secondEditText.getText().toString();
+                String director = thirdEditText.getText().toString();
                 String lead_actors = fourthEditText.getText().toString();
 
                 if (title.equals("") || director.equals("") || genre.equals("") || cover_photoImageView.getDrawable() == null)
                 {
-                    Toast.makeText(mContext, "Movie title, director, genre and cover photo are required", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Movie title, genre, director and cover photo are required", Toast.LENGTH_SHORT).show();
                 }
                 else if(postReviewCheckBox.isChecked() && ratingBar.getRating() == 0)
                 {
-                    Toast.makeText(mContext, "In order to post, you should rate the item!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "In order to post or add item to your account, at least you should rate the item!", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
                     Movie newItem = new Movie();
                     newItem.setName(title);
+                    newItem.setType(genre);
                     newItem.setOwner(director);
-                    newItem.setGenre(genre);
-                    newItem.setLead_actors(lead_actors);
+                    newItem.setDetail(lead_actors);
                     newItem.setCover_photo("none");
 
                     cover_photoImageView.invalidate();
                     BitmapDrawable drawable = (BitmapDrawable)cover_photoImageView.getDrawable();
                     Bitmap bitmap = drawable.getBitmap();
                     addNewPhotoToFirebaseStorage(bitmap, categoryExtra, imageCount, newItem);
-
                 }
             }
 
             /*
-             * For Music
+             * For Song
              */
-            if(categoryExtra.equals("music")) {
+            if(categoryExtra.equals("Songs")) {
                 String name = firstEditText.getText().toString();
-                String singer = secondEditText.getText().toString();
-                String genre = thirdEditText.getText().toString();
+                String genre = secondEditText.getText().toString();
+                String singer = thirdEditText.getText().toString();
                 String language = fourthEditText.getText().toString();
 
                 if (name.equals("") || singer.equals("") || genre.equals("") || cover_photoImageView.getDrawable() == null)
                 {
-                    Toast.makeText(mContext, "Music name, singer, genre and cover photo are required", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Song name, genre, signer and cover photo are required", Toast.LENGTH_SHORT).show();
                 }
                 else if(postReviewCheckBox.isChecked() && ratingBar.getRating() == 0)
                 {
-                    Toast.makeText(mContext, "In order to post, you should rate the item!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "In order to post or add item to your account, at least you should rate the item!", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
-                    Music newItem = new Music();
+                    Song newItem = new Song();
                     newItem.setName(name);
                     newItem.setOwner(singer);
-                    newItem.setGenre(genre);
-                    newItem.setLanguage(language);
+                    newItem.setType(genre);
+                    newItem.setDetail(language);
                     newItem.setCover_photo("none");
 
                     cover_photoImageView.invalidate();
@@ -452,26 +452,27 @@ public class AddItem extends AppCompatActivity
             /*
              * For Place
              */
-            if(categoryExtra.equals("place")) {
+            if(categoryExtra.equals("Places")) {
                 String name = firstEditText.getText().toString();
                 String place_type = secondEditText.getText().toString();
-                String address = thirdEditText.getText().toString();
+                String city = thirdEditText.getText().toString();
+                String address = fourthEditText.getText().toString();
 
-                if (name.equals("") || place_type.equals("") || address.equals("") || cover_photoImageView.getDrawable() == null)
+                if (name.equals("") || place_type.equals("") || city.equals("") || cover_photoImageView.getDrawable() == null)
                 {
-                    Toast.makeText(mContext, "Place name, place type, address and cover photo are required", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Place name, place type, city and cover photo are required", Toast.LENGTH_SHORT).show();
                 }
                 else if(postReviewCheckBox.isChecked() && ratingBar.getRating() == 0)
                 {
-                    Toast.makeText(mContext, "In order to post, you should rate the item!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "In order to post or add item to your account, at least you should rate the item!", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
                     Place newItem = new Place();
                     newItem.setName(name);
-                    newItem.setOwner("none");
-                    newItem.setPlace_type(place_type);
-                    newItem.setAddress(address);
+                    newItem.setType(place_type);
+                    newItem.setOwner(city);
+                    newItem.setDetail(address);
                     newItem.setCover_photo("none");
 
                     cover_photoImageView.invalidate();
@@ -479,19 +480,16 @@ public class AddItem extends AppCompatActivity
                     Bitmap bitmap = drawable.getBitmap();
 
                     addNewPhotoToFirebaseStorage(bitmap, categoryExtra, imageCount, newItem);
-
-                    //itemId = firebaseMethods.addNewItem(newItem, categoryExtra);
-
                 }
             }
 
             /*
              * For TV Show
              */
-            if(categoryExtra.equals("tv_show")) {
+            if(categoryExtra.equals("TV Shows")) {
                 String name = firstEditText.getText().toString();
-                String host = secondEditText.getText().toString();
-                String genre = thirdEditText.getText().toString();
+                String genre = secondEditText.getText().toString();
+                String host = thirdEditText.getText().toString();
 
                 if (name.equals("") || host.equals("") || genre.equals("") || cover_photoImageView.getDrawable() == null)
                 {
@@ -499,14 +497,14 @@ public class AddItem extends AppCompatActivity
                 }
                 else if(postReviewCheckBox.isChecked() && ratingBar.getRating() == 0)
                 {
-                    Toast.makeText(mContext, "In order to post, you should rate the item!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "In order to post or add item to your account, at least you should rate the item!", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
                     TVShow newItem = new TVShow();
                     newItem.setName(name);
                     newItem.setOwner(host);
-                    newItem.setGenre(genre);
+                    newItem.setType(genre);
                     newItem.setCover_photo("none");
 
                     cover_photoImageView.invalidate();
@@ -514,49 +512,50 @@ public class AddItem extends AppCompatActivity
                     Bitmap bitmap = drawable.getBitmap();
 
                     addNewPhotoToFirebaseStorage(bitmap, categoryExtra, imageCount, newItem);
-
                 }
             }
 
             /*
              * For Website
              */
-            if(categoryExtra.equals("website")) {
-                String web_address = firstEditText.getText().toString();
+            if(categoryExtra.equals("Websites"))
+            {
+                String title = firstEditText.getText().toString();
                 String use = secondEditText.getText().toString();
+                String company = thirdEditText.getText().toString();
+                String http = fourthEditText.getText().toString();
 
-                if (web_address.equals("") || use.equals("") || cover_photoImageView.getDrawable() == null)
+                if (title.equals("") || use.equals("") || company.equals("") || cover_photoImageView.getDrawable() == null)
                 {
-                    Toast.makeText(mContext, "Web address, use and cover photo are required", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Title, use, company and cover photo are required", Toast.LENGTH_SHORT).show();
                 }
                 else if(postReviewCheckBox.isChecked() && ratingBar.getRating() == 0)
                 {
-                    Toast.makeText(mContext, "In order to post, you should rate the item!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "In order to post or add item to your account, at least you should rate the item!", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
                     Website newItem = new Website();
-                    newItem.setName(web_address);
-                    newItem.setOwner("none");
-                    newItem.setUse(use);
-                    newItem.setCover_photo("none");
+                    newItem.setName(title);
+                    newItem.setType(use);
+                    newItem.setOwner(company);
+                    newItem.setDetail(http);
 
                     cover_photoImageView.invalidate();
                     BitmapDrawable drawable = (BitmapDrawable)cover_photoImageView.getDrawable();
                     Bitmap bitmap = drawable.getBitmap();
 
                     addNewPhotoToFirebaseStorage(bitmap, categoryExtra, imageCount, newItem);
-
                 }
             }
 
             /*
-             * For Game
+             * For VideoGame
              */
-            if(categoryExtra.equals("game")) {
+            if(categoryExtra.equals("Video Games")) {
                 String name = firstEditText.getText().toString();
-                String developer = secondEditText.getText().toString();
-                String game_type = thirdEditText.getText().toString();
+                String game_type = secondEditText.getText().toString();
+                String developer = thirdEditText.getText().toString();
 
                 if (name.equals("") || developer.equals("") || game_type.equals("") || cover_photoImageView.getDrawable() == null)
                 {
@@ -564,14 +563,14 @@ public class AddItem extends AppCompatActivity
                 }
                 else if(postReviewCheckBox.isChecked() && ratingBar.getRating() == 0)
                 {
-                    Toast.makeText(mContext, "In order to post, you should rate the item!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "In order to post or add item to your account, at least you should rate the item!", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
-                    Game newItem = new Game();
+                    VideoGame newItem = new VideoGame();
                     newItem.setName(name);
                     newItem.setOwner(developer);
-                    newItem.setGame_type(game_type);
+                    newItem.setType(game_type);
                     newItem.setCover_photo("none");
 
                     cover_photoImageView.invalidate();
@@ -593,7 +592,7 @@ public class AddItem extends AppCompatActivity
 
         //Initializing storageReference according to category (folder)
         final StorageReference storageReference = mStorageReference
-                .child(category + "s/photo" + (imageCount + 1));
+                .child(category + "/photo" + (imageCount + 1));
 
         //Converting bitmap to bytes
         byte[] bytes = ImageManagerClass.getBytesFromBitmap(bitmap, 100);
@@ -692,7 +691,7 @@ public class AddItem extends AppCompatActivity
     public String addNewItem(InterfaceItem newElement, String category)
     {
         //Getting id for element (from one category) which will be located under category items classes
-        String newElementKey = myRef.child(category + "s").push().getKey();
+        String newElementKey = myRef.child(category).push().getKey();
 
         //Getting id for item (from any category) which will be located under items class
         String newItemKey = myRef.child("items").push().getKey();
@@ -706,7 +705,7 @@ public class AddItem extends AppCompatActivity
         newItem.setOwner(newElement.getOwner());
         newItem.setCover_photo(newElement.getCover_photo());
 
-        myRef.child(category + "s")
+        myRef.child(category)
                 .child(newElementKey)
                 .setValue(newElement);
 
@@ -740,13 +739,15 @@ public class AddItem extends AppCompatActivity
         newPost.setReview(review);
         newPost.setItem_id(itemId);
         newPost.setItem_name(item.getName());
+        newPost.setItem_type(item.getType());
         newPost.setItem_owner(item.getOwner());
+        newPost.setItem_detail(item.getDetail());
         newPost.setItem_cover_photo(item.getCover_photo());
         newPost.setLike_count(0);
         newPost.setLikes(newLikesArray);
         newPost.setRating(rating);
         newPost.setUser_id(userID);
-        newPost.setData_created(firebaseMethods.getTimestamp());
+        newPost.setDate_created(firebaseMethods.getTimestamp());
         newPost.setPost_id(newPostKey);
         newPost.setCategory(category);
 
@@ -788,7 +789,7 @@ public class AddItem extends AppCompatActivity
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                imageCount = firebaseMethods.getImageCount(dataSnapshot, categoryExtra + "s");
+                imageCount = firebaseMethods.getImageCount(dataSnapshot, categoryExtra);
                 Log.d(TAG, "onDataChange: image count: " + imageCount);
             }
 
@@ -813,19 +814,19 @@ public class AddItem extends AppCompatActivity
 
         //Creating and Adding EditTexts to rightLinearLayout
         firstEditText = new EditText(mContext);
-        firstEditText.setHint("First");
+        firstEditText.setHint("Name");
         firstEditText.setLayoutParams(new ConstraintLayout.LayoutParams(widthOfEditText, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         secondEditText = new EditText(mContext);
-        secondEditText.setHint("Second");
+        secondEditText.setHint("Type");
         secondEditText.setLayoutParams(new ConstraintLayout.LayoutParams(widthOfEditText, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         thirdEditText = new EditText(mContext);
-        thirdEditText.setHint("Third");
+        thirdEditText.setHint("Owner");
         thirdEditText.setLayoutParams(new ConstraintLayout.LayoutParams(widthOfEditText, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         fourthEditText = new EditText(mContext);
-        fourthEditText.setHint("Fourth");
+        fourthEditText.setHint("Detail");
         fourthEditText.setLayoutParams(new ConstraintLayout.LayoutParams(widthOfEditText, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         rightLinearLayout.addView(firstEditText);
@@ -838,8 +839,7 @@ public class AddItem extends AppCompatActivity
      * Initializes EditTexts (seta the sizes and hints)
      *
      */
-    private void initEditTexts()
-    {
+    private void initEditTexts() {
         //Changing Submit Button Text
         if(actionExtra.equals("add"))
         {
@@ -857,10 +857,10 @@ public class AddItem extends AppCompatActivity
             firstEditText.setHint("Name");
 
             secondEditText.setVisibility(View.VISIBLE);
-            secondEditText.setHint("Author");
+            secondEditText.setHint("Genre");
 
             thirdEditText.setVisibility(View.VISIBLE);
-            thirdEditText.setHint("Genre");
+            thirdEditText.setHint("Author");
 
             fourthEditText.setVisibility(View.GONE);
         }
@@ -939,7 +939,7 @@ public class AddItem extends AppCompatActivity
             firstEditText.setHint("Name");
 
             secondEditText.setVisibility(View.VISIBLE);
-            secondEditText.setHint("Game Type");
+            secondEditText.setHint("VideoGame Type");
 
             thirdEditText.setVisibility(View.VISIBLE);
             thirdEditText.setHint("Developer");

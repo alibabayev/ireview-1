@@ -1,56 +1,77 @@
 package com.sscompany.ireview.Models;
 
 /**
- * This class provides structure for uploading games into firebase database.
+ * This class provides structure for uploading musics into firebase database.
  */
-public class Game implements InterfaceItem
+
+public class Song implements InterfaceItem
 {
     private String name;
+    private String type;
     private String owner;
-    private String game_type;
+    private String detail;
     private String cover_photo;
     private String category;
 
-    public Game(String name, String owner, String game_type, String cover_photo) {
+    public Song(String name, String genre, String singer, String language, String cover_photo) {
         this.name = name;
-        this.owner = owner;
-        this.game_type = game_type;
+        this.type = genre;
+        this.owner = singer;
+        this.detail = language;
         this.cover_photo = cover_photo;
-        setCategory("Video Games");
+        setCategory("Songs");
     }
 
-    public Game() {
-        setCategory("Video Games");
+    public Song() {
+        setCategory("Songs");
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }
 
+    @Override
+    public String getType() {
+        return type;
+    }
+
+    @Override
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    @Override
     public String getOwner() {
         return owner;
     }
 
+    @Override
     public void setOwner(String owner) {
         this.owner = owner;
     }
 
-    public String getGame_type() {
-        return game_type;
+    @Override
+    public String getDetail() {
+        return detail;
     }
 
-    public void setGame_type(String game_type) {
-        this.game_type = game_type;
+    @Override
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 
+    @Override
     public String getCover_photo() {
         return cover_photo;
     }
 
+    @Override
     public void setCover_photo(String cover_photo) {
         this.cover_photo = cover_photo;
     }
@@ -67,10 +88,11 @@ public class Game implements InterfaceItem
 
     @Override
     public String toString() {
-        return "Game{" +
+        return "Song{" +
                 "name='" + name + '\'' +
+                ", type='" + type + '\'' +
                 ", owner='" + owner + '\'' +
-                ", game_type='" + game_type + '\'' +
+                ", detail='" + detail + '\'' +
                 ", cover_photo='" + cover_photo + '\'' +
                 ", category='" + category + '\'' +
                 '}';

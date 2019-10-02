@@ -9,8 +9,14 @@ public interface InterfaceItem
     void setName(String name);
     String getName();
 
+    void setType(String type);
+    String getType();
+
     void setOwner(String owner);
     String getOwner();
+
+    void setDetail(String detail);
+    String getDetail();
 
     void setCover_photo(String cover_photo);
     String getCover_photo();

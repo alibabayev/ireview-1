@@ -3,10 +3,10 @@ package com.sscompany.ireview.Models;
 import java.util.ArrayList;
 
 /**
- * This class provides structure for uploading books into firebase database.
+ * This class provides structure for uploading items for my profile into firebase database.
  */
 
-public class Post
+public class MyItem
 {
     private String item_id;
     private String item_name;
@@ -16,15 +16,13 @@ public class Post
     private String item_cover_photo;
     private String review;
     private float rating;
-    private int like_count;
-    private ArrayList<String> likes;
     private String user_id;
     private String date_created;
     private String post_id;
     private String post_image;
     private String category;
 
-    public Post(String item_id, String item_name, String item_type, String item_owner, String item_detail, String item_cover_photo, String review, float rating, int like_count, ArrayList<String> likes, String user_id, String date_created, String post_id, String post_image, String category)
+    public MyItem(String item_id, String item_name, String item_type, String item_owner, String item_detail, String item_cover_photo, String review, float rating, String user_id, String date_created, String post_id, String post_image, String category)
     {
         this.item_id = item_id;
         this.item_name = item_name;
@@ -34,8 +32,6 @@ public class Post
         this.item_cover_photo = item_cover_photo;
         this.review = review;
         this.rating = rating;
-        this.like_count = like_count;
-        this.likes = likes;
         this.user_id = user_id;
         this.date_created = date_created;
         this.post_id = post_id;
@@ -43,7 +39,7 @@ public class Post
         this.category = category;
     }
 
-    public Post() {
+    public MyItem() {
 
     }
 
@@ -111,22 +107,6 @@ public class Post
         this.rating = rating;
     }
 
-    public int getLike_count() {
-        return like_count;
-    }
-
-    public void setLike_count(int like_count) {
-        this.like_count = like_count;
-    }
-
-    public ArrayList<String> getLikes() {
-        return likes;
-    }
-
-    public void setLikes(ArrayList<String> likes) {
-        this.likes = likes;
-    }
-
     public String getUser_id() {
         return user_id;
     }
@@ -169,7 +149,7 @@ public class Post
 
     @Override
     public String toString() {
-        return "Post{" +
+        return "MyItem{" +
                 "item_id='" + item_id + '\'' +
                 ", item_name='" + item_name + '\'' +
                 ", item_type='" + item_type + '\'' +
@@ -178,8 +158,6 @@ public class Post
                 ", item_cover_photo='" + item_cover_photo + '\'' +
                 ", review='" + review + '\'' +
                 ", rating=" + rating +
-                ", like_count=" + like_count +
-                ", likes=" + likes +
                 ", user_id='" + user_id + '\'' +
                 ", date_created='" + date_created + '\'' +
                 ", post_id='" + post_id + '\'' +

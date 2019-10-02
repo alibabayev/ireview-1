@@ -7,7 +7,9 @@ public class FeedItem
     private String profile_picture;
     private String cover_photo;
     private String item_name;
+    private String item_type;
     private String item_owner;
+    private String item_detail;
     private String date;
     private float rating;
     private String review;
@@ -16,13 +18,16 @@ public class FeedItem
     private String post_image;
     private String category;
 
-    public FeedItem(String user_id, String username, String profile_picture, String cover_photo, String item_name, String item_owner, String date, float rating, String review, int likes, String post_id, String post_image, String category) {
+    public FeedItem(String user_id, String username, String profile_picture, String cover_photo, String item_name, String item_type, String item_owner, String item_detail, String date, float rating, String review, int likes, String post_id, String post_image, String category)
+    {
         this.user_id = user_id;
         this.username = username;
         this.profile_picture = profile_picture;
         this.cover_photo = cover_photo;
         this.item_name = item_name;
+        this.item_type = item_type;
         this.item_owner = item_owner;
+        this.item_detail = item_detail;
         this.date = date;
         this.rating = rating;
         this.review = review;
@@ -76,12 +81,28 @@ public class FeedItem
         this.item_name = item_name;
     }
 
+    public String getItem_type() {
+        return item_type;
+    }
+
+    public void setItem_type(String item_type) {
+        this.item_type = item_type;
+    }
+
     public String getItem_owner() {
         return item_owner;
     }
 
     public void setItem_owner(String item_owner) {
         this.item_owner = item_owner;
+    }
+
+    public String getItem_detail() {
+        return item_detail;
+    }
+
+    public void setItem_detail(String item_detail) {
+        this.item_detail = item_detail;
     }
 
     public String getDate() {
@@ -148,13 +169,16 @@ public class FeedItem
                 ", profile_picture='" + profile_picture + '\'' +
                 ", cover_photo='" + cover_photo + '\'' +
                 ", item_name='" + item_name + '\'' +
+                ", item_type='" + item_type + '\'' +
                 ", item_owner='" + item_owner + '\'' +
+                ", item_detail='" + item_detail + '\'' +
                 ", date='" + date + '\'' +
                 ", rating=" + rating +
                 ", review='" + review + '\'' +
                 ", likes=" + likes +
                 ", post_id='" + post_id + '\'' +
                 ", post_image='" + post_image + '\'' +
+                ", category='" + category + '\'' +
                 '}';
     }
 }

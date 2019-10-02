@@ -58,7 +58,10 @@ public class FeedAdapter extends ArrayAdapter<FeedItem> {
         ImageView cover_photo;
         TextView username;
         TextView date;
-        TextView description;
+        TextView name;
+        TextView type;
+        TextView owner;
+        TextView detail;
         RatingBar rating_bar;
         TextView review;
         ImageView like;
@@ -91,7 +94,10 @@ public class FeedAdapter extends ArrayAdapter<FeedItem> {
             viewHolder.cover_photo = (ImageView) convertView.findViewById(R.id.cover_photo);
             viewHolder.username = (TextView) convertView.findViewById(R.id.username);
             viewHolder.date = (TextView) convertView.findViewById(R.id.date);
-            viewHolder.description = (TextView) convertView.findViewById(R.id.firstRow);
+            viewHolder.name = (TextView) convertView.findViewById(R.id.firstRow);
+            viewHolder.type = (TextView) convertView.findViewById(R.id.secondRow);
+            viewHolder.owner = (TextView) convertView.findViewById(R.id.thirdRow);
+            viewHolder.detail = (TextView) convertView.findViewById(R.id.fourthRow);
             viewHolder.rating_bar = (RatingBar) convertView.findViewById(R.id.rating_bar);
             viewHolder.review = (TextView) convertView.findViewById(R.id.review);
             //makeTextViewResizable(viewHolder.review, 3, "See More", true);
@@ -118,11 +124,15 @@ public class FeedAdapter extends ArrayAdapter<FeedItem> {
         //Setting date
         viewHolder.date.setText(getItem(position).getDate());
 
-        //Setting description
-        if (getItem(position).getItem_owner().equals("") || getItem(position).getItem_owner().equals("none"))
-            viewHolder.description.setText(getItem(position).getItem_name());
-        else
-            viewHolder.description.setText(getItem(position).getItem_name() + " by " + getItem(position).getItem_owner());
+        //Setting name, type, owner, detail
+        viewHolder.name.setText(getItem(position).getItem_name());
+        viewHolder.type.setText(getItem(position).getItem_type());
+        viewHolder.owner.setText(getItem(position).getItem_owner());
+
+        if(!getItem(position).getItem_detail().equals("")) {
+            viewHolder.detail.setText(getItem(position).getItem_detail());
+        }
+
 
         //Setting rating_bar
         viewHolder.rating_bar.setRating(getItem(position).getRating());
@@ -314,10 +324,10 @@ public class FeedAdapter extends ArrayAdapter<FeedItem> {
 
                                             intent.putExtra("action", "edit");
                                             intent.putExtra("category", getItem(position).getCategory());
-                                            intent.putExtra("first_row", getItem(position).getItem_name());
-                                            intent.putExtra("second_row", getItem(position).getItem_owner());
-                                            intent.putExtra("third_row", "");
-                                            intent.putExtra("fourth_row", "");
+                                            intent.putExtra("name", getItem(position).getItem_name());
+                                            intent.putExtra("type", getItem(position).getItem_type());
+                                            intent.putExtra("owner", getItem(position).getItem_owner());
+                                            intent.putExtra("detail", getItem(position).getItem_detail());
                                             intent.putExtra("cover_photo", getItem(position).getCover_photo());
 
                                             mContext.startActivity(intent);

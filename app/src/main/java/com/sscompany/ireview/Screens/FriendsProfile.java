@@ -8,15 +8,11 @@ import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -28,10 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
-import com.sscompany.ireview.Adapters.RecyclerItemClickListener;
 import com.sscompany.ireview.Adapters.RecyclerViewAdapter;
-import com.sscompany.ireview.AddElement;
-import com.sscompany.ireview.AddItem;
 import com.sscompany.ireview.Models.*;
 import com.sscompany.ireview.R;
 
@@ -384,8 +377,8 @@ public class FriendsProfile extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for (DataSnapshot sampleDataSnapshot : dataSnapshot.getChildren()) {
-                            Music music = sampleDataSnapshot.getValue(Music.class);
-                            musicList.add(music);
+                            Song song = sampleDataSnapshot.getValue(Song.class);
+                            musicList.add(song);
                         }
 
                         if (dataSnapshot.getChildrenCount() == 0) {
@@ -412,8 +405,8 @@ public class FriendsProfile extends AppCompatActivity {
                                         intent.putExtra("category", "music");
                                         intent.putExtra("first_row", musicList.get(position).getName());
                                         intent.putExtra("second_row", musicList.get(position).getOwner());
-                                        intent.putExtra("third_row", ((Music) musicList.get(position)).getGenre());
-                                        intent.putExtra("fourth_row", ((Music) musicList.get(position)).getLanguage());
+                                        intent.putExtra("third_row", ((Song) musicList.get(position)).getGenre());
+                                        intent.putExtra("fourth_row", ((Song) musicList.get(position)).getLanguage());
                                         intent.putExtra("cover_photo", musicList.get(position).getCover_photo());
 
                                         startActivity(intent);
@@ -607,8 +600,8 @@ public class FriendsProfile extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for (DataSnapshot sampleDataSnapshot : dataSnapshot.getChildren()) {
-                            Game game = sampleDataSnapshot.getValue(Game.class);
-                            gameList.add(game);
+                            VideoGame videoGame = sampleDataSnapshot.getValue(VideoGame.class);
+                            gameList.add(videoGame);
                         }
 
                         if (dataSnapshot.getChildrenCount() == 0) {
@@ -635,7 +628,7 @@ public class FriendsProfile extends AppCompatActivity {
                                         intent.putExtra("category", "game");
                                         intent.putExtra("first_row", gameList.get(position).getName());
                                         intent.putExtra("second_row", gameList.get(position).getOwner());
-                                        intent.putExtra("third_row", ((Game) gameList.get(position)).getGame_type());
+                                        intent.putExtra("third_row", ((VideoGame) gameList.get(position)).getGame_type());
                                         intent.putExtra("fourth_row", "");
                                         intent.putExtra("cover_photo", gameList.get(position).getCover_photo());
 

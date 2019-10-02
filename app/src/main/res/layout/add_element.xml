@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="1dp"
                 android:background="@android:color/holo_blue_light"
-                android:onClick="music"
+                android:onClick="song"
                 android:text="Musics"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white" />
@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="1dp"
                 android:background="@android:color/holo_blue_light"
-                android:onClick="game"
+                android:onClick="videoGame"
                 android:text="Games"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white" />

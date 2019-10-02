@@ -189,9 +189,11 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener
                     final FeedItem feedItem = new FeedItem();
 
                     feedItem.setCover_photo(post.getItem_cover_photo());
-                    feedItem.setDate(post.getData_created());
+                    feedItem.setDate(post.getDate_created());
                     feedItem.setItem_name(post.getItem_name());
+                    feedItem.setItem_type(post.getItem_type());
                     feedItem.setItem_owner(post.getItem_owner());
+                    feedItem.setItem_detail(post.getItem_detail());
                     feedItem.setLikes(post.getLike_count());
                     feedItem.setRating(post.getRating());
                     feedItem.setReview(post.getReview());
@@ -266,9 +268,11 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener
                         final FeedItem feedItem = new FeedItem();
 
                         feedItem.setCover_photo(post.getItem_cover_photo());
-                        feedItem.setDate(post.getData_created());
+                        feedItem.setDate(post.getDate_created());
                         feedItem.setItem_name(post.getItem_name());
+                        feedItem.setItem_type(post.getItem_type());
                         feedItem.setItem_owner(post.getItem_owner());
+                        feedItem.setItem_detail(post.getItem_detail());
                         feedItem.setLikes(post.getLike_count());
                         feedItem.setRating(post.getRating());
                         feedItem.setReview(post.getReview());

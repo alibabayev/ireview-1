@@ -7,52 +7,73 @@ package com.sscompany.ireview.Models;
 public class Website implements InterfaceItem
 {
     private String name;
+    private String type;
     private String owner;
-    private String use;
+    private String detail;
     private String cover_photo;
     private String category;
 
-    public Website(String name, String use, String cover_photo) {
-        this.name = name;
-        this.use = use;
+    public Website(String title, String use, String company, String http, String cover_photo)
+    {
+        this.name = title;
+        this.type = use;
+        this.owner = company;
+        this.detail = http;
         this.cover_photo = cover_photo;
-        setOwner("none");
         setCategory("Websites");
     }
 
-    public Website() {
-        setOwner("none");
+    public Website()
+    {
         setCategory("Websites");
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }
 
+    @Override
+    public String getType() {
+        return type;
+    }
+
+    @Override
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    @Override
     public String getOwner() {
         return owner;
     }
 
+    @Override
     public void setOwner(String owner) {
         this.owner = owner;
     }
 
-    public String getUse() {
-        return use;
+    @Override
+    public String getDetail() {
+        return detail;
     }
 
-    public void setUse(String use) {
-        this.use = use;
+    @Override
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 
+    @Override
     public String getCover_photo() {
         return cover_photo;
     }
 
+    @Override
     public void setCover_photo(String cover_photo) {
         this.cover_photo = cover_photo;
     }
@@ -71,9 +92,11 @@ public class Website implements InterfaceItem
     public String toString() {
         return "Website{" +
                 "name='" + name + '\'' +
+                ", type='" + type + '\'' +
                 ", owner='" + owner + '\'' +
-                ", use='" + use + '\'' +
+                ", detail='" + detail + '\'' +
                 ", cover_photo='" + cover_photo + '\'' +
+                ", category='" + category + '\'' +
                 '}';
     }
 }
