@@ -8,11 +8,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.sscompany.ireview.Adapters.FeedAdapter;
-import com.sscompany.ireview.AddElement;
-import com.sscompany.ireview.FeedItem;
-import com.sscompany.ireview.Models.Post;
-import com.sscompany.ireview.Models.UserAccountSettings;
+import com.sscompany.ireview.Adapters.*;
+import com.sscompany.ireview.*;
+import com.sscompany.ireview.Models.*;
 import com.sscompany.ireview.R;
 import com.sscompany.ireview.Settings.*;
 import com.sscompany.ireview.LoginRelatedPages.*;
@@ -46,14 +44,12 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener
     private DrawerLayout mDrawerLayout;
     public static String profileOfMineOrFriend = "";
     private ListView listView;
-    private ArrayList<FeedItem> feedItems = new ArrayList<>();
+    private ArrayList<FeedItem> feedItems;
     private static FeedAdapter feedAdapter;
 
     private FirebaseAuth mAuth;
     private DatabaseReference databaseReference;
     private Button[] categoryButtons;
-    private String[] buttonNames;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,17 +71,6 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener
         categoryButtons[5] = findViewById(R.id.categoryButtonSongs);
         categoryButtons[6] = findViewById(R.id.categoryButtonVideoGames);
         categoryButtons[7] = findViewById(R.id.categoryButtonWebsites);
-
-
-        buttonNames = new String[8];
-        buttonNames[0] = "all";
-        buttonNames[1] = "book";
-        buttonNames[2] = "movie";
-        buttonNames[3] = "tvshow";
-        buttonNames[4] = "place";
-        buttonNames[5] = "song";
-        buttonNames[6] = "videogame";
-        buttonNames[7] = "website";
 
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mDrawerLayout.addDrawerListener(
@@ -168,102 +153,39 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener
                 });
 
 
-        //News Feed
-        Query query = databaseReference
-                .child("posts");
+        onClick(findViewById(R.id.categoryButtonAll));
 
-        for(int i = 0; i < buttonNames.length; i++) {
+        for(int i = 0; i < categoryButtons.length; i++) {
             categoryButtons[i].setOnClickListener(this);
         }
-
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot)
-            {
-                feedItems = new ArrayList<>();
-                for(DataSnapshot singleSnapshot : dataSnapshot.getChildren())
-                {
-
-                    Post post = singleSnapshot.getValue(Post.class);
-
-                    final FeedItem feedItem = new FeedItem();
-
-                    feedItem.setCover_photo(post.getItem_cover_photo());
-                    feedItem.setDate(post.getDate_created());
-                    feedItem.setItem_name(post.getItem_name());
-                    feedItem.setItem_type(post.getItem_type());
-                    feedItem.setItem_owner(post.getItem_owner());
-                    feedItem.setItem_detail(post.getItem_detail());
-                    feedItem.setLikes(post.getLike_count());
-                    feedItem.setRating(post.getRating());
-                    feedItem.setReview(post.getReview());
-                    feedItem.setUser_id(post.getUser_id());
-                    feedItem.setPost_id(post.getPost_id());
-                    feedItem.setPost_image(post.getPost_image());
-                    feedItem.setCategory(post.getCategory());
-
-                    Query query = FirebaseDatabase.getInstance().getReference()
-                            .child("user_account_settings")
-                            .child(post.getUser_id());
-
-                    query.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot)
-                        {
-                            System.out.println();
-
-                            System.out.println("datasnapshot: " + dataSnapshot.getChildrenCount());
-
-                            String username = dataSnapshot.getValue(UserAccountSettings.class).getUsername();
-                            String profile_picture = dataSnapshot.getValue(UserAccountSettings.class).getProfile_photo();
-
-                            feedItem.setUsername(username);
-                            feedItem.setProfile_picture(profile_picture);
-
-                            Log.d(TAG, "onDataChange: found user: "
-                                    + dataSnapshot.getValue(UserAccountSettings.class).getUsername());
-
-                            feedItems.add(feedItem);
-
-                            feedAdapter = new FeedAdapter(feedItems, mContext);
-
-                            listView.setAdapter(feedAdapter);
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
     }
+
+    private int counterForAdapter;
 
     @Override
     public void onClick(View v) {
+        feedItems = new ArrayList<>();
 
-        for(int i = 0; i < buttonNames.length; i++) {
+        counterForAdapter = 0;
+        for(int i = 0; i < categoryButtons.length; i++) {
             categoryButtons[i].setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
         }
 
         final Button tempButton = (Button) v;
 
-        tempButton.setBackgroundColor(Color.GREEN);
+        tempButton.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
+        Log.i("CHECKPRINT", tempButton.getText().toString());
+
         Query query = databaseReference.child("posts");
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                final int childrenCount = (int) dataSnapshot.getChildrenCount();
                 for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
                     Post post = singleSnapshot.getValue(Post.class);
                     Log.i("CHECKPRINT", tempButton.getText().toString());
-                    if (tempButton.getText().toString().equals("All") || tempButton.getText().toString().equals(post.getCategory())) {
+                    final String postCategoryName = post.getCategory();
+                    final String buttonName = tempButton.getText().toString();
 
                         final FeedItem feedItem = new FeedItem();
 
@@ -299,12 +221,14 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener
 
                                 Log.d(TAG, "onDataChange: found user: "
                                         + dataSnapshot.getValue(UserAccountSettings.class).getUsername());
-
-                                feedItems.add(feedItem);
-
-                                feedAdapter = new FeedAdapter(feedItems, mContext);
-
-                                listView.setAdapter(feedAdapter);
+                                if (buttonName.equals("All") || buttonName.equals(postCategoryName)) {
+                                    feedItems.add(feedItem);
+                                }
+                                counterForAdapter++;
+                                if(counterForAdapter == childrenCount){
+                                    feedAdapter = new FeedAdapter(feedItems, mContext);
+                                    listView.setAdapter(feedAdapter);
+                                }
                             }
 
                             @Override
@@ -314,7 +238,6 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener
                         });
                     }
                 }
-            }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
