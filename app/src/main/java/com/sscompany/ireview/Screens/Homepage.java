@@ -8,11 +8,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.sscompany.ireview.Adapters.FeedAdapter;
-import com.sscompany.ireview.AddElement;
-import com.sscompany.ireview.FeedItem;
-import com.sscompany.ireview.Models.Post;
-import com.sscompany.ireview.Models.UserAccountSettings;
+import com.sscompany.ireview.Adapters.*;
+import com.sscompany.ireview.*;
+import com.sscompany.ireview.Models.*;
 import com.sscompany.ireview.R;
 import com.sscompany.ireview.Settings.*;
 import com.sscompany.ireview.LoginRelatedPages.*;
@@ -168,80 +166,11 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener
                 });
 
 
-        //News Feed
-        Query query = databaseReference
-                .child("posts");
+        onClick(findViewById(R.id.categoryButtonAll));
 
         for(int i = 0; i < buttonNames.length; i++) {
             categoryButtons[i].setOnClickListener(this);
         }
-
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot)
-            {
-                feedItems = new ArrayList<>();
-                for(DataSnapshot singleSnapshot : dataSnapshot.getChildren())
-                {
-
-                    Post post = singleSnapshot.getValue(Post.class);
-
-                    final FeedItem feedItem = new FeedItem();
-
-                    feedItem.setCover_photo(post.getItem_cover_photo());
-                    feedItem.setDate(post.getData_created());
-                    feedItem.setItem_name(post.getItem_name());
-                    feedItem.setItem_owner(post.getItem_owner());
-                    feedItem.setLikes(post.getLike_count());
-                    feedItem.setRating(post.getRating());
-                    feedItem.setReview(post.getReview());
-                    feedItem.setUser_id(post.getUser_id());
-                    feedItem.setPost_id(post.getPost_id());
-                    feedItem.setPost_image(post.getPost_image());
-                    feedItem.setCategory(post.getCategory());
-
-                    Query query = FirebaseDatabase.getInstance().getReference()
-                            .child("user_account_settings")
-                            .child(post.getUser_id());
-
-                    query.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot)
-                        {
-                            System.out.println();
-
-                            System.out.println("datasnapshot: " + dataSnapshot.getChildrenCount());
-
-                            String username = dataSnapshot.getValue(UserAccountSettings.class).getUsername();
-                            String profile_picture = dataSnapshot.getValue(UserAccountSettings.class).getProfile_photo();
-
-                            feedItem.setUsername(username);
-                            feedItem.setProfile_picture(profile_picture);
-
-                            Log.d(TAG, "onDataChange: found user: "
-                                    + dataSnapshot.getValue(UserAccountSettings.class).getUsername());
-
-                            feedItems.add(feedItem);
-
-                            feedAdapter = new FeedAdapter(feedItems, mContext);
-
-                            listView.setAdapter(feedAdapter);
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
     }
 
     @Override
@@ -253,7 +182,9 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener
 
         final Button tempButton = (Button) v;
 
-        tempButton.setBackgroundColor(Color.GREEN);
+        tempButton.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
+        Log.i("CHECKPRINT", tempButton.getText().toString());
+
         Query query = databaseReference.child("posts");
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
