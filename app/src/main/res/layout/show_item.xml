@@ -87,7 +87,7 @@
             <!--style="?android:attr/ratingBarStyleSmall"-->
 
             <TextView
-                android:id="@+id/firstRow"
+                android:id="@+id/item_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -99,7 +99,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/rating_bar" />
 
             <TextView
-                android:id="@+id/secondRow"
+                android:id="@+id/item_type"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -108,10 +108,10 @@
                 android:textSize="18sp"
                 app:layout_constraintEnd_toStartOf="@+id/cover_photo"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/firstRow" />
+                app:layout_constraintTop_toBottomOf="@+id/item_name" />
 
             <TextView
-                android:id="@+id/thirdRow"
+                android:id="@+id/item_owner"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -120,10 +120,10 @@
                 android:textSize="18sp"
                 app:layout_constraintEnd_toStartOf="@+id/cover_photo"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/secondRow" />
+                app:layout_constraintTop_toBottomOf="@+id/item_type" />
 
             <TextView
-                android:id="@+id/fourthRow"
+                android:id="@+id/item_detail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -132,7 +132,7 @@
                 android:textSize="18sp"
                 app:layout_constraintEnd_toStartOf="@+id/cover_photo"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/thirdRow" />
+                app:layout_constraintTop_toBottomOf="@+id/item_owner" />
 
             <ImageView
                 android:id="@+id/cover_photo"
@@ -154,9 +154,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
-            <TextView
+            <com.sscompany.ireview.ReadMoreTextView
                 android:id="@+id/review"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="20dp"
@@ -164,10 +164,13 @@
                 android:singleLine="false"
                 android:text="Review"
                 android:textSize="15sp"
+                app:trimMode="trimModeLength"
+                app:trimLength="60"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cover_photo" />
+                app:layout_constraintTop_toBottomOf="@+id/cover_photo"
+                />
 
 
             <ImageView
@@ -178,19 +181,6 @@
                 android:src="@drawable/image_placeholder"
                 android:layout_marginTop="10dp"
                 app:layout_constraintTop_toBottomOf="@id/review"/>
-
-
-            <!--
-            <ImageView
-                android:id="@+id/bookmark_button"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="20dp"
-                android:src="@drawable/not_bookmarked"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cover_photo" />
-            -->
 
         </android.support.constraint.ConstraintLayout>
 

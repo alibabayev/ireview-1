@@ -8,21 +8,29 @@ import com.sscompany.ireview.R;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
+
+import rm.com.longpresspopup.LongPressPopup;
+import rm.com.longpresspopup.LongPressPopupBuilder;
+
+import static android.support.constraint.Constraints.TAG;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
 
     private Context mContext;
-    private List<InterfaceItem> mData;
+    private List<MyItem> mData;
 
-    public RecyclerViewAdapter(Context mContext, List<InterfaceItem> mData) {
+    public RecyclerViewAdapter(Context mContext, List<MyItem> mData) {
         this.mContext = mContext;
         this.mData = mData;
     }
@@ -40,14 +48,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position)
     {
-        holder.item_title.setText(mData.get(position).getName());
+        holder.item_title.setText(mData.get(position).getItem_name());
 
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.placeholder(R.drawable.image_placeholder);
 
-        Glide.with(mContext).applyDefaultRequestOptions(requestOptions).load(mData.get(position).getCover_photo())
+        Glide.with(mContext).applyDefaultRequestOptions(requestOptions).load(mData.get(position).getItem_cover_photo())
                 .into(holder.image_item_thumbnail);
-        //holder.image_item_thumbnail.setImageURI((Uri)mData.get(position).getCover_photo());
     }
 
     @Override

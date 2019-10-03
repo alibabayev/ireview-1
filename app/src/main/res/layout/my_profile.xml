@@ -112,8 +112,8 @@
 
                 <ImageView
                     android:id="@+id/addBookProfile"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_alignParentRight="true"
                     android:src="@drawable/plus"/>
 
@@ -153,8 +153,8 @@
 
                 <ImageView
                     android:id="@+id/addMovieProfile"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_alignParentRight="true"
                     android:src="@drawable/plus"/>
 
@@ -186,7 +186,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/titleMusics"
+                    android:id="@+id/titleSongs"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
@@ -194,16 +194,16 @@
                     android:text="Songs"/>
 
                 <ImageView
-                    android:id="@+id/addMusicProfile"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:id="@+id/addSongProfile"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_alignParentRight="true"
                     android:src="@drawable/plus"/>
 
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/no_music"
+                android:id="@+id/no_song"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="No Item!"
@@ -214,7 +214,7 @@
                 android:layout_marginBottom="10dp"/>
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerViewMusics"
+                android:id="@+id/recyclerViewSongs"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbars="none"
@@ -237,8 +237,8 @@
 
                 <ImageView
                     android:id="@+id/addPlaceProfile"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_alignParentRight="true"
                     android:src="@drawable/plus"/>
 
@@ -279,8 +279,8 @@
 
                 <ImageView
                     android:id="@+id/addTVShowProfile"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_alignParentRight="true"
                     android:src="@drawable/plus"/>
 
@@ -312,24 +312,24 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/titleGames"
+                    android:id="@+id/titleVideoGames"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
                     android:textSize="30sp"
-                    android:text="Games"/>
+                    android:text="Video Games"/>
 
                 <ImageView
-                    android:id="@+id/addGameProfile"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:id="@+id/addVideoGameProfile"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_alignParentRight="true"
                     android:src="@drawable/plus"/>
 
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/no_game"
+                android:id="@+id/no_video_game"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="No Item!"
@@ -340,7 +340,7 @@
                 android:layout_marginBottom="10dp"/>
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerViewGames"
+                android:id="@+id/recyclerViewVideoGames"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbars="none"
@@ -363,8 +363,8 @@
 
                 <ImageView
                     android:id="@+id/addWebsiteProfile"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_alignParentRight="true"
                     android:src="@drawable/plus"/>
 

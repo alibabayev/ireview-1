@@ -5,12 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.icu.util.Freezable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,6 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
+import com.sscompany.ireview.Adapters.RecyclerItemClickListener;
 import com.sscompany.ireview.Adapters.RecyclerViewAdapter;
 import com.sscompany.ireview.Models.*;
 import com.sscompany.ireview.R;
@@ -33,17 +37,17 @@ import java.util.List;
 
 import static com.sscompany.ireview.Screens.Homepage.profileOfMineOrFriend;
 
-public class FriendsProfile extends AppCompatActivity {
+public class FriendsProfile extends AppCompatActivity
+{
+    private List<MyItem> myItemsList;
+    private List<MyItem> myItemsList1;
+    private List<MyItem> myItemsList2;
+    private List<MyItem> myItemsList3;
+    private List<MyItem> myItemsList4;
+    private List<MyItem> myItemsList5;
+    private List<MyItem> myItemsList6;
 
-    private List<InterfaceItem> bookList;
-    private List<InterfaceItem> movieList;
-    private List<InterfaceItem> musicList;
-    private List<InterfaceItem> tvShowList;
-    private List<InterfaceItem> placeList;
-    private List<InterfaceItem> gameList;
-    private List<InterfaceItem> websiteList;
-
-    private DatabaseReference databaseReference;
+    private DatabaseReference myRef;
     private boolean isSpeakButtonLongPressed = false;
     private Context mContext;
     String friendID;
@@ -64,9 +68,10 @@ public class FriendsProfile extends AppCompatActivity {
         //Initializing mContext
         mContext = FriendsProfile.this;
 
-        bookList = new ArrayList<>();
 
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+        myRef = FirebaseDatabase.getInstance().getReference();
+
+        myRef = FirebaseDatabase.getInstance().getReference();
         userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         friendID = getIntent().getStringExtra("FRIENDID");
         friendProfileCoverPicture = findViewById(R.id.FriendProfileCoverPicture);
@@ -76,7 +81,7 @@ public class FriendsProfile extends AppCompatActivity {
         followingCounterTextView = findViewById(R.id.FollowingsCountText);
 
 
-        databaseReference.child("user_account_settings")
+        myRef.child("user_account_settings")
                 .child(friendID)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -102,7 +107,7 @@ public class FriendsProfile extends AppCompatActivity {
     }
 
     private void updateFollowingNumber() {
-        databaseReference.child("friendship").child(friendID).addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.child("friendship").child(friendID).addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -118,7 +123,7 @@ public class FriendsProfile extends AppCompatActivity {
     }
 
     private void checkFriendship() {
-        databaseReference.child("friendship").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.child("friendship").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 GenericTypeIndicator<ArrayList<String>> temp = new GenericTypeIndicator<ArrayList<String>>() {
@@ -145,7 +150,7 @@ public class FriendsProfile extends AppCompatActivity {
         ImageView img1 = (ImageView) view;
         ImageView img2 = findViewById(R.id.RemoveFriendButton);
 
-        databaseReference.child("friendship").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.child("friendship").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 GenericTypeIndicator<ArrayList<String>> temp = new GenericTypeIndicator<ArrayList<String>>() {
@@ -157,7 +162,7 @@ public class FriendsProfile extends AppCompatActivity {
 
                 friendshipList.add(friendID);
 
-                databaseReference.child("friendship").child(userID).setValue(friendshipList);
+                myRef.child("friendship").child(userID).setValue(friendshipList);
             }
 
             @Override
@@ -173,7 +178,7 @@ public class FriendsProfile extends AppCompatActivity {
     public void clickToUnfollow(View view) {
         ImageView img1 = (ImageView) view;
         ImageView img2 = findViewById(R.id.AddFriendButton);
-        databaseReference.child("friendship").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.child("friendship").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 GenericTypeIndicator<ArrayList<String>> temp = new GenericTypeIndicator<ArrayList<String>>() {
@@ -182,7 +187,7 @@ public class FriendsProfile extends AppCompatActivity {
                 if (friendshipList.indexOf(friendID) != -1)
                     friendshipList.remove(friendshipList.indexOf(friendID));
 
-                databaseReference.child("friendship").child(userID).setValue(friendshipList);
+                myRef.child("friendship").child(userID).setValue(friendshipList);
             }
 
             @Override
@@ -213,8 +218,8 @@ public class FriendsProfile extends AppCompatActivity {
         //Setting recyclerView for movies
         setMovieRecyclerView();
 
-        //Setting recyclerView for music
-        setMusicRecyclerView();
+        //Setting recyclerView for song
+        setSongRecyclerView();
 
         //Setting recyclerView for places
         setPlaceRecyclerView();
@@ -222,129 +227,203 @@ public class FriendsProfile extends AppCompatActivity {
         //Setting recyclerView for tv shows
         setTVShowRecyclerView();
 
-        //Setting recyclerView for games
-        setGameRecyclerView();
+        //Setting recyclerView for video games
+        setVideoGameRecyclerView();
 
         //Setting recyclerView for websites
         setWebsiteRecyclerView();
     }
 
-    private void setBookRecyclerView() {
-        bookList = new ArrayList<>();
+    private void setBookRecyclerView()
+    {
+        myItemsList = new ArrayList<>();
 
-        databaseReference.child("user_items")
+        myRef.child("user_items")
                 .child(friendID)
-                .child("books")
+                .child("Books")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot sampleDataSnapshot : dataSnapshot.getChildren()) {
-                            Book book = sampleDataSnapshot.getValue(Book.class);
-                            bookList.add(book);
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                    {
+                        for (DataSnapshot sampleDataSnapshot : dataSnapshot.getChildren())
+                        {
+                            MyItem myItem = sampleDataSnapshot.getValue(MyItem.class);
+                            myItemsList.add(myItem);
                         }
 
-                        if (dataSnapshot.getChildrenCount() == 0) {
+                        if(dataSnapshot.getChildrenCount() == 0)
+                        {
                             findViewById(R.id.no_book).setVisibility(View.VISIBLE);
                         }
 
-                        RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewCategoryBooks);
-                        RecyclerViewAdapter myAdapter1 = new RecyclerViewAdapter(mContext, bookList);
+                        RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewBooks);
+                        RecyclerViewAdapter myAdapter1 = new RecyclerViewAdapter(mContext, myItemsList);
                         GridLayoutManager gr1 = new GridLayoutManager(mContext, 3);
                         itemRecyclerView1.setLayoutManager(gr1);
                         itemRecyclerView1.setAdapter(myAdapter1);
                         itemRecyclerView1.setNestedScrollingEnabled(false);
 
-                        /*final RecyclerView recyclerView = findViewById(R.id.recyclerViewCategoryBooks);
+                        final RecyclerView recyclerView = findViewById(R.id.recyclerViewBooks);
                         recyclerView.addOnItemTouchListener(
                                 new RecyclerItemClickListener(mContext, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                                     @Override
-                                    public void onItemClick(View view, int position) {
-                                        System.out.println("Name: " + bookList.get(position).getName() + " Owner: " + bookList.get(position).getOwner());
-                                        // do whatever
-                                        Intent intent = new Intent(mContext, AddItem.class);
+                                    public void onItemClick(View view, int position)
+                                    {
+                                        final Intent intent = new Intent(mContext, ShowItem.class);
 
-                                        intent.putExtra("action", "edit");
-                                        intent.putExtra("category", "book");
-                                        intent.putExtra("first_row", bookList.get(position).getName());
-                                        intent.putExtra("second_row", bookList.get(position).getOwner());
-                                        intent.putExtra("third_row", ((Book) bookList.get(position)).getGenre());
-                                        intent.putExtra("fourth_row", "");
-                                        intent.putExtra("cover_photo", bookList.get(position).getCover_photo());
+                                        intent.putExtra("category", myItemsList.get(position).getCategory());
+                                        intent.putExtra("item_name", myItemsList.get(position).getItem_name());
+                                        intent.putExtra("item_type", myItemsList.get(position).getItem_type());
+                                        intent.putExtra("item_owner", myItemsList.get(position).getItem_owner());
+                                        intent.putExtra("item_detail", myItemsList.get(position).getItem_detail());
+                                        intent.putExtra("cover_photo", myItemsList.get(position).getItem_cover_photo());
+                                        intent.putExtra("post_image", myItemsList.get(position).getPost_image());
+                                        intent.putExtra("review", myItemsList.get(position).getReview());
+                                        intent.putExtra("date", myItemsList.get(position).getDate_created());
+                                        intent.putExtra("rating", myItemsList.get(position).getRating());
+                                        intent.putExtra("post_id", myItemsList.get(position).getPost_id());
+                                        intent.putExtra("user_id", myItemsList.get(position).getUser_id());
 
-                                        startActivity(intent);
+                                        myRef.child("user_account_settings")
+                                                .child(myItemsList.get(position).getUser_id())
+                                                .addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                        UserAccountSettings userAccountSettings = dataSnapshot.getValue(UserAccountSettings.class);
+                                                        intent.putExtra("profile_picture", userAccountSettings.getProfile_photo());
+                                                        intent.putExtra("username", userAccountSettings.getUsername());
+
+                                                        startActivity(intent);
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                    }
+                                                });
+
                                     }
 
-                                   @Override
-                                    public void onLongItemClick(View view, int position) {
-                                        isSpeakButtonLongPressed = true;
-                                        ImageView imageView;
-                                        imageView = (ImageView) ((LinearLayout) ((CardView) recyclerView.getChildAt(position)).getChildAt(0)).getChildAt(0);
-                                        showCoverPhotoDialog(imageView);
+                                    @Override
+                                    public void onLongItemClick(View view, int position)
+                                    {
+                                        //isSpeakButtonLongPressed = true;
+
+                                        /*ImageView imageView = (ImageView) ((LinearLayout)((CardView)recyclerView.getChildAt(position)).getChildAt(0)).getChildAt(0);
+                                        imageView.invalidate();
+                                        BitmapDrawable dr = (BitmapDrawable)((ImageView)imageView).getDrawable();
+                                        Bitmap bitmap = dr.getBitmap();
+
+                                        showCoverPhotoDialog(bitmap);*/
                                     }
+
+                                    @Override
+                                    public void onTouch(View view, MotionEvent e, int position)
+                                    {
+                                        view.onTouchEvent(e);
+
+                                        // We're only interested in when the button is released.
+                                        if (e.getAction() == MotionEvent.ACTION_UP)
+                                        {
+                                            // We're only interested in anything if our speak button is currently pressed.
+                                            if (isSpeakButtonLongPressed)
+                                            {
+                                                alertDialog.cancel();
+                                                isSpeakButtonLongPressed = false;
+                                            }
+                                        }
+                                    }
+
 
                                 })
-                        );*/
+                        );
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    public void onCancelled(@NonNull DatabaseError databaseError)
+                    {
 
                     }
                 });
     }
 
-    private void setMovieRecyclerView() {
-        movieList = new ArrayList<>();
+    private void setMovieRecyclerView()
+    {
+        myItemsList1 = new ArrayList<>();
 
-        databaseReference.child("user_items")
+        myRef.child("user_items")
                 .child(friendID)
-                .child("movies")
+                .child("Movies")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot sampleDataSnapshot : dataSnapshot.getChildren()) {
-                            Movie movie = sampleDataSnapshot.getValue(Movie.class);
-                            movieList.add(movie);
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                    {
+                        for (DataSnapshot sampleDataSnapshot : dataSnapshot.getChildren())
+                        {
+                            MyItem movie = sampleDataSnapshot.getValue(MyItem.class);
+                            myItemsList1.add(movie);
                         }
 
-                        if (dataSnapshot.getChildrenCount() == 0) {
+                        if(dataSnapshot.getChildrenCount() == 0)
+                        {
                             findViewById(R.id.no_movie).setVisibility(View.VISIBLE);
                         }
 
-                        RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewCategoryMovies);
-                        RecyclerViewAdapter myAdapter1 = new RecyclerViewAdapter(mContext, movieList);
+                        RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewMovies);
+                        RecyclerViewAdapter myAdapter1 = new RecyclerViewAdapter(mContext, myItemsList1);
                         GridLayoutManager gr1 = new GridLayoutManager(mContext, 3);
                         itemRecyclerView1.setLayoutManager(gr1);
                         itemRecyclerView1.setAdapter(myAdapter1);
                         itemRecyclerView1.setNestedScrollingEnabled(false);
 
-                        /*RecyclerView recyclerView = findViewById(R.id.recyclerViewCategoryMovies);
+                        RecyclerView recyclerView = findViewById(R.id.recyclerViewMovies);
                         recyclerView.addOnItemTouchListener(
-                                new RecyclerItemClickListener(mContext, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+                                new RecyclerItemClickListener(mContext, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
                                     @Override
-                                    public void onItemClick(View view, int position) {
-                                        System.out.println("Name: " + movieList.get(position).getName() + " Owner: " + movieList.get(position).getOwner());
+                                    public void onItemClick(View view, int position)
+                                    {
+                                        final Intent intent = new Intent(mContext, ShowItem.class);
+
+                                        intent.putExtra("category", myItemsList1.get(position).getCategory());
+                                        intent.putExtra("item_name", myItemsList1.get(position).getItem_name());
+                                        intent.putExtra("item_type", myItemsList1.get(position).getItem_type());
+                                        intent.putExtra("item_owner", myItemsList1.get(position).getItem_owner());
+                                        intent.putExtra("item_detail", myItemsList1.get(position).getItem_detail());
+                                        intent.putExtra("cover_photo", myItemsList1.get(position).getItem_cover_photo());
+                                        intent.putExtra("post_image", myItemsList1.get(position).getPost_image());
+                                        intent.putExtra("review", myItemsList1.get(position).getReview());
+                                        intent.putExtra("date", myItemsList1.get(position).getDate_created());
+                                        intent.putExtra("rating", myItemsList1.get(position).getRating());
+                                        intent.putExtra("post_id", myItemsList1.get(position).getPost_id());
+
+                                        myRef.child("user_account_settings")
+                                                .child(myItemsList1.get(position).getUser_id())
+                                                .addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                        UserAccountSettings userAccountSettings = dataSnapshot.getValue(UserAccountSettings.class);
+                                                        intent.putExtra("profile_picture", userAccountSettings.getProfile_photo());
+                                                        intent.putExtra("username", userAccountSettings.getUsername());
+
+                                                        startActivity(intent);
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                    }
+                                                });
+
+                                    }
+
+
+                                    @Override public void onLongItemClick(View view, int position) {
                                         // do whatever
-                                        Intent intent = new Intent(mContext, AddItem.class);
-
-                                        intent.putExtra("action", "edit");
-                                        intent.putExtra("category", "movie");
-                                        intent.putExtra("first_row", movieList.get(position).getName());
-                                        intent.putExtra("second_row", movieList.get(position).getOwner());
-                                        intent.putExtra("third_row", ((Movie) movieList.get(position)).getGenre());
-                                        intent.putExtra("fourth_row", ((Movie) movieList.get(position)).getLead_actors());
-                                        intent.putExtra("cover_photo", movieList.get(position).getCover_photo());
-
-                                        startActivity(intent);
                                     }
 
                                     @Override
-                                    public void onLongItemClick(View view, int position) {
-                                        // do whatever
-                                    }
-
-                                    @Override
-                                    public void onTouch(View view, MotionEvent e, int position) {
+                                    public void onTouch(View view, MotionEvent e, int position)
+                                    {
                                         view.onTouchEvent(e);
                                         // We're only interested in when the button is released.
                                         if (e.getAction() == MotionEvent.ACTION_UP) {
@@ -357,68 +436,94 @@ public class FriendsProfile extends AppCompatActivity {
                                         }
                                     }
                                 })
-                        );*/
+                        );
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    public void onCancelled(@NonNull DatabaseError databaseError)
+                    {
 
                     }
                 });
     }
 
-    private void setMusicRecyclerView() {
-        musicList = new ArrayList<>();
+    private void setSongRecyclerView()
+    {
+        myItemsList2 = new ArrayList<>();
 
-        databaseReference.child("user_items")
+        myRef.child("user_items")
                 .child(friendID)
-                .child("musics")
+                .child("Songs")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot sampleDataSnapshot : dataSnapshot.getChildren()) {
-                            Song song = sampleDataSnapshot.getValue(Song.class);
-                            musicList.add(song);
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                    {
+                        for (DataSnapshot sampleDataSnapshot : dataSnapshot.getChildren())
+                        {
+                            MyItem song = sampleDataSnapshot.getValue(MyItem.class);
+                            myItemsList2.add(song);
                         }
 
-                        if (dataSnapshot.getChildrenCount() == 0) {
-                            findViewById(R.id.no_music).setVisibility(View.VISIBLE);
+                        if(dataSnapshot.getChildrenCount() == 0)
+                        {
+                            findViewById(R.id.no_song).setVisibility(View.VISIBLE);
                         }
 
-                        RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewCategoryMusics);
-                        RecyclerViewAdapter myAdapter1 = new RecyclerViewAdapter(mContext, musicList);
+                        RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewSongs);
+                        RecyclerViewAdapter myAdapter1 = new RecyclerViewAdapter(mContext, myItemsList2);
                         GridLayoutManager gr1 = new GridLayoutManager(mContext, 3);
                         itemRecyclerView1.setLayoutManager(gr1);
                         itemRecyclerView1.setAdapter(myAdapter1);
                         itemRecyclerView1.setNestedScrollingEnabled(false);
 
-                        /*RecyclerView recyclerView = findViewById(R.id.recyclerViewCategoryMusics);
+                        RecyclerView recyclerView = findViewById(R.id.recyclerViewSongs);
                         recyclerView.addOnItemTouchListener(
-                                new RecyclerItemClickListener(mContext, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+                                new RecyclerItemClickListener(mContext, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
                                     @Override
-                                    public void onItemClick(View view, int position) {
-                                        System.out.println("Name: " + musicList.get(position).getName() + " Owner: " + musicList.get(position).getOwner());
+                                    public void onItemClick(View view, int position)
+                                    {
+                                        final Intent intent = new Intent(mContext, ShowItem.class);
+
+                                        intent.putExtra("category", myItemsList2.get(position).getCategory());
+                                        intent.putExtra("item_name", myItemsList2.get(position).getItem_name());
+                                        intent.putExtra("item_type", myItemsList2.get(position).getItem_type());
+                                        intent.putExtra("item_owner", myItemsList2.get(position).getItem_owner());
+                                        intent.putExtra("item_detail", myItemsList2.get(position).getItem_detail());
+                                        intent.putExtra("cover_photo", myItemsList2.get(position).getItem_cover_photo());
+                                        intent.putExtra("post_image", myItemsList2.get(position).getPost_image());
+                                        intent.putExtra("review", myItemsList2.get(position).getReview());
+                                        intent.putExtra("date", myItemsList2.get(position).getDate_created());
+                                        intent.putExtra("rating", myItemsList2.get(position).getRating());
+                                        intent.putExtra("post_id", myItemsList2.get(position).getPost_id());
+
+                                        myRef.child("user_account_settings")
+                                                .child(myItemsList2.get(position).getUser_id())
+                                                .addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                        UserAccountSettings userAccountSettings = dataSnapshot.getValue(UserAccountSettings.class);
+                                                        intent.putExtra("profile_picture", userAccountSettings.getProfile_photo());
+                                                        intent.putExtra("username", userAccountSettings.getUsername());
+
+                                                        startActivity(intent);
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                    }
+                                                });
+
+                                    }
+
+
+                                    @Override public void onLongItemClick(View view, int position) {
                                         // do whatever
-                                        Intent intent = new Intent(mContext, AddItem.class);
-
-                                        intent.putExtra("action", "edit");
-                                        intent.putExtra("category", "music");
-                                        intent.putExtra("first_row", musicList.get(position).getName());
-                                        intent.putExtra("second_row", musicList.get(position).getOwner());
-                                        intent.putExtra("third_row", ((Song) musicList.get(position)).getGenre());
-                                        intent.putExtra("fourth_row", ((Song) musicList.get(position)).getLanguage());
-                                        intent.putExtra("cover_photo", musicList.get(position).getCover_photo());
-
-                                        startActivity(intent);
                                     }
 
                                     @Override
-                                    public void onLongItemClick(View view, int position) {
-                                        // do whatever
-                                    }
-
-                                    @Override
-                                    public void onTouch(View view, MotionEvent e, int position) {
+                                    public void onTouch(View view, MotionEvent e, int position)
+                                    {
                                         view.onTouchEvent(e);
                                         // We're only interested in when the button is released.
                                         if (e.getAction() == MotionEvent.ACTION_UP) {
@@ -431,68 +536,94 @@ public class FriendsProfile extends AppCompatActivity {
                                         }
                                     }
                                 })
-                        );*/
+                        );
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    public void onCancelled(@NonNull DatabaseError databaseError)
+                    {
 
                     }
                 });
     }
 
-    private void setPlaceRecyclerView() {
-        placeList = new ArrayList<>();
+    private void setPlaceRecyclerView()
+    {
+        myItemsList3 = new ArrayList<>();
 
-        databaseReference.child("user_items")
+        myRef.child("user_items")
                 .child(friendID)
-                .child("places")
+                .child("Places")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot sampleDataSnapshot : dataSnapshot.getChildren()) {
-                            Place place = sampleDataSnapshot.getValue(Place.class);
-                            bookList.add(place);
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                    {
+                        for (DataSnapshot sampleDataSnapshot : dataSnapshot.getChildren())
+                        {
+                            MyItem place = sampleDataSnapshot.getValue(MyItem.class);
+                            myItemsList3.add(place);
                         }
 
-                        if (dataSnapshot.getChildrenCount() == 0) {
+                        if(dataSnapshot.getChildrenCount() == 0)
+                        {
                             findViewById(R.id.no_place).setVisibility(View.VISIBLE);
                         }
 
-                        RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewCategoryPlaces);
-                        RecyclerViewAdapter myAdapter1 = new RecyclerViewAdapter(mContext, placeList);
+                        RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewPlaces);
+                        RecyclerViewAdapter myAdapter1 = new RecyclerViewAdapter(mContext, myItemsList3);
                         GridLayoutManager gr1 = new GridLayoutManager(mContext, 3);
                         itemRecyclerView1.setLayoutManager(gr1);
                         itemRecyclerView1.setAdapter(myAdapter1);
                         itemRecyclerView1.setNestedScrollingEnabled(false);
 
-                        /*RecyclerView recyclerView = findViewById(R.id.recyclerViewCategoryPlaces);
+                        RecyclerView recyclerView = findViewById(R.id.recyclerViewPlaces);
                         recyclerView.addOnItemTouchListener(
-                                new RecyclerItemClickListener(mContext, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+                                new RecyclerItemClickListener(mContext, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
                                     @Override
-                                    public void onItemClick(View view, int position) {
-                                        System.out.println("Name: " + placeList.get(position).getName() + " Owner: " + placeList.get(position).getOwner());
+                                    public void onItemClick(View view, int position)
+                                    {
+                                        final Intent intent = new Intent(mContext, ShowItem.class);
+
+                                        intent.putExtra("category", myItemsList3.get(position).getCategory());
+                                        intent.putExtra("item_name", myItemsList3.get(position).getItem_name());
+                                        intent.putExtra("item_type", myItemsList3.get(position).getItem_type());
+                                        intent.putExtra("item_owner", myItemsList3.get(position).getItem_owner());
+                                        intent.putExtra("item_detail", myItemsList3.get(position).getItem_detail());
+                                        intent.putExtra("cover_photo", myItemsList3.get(position).getItem_cover_photo());
+                                        intent.putExtra("post_image", myItemsList3.get(position).getPost_image());
+                                        intent.putExtra("review", myItemsList3.get(position).getReview());
+                                        intent.putExtra("date", myItemsList3.get(position).getDate_created());
+                                        intent.putExtra("rating", myItemsList3.get(position).getRating());
+                                        intent.putExtra("post_id", myItemsList3.get(position).getPost_id());
+
+                                        myRef.child("user_account_settings")
+                                                .child(myItemsList3.get(position).getUser_id())
+                                                .addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                        UserAccountSettings userAccountSettings = dataSnapshot.getValue(UserAccountSettings.class);
+                                                        intent.putExtra("profile_picture", userAccountSettings.getProfile_photo());
+                                                        intent.putExtra("username", userAccountSettings.getUsername());
+
+                                                        startActivity(intent);
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                    }
+                                                });
+
+                                    }
+
+
+                                    @Override public void onLongItemClick(View view, int position) {
                                         // do whatever
-                                        Intent intent = new Intent(mContext, AddItem.class);
-
-                                        intent.putExtra("action", "edit");
-                                        intent.putExtra("category", "place");
-                                        intent.putExtra("first_row", placeList.get(position).getName());
-                                        intent.putExtra("second_row", ((Place) placeList.get(position)).getPlace_type());
-                                        intent.putExtra("third_row", ((Place) placeList.get(position)).getAddress());
-                                        intent.putExtra("fourth_row", "");
-                                        intent.putExtra("cover_photo", placeList.get(position).getCover_photo());
-
-                                        startActivity(intent);
                                     }
 
                                     @Override
-                                    public void onLongItemClick(View view, int position) {
-                                        // do whatever
-                                    }
-
-                                    @Override
-                                    public void onTouch(View view, MotionEvent e, int position) {
+                                    public void onTouch(View view, MotionEvent e, int position)
+                                    {
                                         view.onTouchEvent(e);
                                         // We're only interested in when the button is released.
                                         if (e.getAction() == MotionEvent.ACTION_UP) {
@@ -505,68 +636,94 @@ public class FriendsProfile extends AppCompatActivity {
                                         }
                                     }
                                 })
-                        );*/
+                        );
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    public void onCancelled(@NonNull DatabaseError databaseError)
+                    {
 
                     }
                 });
     }
 
-    private void setTVShowRecyclerView() {
-        tvShowList = new ArrayList<>();
+    private void setTVShowRecyclerView()
+    {
+        myItemsList4 = new ArrayList<>();
 
-        databaseReference.child("user_items")
+        myRef.child("user_items")
                 .child(friendID)
-                .child("tv_shows")
+                .child("TV Shows")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot sampleDataSnapshot : dataSnapshot.getChildren()) {
-                            TVShow tvShow = sampleDataSnapshot.getValue(TVShow.class);
-                            tvShowList.add(tvShow);
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                    {
+                        for (DataSnapshot sampleDataSnapshot : dataSnapshot.getChildren())
+                        {
+                            MyItem tvShow = sampleDataSnapshot.getValue(MyItem.class);
+                            myItemsList4.add(tvShow);
                         }
 
-                        if (dataSnapshot.getChildrenCount() == 0) {
+                        if(dataSnapshot.getChildrenCount() == 0)
+                        {
                             findViewById(R.id.no_tvshow).setVisibility(View.VISIBLE);
                         }
 
-                        RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewCategoryTvShows);
-                        RecyclerViewAdapter myAdapter1 = new RecyclerViewAdapter(mContext, tvShowList);
+                        RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewTVShows);
+                        RecyclerViewAdapter myAdapter1 = new RecyclerViewAdapter(mContext, myItemsList4);
                         GridLayoutManager gr1 = new GridLayoutManager(mContext, 3);
                         itemRecyclerView1.setLayoutManager(gr1);
                         itemRecyclerView1.setAdapter(myAdapter1);
                         itemRecyclerView1.setNestedScrollingEnabled(false);
 
-                        /*RecyclerView recyclerView = findViewById(R.id.recyclerViewCategoryTvShows);
+                        RecyclerView recyclerView = findViewById(R.id.recyclerViewTVShows);
                         recyclerView.addOnItemTouchListener(
-                                new RecyclerItemClickListener(mContext, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+                                new RecyclerItemClickListener(mContext, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
                                     @Override
-                                    public void onItemClick(View view, int position) {
-                                        System.out.println("Name: " + tvShowList.get(position).getName() + " Owner: " + tvShowList.get(position).getOwner());
+                                    public void onItemClick(View view, int position)
+                                    {
+                                        final Intent intent = new Intent(mContext, ShowItem.class);
+
+                                        intent.putExtra("category", myItemsList4.get(position).getCategory());
+                                        intent.putExtra("item_name", myItemsList4.get(position).getItem_name());
+                                        intent.putExtra("item_type", myItemsList4.get(position).getItem_type());
+                                        intent.putExtra("item_owner", myItemsList4.get(position).getItem_owner());
+                                        intent.putExtra("item_detail", myItemsList4.get(position).getItem_detail());
+                                        intent.putExtra("cover_photo", myItemsList4.get(position).getItem_cover_photo());
+                                        intent.putExtra("post_image", myItemsList4.get(position).getPost_image());
+                                        intent.putExtra("review", myItemsList4.get(position).getReview());
+                                        intent.putExtra("date", myItemsList4.get(position).getDate_created());
+                                        intent.putExtra("rating", myItemsList4.get(position).getRating());
+                                        intent.putExtra("post_id", myItemsList4.get(position).getPost_id());
+
+                                        myRef.child("user_account_settings")
+                                                .child(myItemsList4.get(position).getUser_id())
+                                                .addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                        UserAccountSettings userAccountSettings = dataSnapshot.getValue(UserAccountSettings.class);
+                                                        intent.putExtra("profile_picture", userAccountSettings.getProfile_photo());
+                                                        intent.putExtra("username", userAccountSettings.getUsername());
+
+                                                        startActivity(intent);
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                    }
+                                                });
+
+                                    }
+
+
+                                    @Override public void onLongItemClick(View view, int position) {
                                         // do whatever
-                                        Intent intent = new Intent(mContext, AddItem.class);
-
-                                        intent.putExtra("action", "edit");
-                                        intent.putExtra("category", "tv_show");
-                                        intent.putExtra("first_row", tvShowList.get(position).getName());
-                                        intent.putExtra("second_row", tvShowList.get(position).getOwner());
-                                        intent.putExtra("third_row", ((TVShow) tvShowList.get(position)).getGenre());
-                                        intent.putExtra("fourth_row", "");
-                                        intent.putExtra("cover_photo", tvShowList.get(position).getCover_photo());
-
-                                        startActivity(intent);
                                     }
 
                                     @Override
-                                    public void onLongItemClick(View view, int position) {
-                                        // do whatever
-                                    }
-
-                                    @Override
-                                    public void onTouch(View view, MotionEvent e, int position) {
+                                    public void onTouch(View view, MotionEvent e, int position)
+                                    {
                                         view.onTouchEvent(e);
                                         // We're only interested in when the button is released.
                                         if (e.getAction() == MotionEvent.ACTION_UP) {
@@ -579,69 +736,95 @@ public class FriendsProfile extends AppCompatActivity {
                                         }
                                     }
                                 })
-                        );*/
+                        );
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    public void onCancelled(@NonNull DatabaseError databaseError)
+                    {
 
                     }
                 });
 
     }
 
-    private void setGameRecyclerView() {
-        gameList = new ArrayList<>();
+    private void setVideoGameRecyclerView()
+    {
+        myItemsList5 = new ArrayList<>();
 
-        databaseReference.child("user_items")
+        myRef.child("user_items")
                 .child(friendID)
-                .child("games")
+                .child("Video Games")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot sampleDataSnapshot : dataSnapshot.getChildren()) {
-                            VideoGame videoGame = sampleDataSnapshot.getValue(VideoGame.class);
-                            gameList.add(videoGame);
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                    {
+                        for (DataSnapshot sampleDataSnapshot : dataSnapshot.getChildren())
+                        {
+                            MyItem videoGame = sampleDataSnapshot.getValue(MyItem.class);
+                            myItemsList5.add(videoGame);
                         }
 
-                        if (dataSnapshot.getChildrenCount() == 0) {
-                            findViewById(R.id.no_game).setVisibility(View.VISIBLE);
+                        if(dataSnapshot.getChildrenCount() == 0)
+                        {
+                            findViewById(R.id.no_video_game).setVisibility(View.VISIBLE);
                         }
 
-                        RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewCategoryVideoGames);
-                        RecyclerViewAdapter myAdapter1 = new RecyclerViewAdapter(mContext, gameList);
+                        RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewVideoGames);
+                        RecyclerViewAdapter myAdapter1 = new RecyclerViewAdapter(mContext, myItemsList5);
                         GridLayoutManager gr1 = new GridLayoutManager(mContext, 3);
                         itemRecyclerView1.setLayoutManager(gr1);
                         itemRecyclerView1.setAdapter(myAdapter1);
                         itemRecyclerView1.setNestedScrollingEnabled(false);
 
-                        /*RecyclerView recyclerView = findViewById(R.id.recyclerViewCategoryVideoGames);
+                        RecyclerView recyclerView = findViewById(R.id.recyclerViewVideoGames);
                         recyclerView.addOnItemTouchListener(
-                                new RecyclerItemClickListener(mContext, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+                                new RecyclerItemClickListener(mContext, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
                                     @Override
-                                    public void onItemClick(View view, int position) {
-                                        System.out.println("Name: " + gameList.get(position).getName() + " Owner: " + gameList.get(position).getOwner());
+                                    public void onItemClick(View view, int position)
+                                    {
+                                        final Intent intent = new Intent(mContext, ShowItem.class);
+
+                                        intent.putExtra("category", myItemsList5.get(position).getCategory());
+                                        intent.putExtra("item_name", myItemsList5.get(position).getItem_name());
+                                        intent.putExtra("item_type", myItemsList5.get(position).getItem_type());
+                                        intent.putExtra("item_owner", myItemsList5.get(position).getItem_owner());
+                                        intent.putExtra("item_detail", myItemsList5.get(position).getItem_detail());
+                                        intent.putExtra("cover_photo", myItemsList5.get(position).getItem_cover_photo());
+                                        intent.putExtra("post_image", myItemsList5.get(position).getPost_image());
+                                        intent.putExtra("review", myItemsList5.get(position).getReview());
+                                        intent.putExtra("date", myItemsList5.get(position).getDate_created());
+                                        intent.putExtra("rating", myItemsList5.get(position).getRating());
+                                        intent.putExtra("post_id", myItemsList5.get(position).getPost_id());
+
+                                        myRef.child("user_account_settings")
+                                                .child(myItemsList5.get(position).getUser_id())
+                                                .addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                        UserAccountSettings userAccountSettings = dataSnapshot.getValue(UserAccountSettings.class);
+                                                        intent.putExtra("profile_picture", userAccountSettings.getProfile_photo());
+                                                        intent.putExtra("username", userAccountSettings.getUsername());
+
+                                                        startActivity(intent);
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                    }
+                                                });
+
+                                    }
+
+
+                                    @Override public void onLongItemClick(View view, int position) {
                                         // do whatever
-                                        Intent intent = new Intent(mContext, AddItem.class);
-
-                                        intent.putExtra("action", "edit");
-                                        intent.putExtra("category", "game");
-                                        intent.putExtra("first_row", gameList.get(position).getName());
-                                        intent.putExtra("second_row", gameList.get(position).getOwner());
-                                        intent.putExtra("third_row", ((VideoGame) gameList.get(position)).getGame_type());
-                                        intent.putExtra("fourth_row", "");
-                                        intent.putExtra("cover_photo", gameList.get(position).getCover_photo());
-
-                                        startActivity(intent);
                                     }
 
                                     @Override
-                                    public void onLongItemClick(View view, int position) {
-                                        // do whatever
-                                    }
-
-                                    @Override
-                                    public void onTouch(View view, MotionEvent e, int position) {
+                                    public void onTouch(View view, MotionEvent e, int position)
+                                    {
                                         view.onTouchEvent(e);
                                         // We're only interested in when the button is released.
                                         if (e.getAction() == MotionEvent.ACTION_UP) {
@@ -654,61 +837,86 @@ public class FriendsProfile extends AppCompatActivity {
                                         }
                                     }
                                 })
-                        );*/
+                        );
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    public void onCancelled(@NonNull DatabaseError databaseError)
+                    {
 
                     }
                 });
     }
 
-    private void setWebsiteRecyclerView() {
-        websiteList = new ArrayList<>();
+    private void setWebsiteRecyclerView()
+    {
+        myItemsList6 = new ArrayList<>();
 
-        databaseReference.child("user_items")
+        myRef.child("user_items")
                 .child(friendID)
-                .child("websites")
+                .child("Websites")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot sampleDataSnapshot : dataSnapshot.getChildren()) {
-                            Website website = sampleDataSnapshot.getValue(Website.class);
-                            websiteList.add(website);
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                    {
+                        for (DataSnapshot sampleDataSnapshot : dataSnapshot.getChildren())
+                        {
+                            MyItem website = sampleDataSnapshot.getValue(MyItem.class);
+                            myItemsList6.add(website);
                         }
 
-                        if (dataSnapshot.getChildrenCount() == 0) {
+                        if(dataSnapshot.getChildrenCount() == 0)
+                        {
                             findViewById(R.id.no_website).setVisibility(View.VISIBLE);
                         }
 
-                        RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewCategoryWebsites);
-                        RecyclerViewAdapter myAdapter1 = new RecyclerViewAdapter(mContext, websiteList);
+                        RecyclerView itemRecyclerView1 = (RecyclerView) findViewById(R.id.recyclerViewWebsites);
+                        RecyclerViewAdapter myAdapter1 = new RecyclerViewAdapter(mContext, myItemsList6);
                         GridLayoutManager gr1 = new GridLayoutManager(mContext, 3);
                         itemRecyclerView1.setLayoutManager(gr1);
                         itemRecyclerView1.setAdapter(myAdapter1);
                         itemRecyclerView1.setNestedScrollingEnabled(false);
 
-                        /*RecyclerView recyclerView = findViewById(R.id.recyclerViewCategoryWebsites);
+                        RecyclerView recyclerView = findViewById(R.id.recyclerViewWebsites);
                         recyclerView.addOnItemTouchListener(
                                 new RecyclerItemClickListener(mContext, recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                                     @Override
-                                    public void onItemClick(View view, int position) {
-                                        System.out.println("Name: " + websiteList.get(position).getName() + " Owner: " + websiteList.get(position).getOwner());
-                                        // do whatever
+                                    public void onItemClick(View view, int position)
+                                    {
+                                        final Intent intent = new Intent(mContext, ShowItem.class);
 
-                                        Intent intent = new Intent(mContext, AddItem.class);
+                                        intent.putExtra("category", myItemsList6.get(position).getCategory());
+                                        intent.putExtra("item_name", myItemsList6.get(position).getItem_name());
+                                        intent.putExtra("item_type", myItemsList6.get(position).getItem_type());
+                                        intent.putExtra("item_owner", myItemsList6.get(position).getItem_owner());
+                                        intent.putExtra("item_detail", myItemsList6.get(position).getItem_detail());
+                                        intent.putExtra("cover_photo", myItemsList6.get(position).getItem_cover_photo());
+                                        intent.putExtra("post_image", myItemsList6.get(position).getPost_image());
+                                        intent.putExtra("review", myItemsList6.get(position).getReview());
+                                        intent.putExtra("date", myItemsList6.get(position).getDate_created());
+                                        intent.putExtra("rating", myItemsList6.get(position).getRating());
+                                        intent.putExtra("post_id", myItemsList6.get(position).getPost_id());
 
-                                        intent.putExtra("action", "edit");
-                                        intent.putExtra("category", "website");
-                                        intent.putExtra("first_row", websiteList.get(position).getName());
-                                        intent.putExtra("second_row", ((Website) websiteList.get(position)).getUse());
-                                        intent.putExtra("third_row", "");
-                                        intent.putExtra("fourth_row", "");
-                                        intent.putExtra("cover_photo", websiteList.get(position).getCover_photo());
+                                        myRef.child("user_account_settings")
+                                                .child(myItemsList6.get(position).getUser_id())
+                                                .addListenerForSingleValueEvent(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                        UserAccountSettings userAccountSettings = dataSnapshot.getValue(UserAccountSettings.class);
+                                                        intent.putExtra("profile_picture", userAccountSettings.getProfile_photo());
+                                                        intent.putExtra("username", userAccountSettings.getUsername());
 
-                                        startActivity(intent);
+                                                        startActivity(intent);
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                    }
+                                                });
+
                                     }
+
 
                                     @Override
                                     public void onLongItemClick(View view, int position) {
@@ -716,7 +924,8 @@ public class FriendsProfile extends AppCompatActivity {
                                     }
 
                                     @Override
-                                    public void onTouch(View view, MotionEvent e, int position) {
+                                    public void onTouch(View view, MotionEvent e, int position)
+                                    {
                                         view.onTouchEvent(e);
                                         // We're only interested in when the button is released.
                                         if (e.getAction() == MotionEvent.ACTION_UP) {
@@ -729,11 +938,12 @@ public class FriendsProfile extends AppCompatActivity {
                                         }
                                     }
                                 })
-                        );*/
+                        );
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    public void onCancelled(@NonNull DatabaseError databaseError)
+                    {
 
                     }
                 });

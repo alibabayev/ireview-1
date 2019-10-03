@@ -120,15 +120,27 @@
                 android:textSize="15sp" />
 
             <Button
-                android:id="@+id/submit"
+                android:id="@+id/submitButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:enabled="true"
-                android:onClick="submitButton"
+                android:onClick="submit"
                 android:text="@string/add"
                 android:textAllCaps="false"
                 android:textSize="15dp" />
+
+            <Button
+                android:id="@+id/cancelButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:enabled="true"
+                android:onClick="cancel"
+                android:text="Cancel"
+                android:textAllCaps="false"
+                android:textSize="15dp"
+                android:layout_marginTop="20dp"/>
 
         </LinearLayout>
 

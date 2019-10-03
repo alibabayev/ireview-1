@@ -56,7 +56,7 @@ public class AddElement extends AppCompatActivity implements AdapterForItemList.
         myRef = FirebaseDatabase.getInstance().getReference();
 
         //Initializing category
-        category = "book";
+        category = "Books";
 
         //Initializing and setting searchView
         initSearchView();
@@ -72,7 +72,7 @@ public class AddElement extends AppCompatActivity implements AdapterForItemList.
     private void initSearchView()
     {
         searchView = (SearchView) findViewById(R.id.searchView);
-        searchView.setQueryHint("Search in " + category.toUpperCase() + "s");
+        searchView.setQueryHint("Search in " + category);
         searchView.setIconifiedByDefault(true);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -136,13 +136,20 @@ public class AddElement extends AppCompatActivity implements AdapterForItemList.
      */
     public void back(View view)
     {
+        onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed()
+    {
         Intent intent = new Intent(getApplicationContext(), Homepage.class);
         startActivity(intent);
+        finish();
     }
 
     private void getItemsFromDatabase()
     {
-        String databaseClass = category + "s";
+        String databaseClass = category;
 
         searchView.setQueryHint("Search in " + databaseClass);
 
@@ -154,19 +161,19 @@ public class AddElement extends AppCompatActivity implements AdapterForItemList.
                         for(DataSnapshot ds : dataSnapshot.getChildren())
                         {
                             InterfaceItem item = new Book();
-                            if(category.equals("book"))
+                            if(category.equals("Books"))
                                 item = ds.getValue(Book.class);
-                            else if(category.equals("movie"))
+                            else if(category.equals("Movies"))
                                 item = ds.getValue(Movie.class);
-                            else if(category.equals("music"))
+                            else if(category.equals("Songs"))
                                 item = ds.getValue(Song.class);
-                            else if(category.equals("tv_show"))
+                            else if(category.equals("TV Shows"))
                                 item = ds.getValue(TVShow.class);
-                            else if(category.equals("place"))
+                            else if(category.equals("Places"))
                                 item = ds.getValue(Place.class);
-                            else if(category.equals("game"))
+                            else if(category.equals("Video Games"))
                                 item = ds.getValue(VideoGame.class);
-                            else if(category.equals("website"))
+                            else if(category.equals("Websites"))
                                 item = ds.getValue(Website.class);
 
                             items.add(item);
@@ -190,7 +197,7 @@ public class AddElement extends AppCompatActivity implements AdapterForItemList.
     {
         items = new ArrayList<>();
 
-        category = "book";
+        category = "Books";
 
         getItemsFromDatabase();
     }
@@ -199,7 +206,7 @@ public class AddElement extends AppCompatActivity implements AdapterForItemList.
     {
         items = new ArrayList<>();
 
-        category = "movie";
+        category = "Movies";
 
         getItemsFromDatabase();
     }
@@ -208,25 +215,25 @@ public class AddElement extends AppCompatActivity implements AdapterForItemList.
     {
         items = new ArrayList<>();
 
-        category = "place";
+        category = "Places";
 
         getItemsFromDatabase();
     }
 
-    public void music(View view)
+    public void song(View view)
     {
         items = new ArrayList<>();
 
-        category = "music";
+        category = "Songs";
 
         getItemsFromDatabase();
     }
 
-    public void game(View view)
+    public void videoGame(View view)
     {
         items = new ArrayList<>();
 
-        category = "game";
+        category = "Video Games";
 
         getItemsFromDatabase();
     }
@@ -235,7 +242,7 @@ public class AddElement extends AppCompatActivity implements AdapterForItemList.
     {
         items = new ArrayList<>();
 
-        category = "tv_show";
+        category = "TV Shows";
 
         getItemsFromDatabase();
     }
@@ -244,7 +251,7 @@ public class AddElement extends AppCompatActivity implements AdapterForItemList.
     {
         items = new ArrayList<>();
 
-        category = "website";
+        category = "Websites";
 
         getItemsFromDatabase();
     }

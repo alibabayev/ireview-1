@@ -51,6 +51,9 @@
             android:name=".AddItem"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".Screens.ShowItem"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".Settings.NameSetting"
             android:screenOrientation="portrait" />
         <activity

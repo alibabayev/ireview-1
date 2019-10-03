@@ -49,6 +49,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage:16.0.4'
 
     implementation 'com.squareup.picasso:picasso:2.5.0'
+    implementation 'com.rm:longpresspopup:1.0.1'
 
     //Sending verification code
     implementation files('libs/activation.jar')

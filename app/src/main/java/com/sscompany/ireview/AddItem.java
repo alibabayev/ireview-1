@@ -134,7 +134,7 @@ public class AddItem extends AppCompatActivity
         postReviewCheckBox = findViewById(R.id.post_review);
         review = findViewById(R.id.review);
         ratingBar = findViewById(R.id.rating_bar);
-        submit = findViewById(R.id.submit);
+        submit = findViewById(R.id.submitButton);
         imageImageView = findViewById(R.id.image);
         cover_photoImageView = findViewById(R.id.cover_photo);
 
@@ -236,8 +236,6 @@ public class AddItem extends AppCompatActivity
 
             Drawable dr = new BitmapDrawable(getResources(), imageBitmap);
             cover_photoImageView.setImageDrawable(dr);
-
-            //imageImageView.setImageBitmap(imageBitmap);
             imageImageView.setBackground(null);
             imageImageView.setOnClickListener(onClickListener);
             imageImageView.setLongClickable(true);
@@ -250,7 +248,6 @@ public class AddItem extends AppCompatActivity
 
             Drawable dr = new BitmapDrawable(getResources(), imageBitmap);
             cover_photoImageView.setImageDrawable(dr);
-            //cover_photoImageView.setImageBitmap(imageBitmap);
             cover_photoImageView.setBackground(null);
             cover_photoImageView.setOnClickListener(onClickListener);
             cover_photoImageView.setLongClickable(true);
@@ -269,8 +266,6 @@ public class AddItem extends AppCompatActivity
 
                 Drawable dr = new BitmapDrawable(getResources(), image);
                 cover_photoImageView.setImageDrawable(dr);
-
-                //imageImageView.setImageBitmap(image);
                 imageImageView.setBackground(null);
                 imageImageView.setOnClickListener(onClickListener);
                 imageImageView.setLongClickable(true);
@@ -294,8 +289,6 @@ public class AddItem extends AppCompatActivity
 
                 Drawable dr = new BitmapDrawable(getResources(), image);
                 cover_photoImageView.setImageDrawable(dr);
-
-                //cover_photoImageView.setImageBitmap(image);
                 cover_photoImageView.setBackground(null);
                 cover_photoImageView.setOnClickListener(onClickListener);
                 cover_photoImageView.setLongClickable(true);
@@ -339,7 +332,7 @@ public class AddItem extends AppCompatActivity
      *
      * @param v
      */
-    public void submitButton(View v)
+    public void submit(View v)
     {
         submit.setActivated(false);
 
@@ -371,7 +364,7 @@ public class AddItem extends AppCompatActivity
                     newItem.setName(name);
                     newItem.setType(genre);
                     newItem.setOwner(author);
-                    newItem.setCover_photo("none");
+                    newItem.setCover_photo("");
 
                     cover_photoImageView.invalidate();
                     BitmapDrawable drawable = (BitmapDrawable)cover_photoImageView.getDrawable();
@@ -405,7 +398,7 @@ public class AddItem extends AppCompatActivity
                     newItem.setType(genre);
                     newItem.setOwner(director);
                     newItem.setDetail(lead_actors);
-                    newItem.setCover_photo("none");
+                    newItem.setCover_photo("");
 
                     cover_photoImageView.invalidate();
                     BitmapDrawable drawable = (BitmapDrawable)cover_photoImageView.getDrawable();
@@ -438,7 +431,7 @@ public class AddItem extends AppCompatActivity
                     newItem.setOwner(singer);
                     newItem.setType(genre);
                     newItem.setDetail(language);
-                    newItem.setCover_photo("none");
+                    newItem.setCover_photo("");
 
                     cover_photoImageView.invalidate();
                     BitmapDrawable drawable = (BitmapDrawable)cover_photoImageView.getDrawable();
@@ -473,7 +466,7 @@ public class AddItem extends AppCompatActivity
                     newItem.setType(place_type);
                     newItem.setOwner(city);
                     newItem.setDetail(address);
-                    newItem.setCover_photo("none");
+                    newItem.setCover_photo("");
 
                     cover_photoImageView.invalidate();
                     BitmapDrawable drawable = (BitmapDrawable)cover_photoImageView.getDrawable();
@@ -505,7 +498,7 @@ public class AddItem extends AppCompatActivity
                     newItem.setName(name);
                     newItem.setOwner(host);
                     newItem.setType(genre);
-                    newItem.setCover_photo("none");
+                    newItem.setCover_photo("");
 
                     cover_photoImageView.invalidate();
                     BitmapDrawable drawable = (BitmapDrawable)cover_photoImageView.getDrawable();
@@ -540,6 +533,7 @@ public class AddItem extends AppCompatActivity
                     newItem.setType(use);
                     newItem.setOwner(company);
                     newItem.setDetail(http);
+                    newItem.setCover_photo("");
 
                     cover_photoImageView.invalidate();
                     BitmapDrawable drawable = (BitmapDrawable)cover_photoImageView.getDrawable();
@@ -571,7 +565,7 @@ public class AddItem extends AppCompatActivity
                     newItem.setName(name);
                     newItem.setOwner(developer);
                     newItem.setType(game_type);
-                    newItem.setCover_photo("none");
+                    newItem.setCover_photo("");
 
                     cover_photoImageView.invalidate();
                     BitmapDrawable drawable = (BitmapDrawable)cover_photoImageView.getDrawable();
@@ -953,18 +947,17 @@ public class AddItem extends AppCompatActivity
 
     private void setEditTextsForEdit()
     {
-        String first_row = predecessorIntent.getStringExtra("first_row");
-        String second_row = predecessorIntent.getStringExtra("second_row");
-        String third_row = predecessorIntent.getStringExtra("third_row");
-        String fourth_row = predecessorIntent.getStringExtra("fourth_row");
+        String item_name = predecessorIntent.getStringExtra("item_name");
+        String item_type = predecessorIntent.getStringExtra("item_type");
+        String item_owner = predecessorIntent.getStringExtra("item_owner");
+        String item_detail = predecessorIntent.getStringExtra("item_detail");
 
         String cover_photo = predecessorIntent.getStringExtra("cover_photo");
 
-        firstEditText.setText(first_row);
-        secondEditText.setText(second_row);
-        thirdEditText.setText(third_row);
-        fourthEditText.setText(fourth_row);
-
+        firstEditText.setText(item_name);
+        secondEditText.setText(item_type);
+        thirdEditText.setText(item_owner);
+        fourthEditText.setText(item_detail);
 
         //Setting profile_picture
         RequestOptions requestOptions = new RequestOptions();
@@ -978,6 +971,27 @@ public class AddItem extends AppCompatActivity
         cover_photoImageView.setOnClickListener(onClickListener);
         cover_photoImageView.setLongClickable(true);
         cover_photoImageView.setOnLongClickListener(onLongClickListener);
+
+        String post_image = predecessorIntent.getStringExtra("post_image");
+
+        if(!post_image.equals("") && !post_image.equals("none"))
+        {
+            Glide.with(mContext).applyDefaultRequestOptions(requestOptions).load(post_image)
+                    .into(imageImageView);
+
+            //Arranging cover_photoImageView
+            imageImageView.setBackground(null);
+            imageImageView.setOnClickListener(onClickListener);
+            imageImageView.setLongClickable(true);
+            imageImageView.setOnLongClickListener(onLongClickListener);
+        }
+
+        String reviewS = predecessorIntent.getStringExtra("review");
+
+        review.setText(reviewS);
+
+        float rating = predecessorIntent.getFloatExtra("rating", 0);
+        ratingBar.setRating(rating);
     }
 
     /**
@@ -1136,4 +1150,16 @@ public class AddItem extends AppCompatActivity
         }
 
     };
+
+    public void cancel(View view)
+    {
+        Intent intent = new Intent(mContext, AddElement.class);
+
+        //Set intent extras
+
+
+        startActivity(intent);
+        finish();
+
+    }
 }

@@ -41,6 +41,10 @@
     <string name="save_and_post">Save and Post</string>
 
 
+    <!-- ReadMoreTextView -->
+    <string name="read_more">Show More</string>
+    <string name="read_less">Show Less</string>
+
     <!-- GenderSettings Genders -->
     <string-array name="genders">
         <item>Your gender</item>

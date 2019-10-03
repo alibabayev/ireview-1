@@ -179,65 +179,68 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener
         Query query = databaseReference.child("posts");
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
                 final int childrenCount = (int) dataSnapshot.getChildrenCount();
-                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren())
+                {
                     Post post = singleSnapshot.getValue(Post.class);
                     Log.i("CHECKPRINT", tempButton.getText().toString());
                     final String postCategoryName = post.getCategory();
                     final String buttonName = tempButton.getText().toString();
 
-                        final FeedItem feedItem = new FeedItem();
+                    final FeedItem feedItem = new FeedItem();
 
-                        feedItem.setCover_photo(post.getItem_cover_photo());
-                        feedItem.setDate(post.getDate_created());
-                        feedItem.setItem_name(post.getItem_name());
-                        feedItem.setItem_type(post.getItem_type());
-                        feedItem.setItem_owner(post.getItem_owner());
-                        feedItem.setItem_detail(post.getItem_detail());
-                        feedItem.setLikes(post.getLike_count());
-                        feedItem.setRating(post.getRating());
-                        feedItem.setReview(post.getReview());
-                        feedItem.setUser_id(post.getUser_id());
-                        feedItem.setPost_id(post.getPost_id());
-                        feedItem.setPost_image(post.getPost_image());
+                    feedItem.setCover_photo(post.getItem_cover_photo());
+                    feedItem.setDate(post.getDate_created());
+                    feedItem.setItem_name(post.getItem_name());
+                    feedItem.setItem_type(post.getItem_type());
+                    feedItem.setItem_owner(post.getItem_owner());
+                    feedItem.setItem_detail(post.getItem_detail());
+                    feedItem.setLikes(post.getLike_count());
+                    feedItem.setRating(post.getRating());
+                    feedItem.setReview(post.getReview());
+                    feedItem.setUser_id(post.getUser_id());
+                    feedItem.setPost_id(post.getPost_id());
+                    feedItem.setPost_image(post.getPost_image());
+                    feedItem.setCategory(post.getCategory());
 
-                        Query query = FirebaseDatabase.getInstance().getReference()
-                                .child("user_account_settings")
-                                .child(post.getUser_id());
+                    Query query = FirebaseDatabase.getInstance().getReference()
+                            .child("user_account_settings")
+                            .child(post.getUser_id());
 
-                        query.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                System.out.println();
+                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            System.out.println();
 
-                                System.out.println("datasnapshot: " + dataSnapshot.getChildrenCount());
+                            System.out.println("datasnapshot: " + dataSnapshot.getChildrenCount());
 
-                                String username = dataSnapshot.getValue(UserAccountSettings.class).getUsername();
-                                String profile_picture = dataSnapshot.getValue(UserAccountSettings.class).getProfile_photo();
+                            String username = dataSnapshot.getValue(UserAccountSettings.class).getUsername();
+                            String profile_picture = dataSnapshot.getValue(UserAccountSettings.class).getProfile_photo();
 
-                                feedItem.setUsername(username);
-                                feedItem.setProfile_picture(profile_picture);
+                            feedItem.setUsername(username);
+                            feedItem.setProfile_picture(profile_picture);
 
-                                Log.d(TAG, "onDataChange: found user: "
-                                        + dataSnapshot.getValue(UserAccountSettings.class).getUsername());
-                                if (buttonName.equals("All") || buttonName.equals(postCategoryName)) {
-                                    feedItems.add(feedItem);
-                                }
-                                counterForAdapter++;
-                                if(counterForAdapter == childrenCount){
-                                    feedAdapter = new FeedAdapter(feedItems, mContext);
-                                    listView.setAdapter(feedAdapter);
-                                }
+                            Log.d(TAG, "onDataChange: found user: "
+                                    + dataSnapshot.getValue(UserAccountSettings.class).getUsername());
+                            if (buttonName.equals("All") || buttonName.equals(postCategoryName)) {
+                                feedItems.add(feedItem);
                             }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
+                            counterForAdapter++;
+                            if(counterForAdapter == childrenCount){
+                                feedAdapter = new FeedAdapter(feedItems, mContext);
+                                listView.setAdapter(feedAdapter);
                             }
-                        });
-                    }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
                 }
+            }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {

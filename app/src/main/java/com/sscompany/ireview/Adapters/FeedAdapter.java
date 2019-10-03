@@ -33,10 +33,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.sscompany.ireview.AddItem;
 import com.sscompany.ireview.FeedItem;
-import com.sscompany.ireview.Models.Book;
 import com.sscompany.ireview.Models.Post;
-import com.sscompany.ireview.MySpannable;
 import com.sscompany.ireview.R;
+import com.sscompany.ireview.ReadMoreTextView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -63,7 +62,7 @@ public class FeedAdapter extends ArrayAdapter<FeedItem> {
         TextView owner;
         TextView detail;
         RatingBar rating_bar;
-        TextView review;
+        ReadMoreTextView review;
         ImageView like;
         TextView likes;
         ImageView postImage;
@@ -90,20 +89,20 @@ public class FeedAdapter extends ArrayAdapter<FeedItem> {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.feed_item, parent, false);
 
-            viewHolder.profile_picture = (CircleImageView) convertView.findViewById(R.id.profile_picture);
-            viewHolder.cover_photo = (ImageView) convertView.findViewById(R.id.cover_photo);
-            viewHolder.username = (TextView) convertView.findViewById(R.id.username);
-            viewHolder.date = (TextView) convertView.findViewById(R.id.date);
-            viewHolder.name = (TextView) convertView.findViewById(R.id.firstRow);
-            viewHolder.type = (TextView) convertView.findViewById(R.id.secondRow);
-            viewHolder.owner = (TextView) convertView.findViewById(R.id.thirdRow);
-            viewHolder.detail = (TextView) convertView.findViewById(R.id.fourthRow);
-            viewHolder.rating_bar = (RatingBar) convertView.findViewById(R.id.rating_bar);
-            viewHolder.review = (TextView) convertView.findViewById(R.id.review);
+            viewHolder.profile_picture = convertView.findViewById(R.id.profile_picture);
+            viewHolder.cover_photo = convertView.findViewById(R.id.cover_photo);
+            viewHolder.username = convertView.findViewById(R.id.username);
+            viewHolder.date = convertView.findViewById(R.id.date);
+            viewHolder.name = convertView.findViewById(R.id.firstRow);
+            viewHolder.type = convertView.findViewById(R.id.secondRow);
+            viewHolder.owner = convertView.findViewById(R.id.thirdRow);
+            viewHolder.detail = convertView.findViewById(R.id.fourthRow);
+            viewHolder.rating_bar = convertView.findViewById(R.id.rating_bar);
+            viewHolder.review = convertView.findViewById(R.id.review);
 
-            viewHolder.like = (ImageView) convertView.findViewById(R.id.like);
-            viewHolder.likes = (TextView) convertView.findViewById(R.id.likes);
-            viewHolder.postImage = (ImageView) convertView.findViewById(R.id.post_image);
+            viewHolder.like = convertView.findViewById(R.id.like);
+            viewHolder.likes = convertView.findViewById(R.id.likes);
+            viewHolder.postImage = convertView.findViewById(R.id.post_image);
             viewHolder.three_dots = convertView.findViewById(R.id.three_dots);
 
             result = convertView;
@@ -129,8 +128,14 @@ public class FeedAdapter extends ArrayAdapter<FeedItem> {
         viewHolder.type.setText(getItem(position).getItem_type());
         viewHolder.owner.setText(getItem(position).getItem_owner());
 
-        if(!getItem(position).getItem_detail().equals("")) {
+        if(!getItem(position).getItem_detail().equals(""))
+        {
+            viewHolder.detail.setVisibility(View.VISIBLE);
             viewHolder.detail.setText(getItem(position).getItem_detail());
+        }
+        else
+        {
+            viewHolder.detail.setVisibility(View.GONE);
         }
 
 
@@ -138,8 +143,16 @@ public class FeedAdapter extends ArrayAdapter<FeedItem> {
         viewHolder.rating_bar.setRating(getItem(position).getRating());
 
         //Setting review
-        viewHolder.review.setText(getItem(position).getReview());
-        makeTextViewResizable(viewHolder.review, 3, "See More", true);
+        if(getItem(position).getReview().equals(""))
+        {
+            viewHolder.review.setVisibility(View.GONE);
+        }
+        else
+        {
+            viewHolder.review.setVisibility(View.VISIBLE);
+            viewHolder.review.setText(getItem(position).getReview());
+        }
+
 
         //Setting like button and like_count
         databaseReference.child("posts")
@@ -311,44 +324,30 @@ public class FeedAdapter extends ArrayAdapter<FeedItem> {
                                 case R.id.edit:
                                     //Edit clicked
 
-                                    AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
-                                    alert.setTitle(null);
-                                    alert.setMessage("Are you sure to edit the post?");
-                                    alert.setPositiveButton("YES", new DialogInterface.OnClickListener()
-                                    {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which)
-                                        {
-                                            // do whatever
-                                            Intent intent = new Intent(mContext, AddItem.class);
+                                    Intent intent = new Intent(mContext, AddItem.class);
 
-                                            intent.putExtra("action", "edit");
-                                            intent.putExtra("category", getItem(position).getCategory());
-                                            intent.putExtra("name", getItem(position).getItem_name());
-                                            intent.putExtra("type", getItem(position).getItem_type());
-                                            intent.putExtra("owner", getItem(position).getItem_owner());
-                                            intent.putExtra("detail", getItem(position).getItem_detail());
-                                            intent.putExtra("cover_photo", getItem(position).getCover_photo());
+                                    intent.putExtra("action", "edit");
+                                    intent.putExtra("category", getItem(position).getCategory());
+                                    intent.putExtra("item_name", getItem(position).getItem_name());
+                                    intent.putExtra("item_type", getItem(position).getItem_type());
+                                    intent.putExtra("item_owner", getItem(position).getItem_owner());
+                                    intent.putExtra("item_detail", getItem(position).getItem_detail());
+                                    intent.putExtra("cover_photo", getItem(position).getCover_photo());
+                                    intent.putExtra("post_image", getItem(position).getPost_image());
+                                    intent.putExtra("review", getItem(position).getReview());
+                                    intent.putExtra("date", getItem(position).getDate());
+                                    intent.putExtra("rating", getItem(position).getRating());
+                                    intent.putExtra("post_id", getItem(position).getPost_id());
+                                    intent.putExtra("profile_picture", getItem(position).getProfile_picture());
+                                    intent.putExtra("username", getItem(position).getUsername());
 
-                                            mContext.startActivity(intent);
-                                        }
-                                    });
-                                    alert.setNegativeButton("NO", new DialogInterface.OnClickListener()
-                                    {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                        }
-                                    });
-
-                                    alert.show();
-
+                                    mContext.startActivity(intent);
 
                                     break;
                                 case R.id.delete:
                                     //Delete Item is clicked
 
-                                    alert = new AlertDialog.Builder(mContext);
+                                    AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
                                     alert.setTitle(null);
                                     alert.setMessage("Are you sure to edit the post?");
                                     alert.setPositiveButton("YES", new DialogInterface.OnClickListener()
@@ -391,140 +390,4 @@ public class FeedAdapter extends ArrayAdapter<FeedItem> {
         }
         return convertView;
     }
-
-    public static void makeTextViewResizable(final TextView textView, final int maxLine, final String expandText, final boolean viewMore) {
-
-        if (textView.getTag() == null) {
-            textView.setTag(textView.getText());
-        }
-        ViewTreeObserver vto = textView.getViewTreeObserver();
-        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-
-            @SuppressWarnings("deprecation")
-            @Override
-            public void onGlobalLayout() {
-
-                ViewTreeObserver obs = textView.getViewTreeObserver();
-                obs.removeGlobalOnLayoutListener(this);
-                if (maxLine == 0) {
-                    int lineEndIndex = textView.getLayout().getLineEnd(0);
-                    String text = textView.getText().subSequence(0, lineEndIndex - expandText.length() + 1) + " " + expandText;
-                    textView.setText(text);
-                    textView.setMovementMethod(LinkMovementMethod.getInstance());
-                    textView.setText(
-                            addClickablePartTextViewResizable(Html.fromHtml(textView.getText().toString()), textView, maxLine, expandText,
-                                    viewMore), TextView.BufferType.SPANNABLE);
-                } else if (maxLine > 0 && textView.getLineCount() >= maxLine) {
-                    int lineEndIndex = textView.getLayout().getLineEnd(maxLine - 1);
-                    String text = textView.getText().subSequence(0, lineEndIndex - expandText.length() + 1) + " " + expandText;
-                    textView.setText(text);
-                    textView.setMovementMethod(LinkMovementMethod.getInstance());
-                    textView.setText(
-                            addClickablePartTextViewResizable(Html.fromHtml(textView.getText().toString()), textView, maxLine, expandText,
-                                    viewMore), TextView.BufferType.SPANNABLE);
-                } else {
-                    int lineEndIndex = textView.getLayout().getLineEnd(textView.getLayout().getLineCount() - 1);
-                    String text = textView.getText().subSequence(0, lineEndIndex) + " " + expandText;
-                    textView.setText(text);
-                    textView.setMovementMethod(LinkMovementMethod.getInstance());
-                    textView.setText(
-                            addClickablePartTextViewResizable(Html.fromHtml(textView.getText().toString()), textView, lineEndIndex, expandText,
-                                    viewMore), TextView.BufferType.SPANNABLE);
-                }
-            }
-        });
-
-    }
-
-    private static SpannableStringBuilder addClickablePartTextViewResizable(final Spanned strSpanned, final TextView textView,
-                                                                            final int maxLine, final String spanableText, final boolean viewMore) {
-        String str = strSpanned.toString();
-        SpannableStringBuilder ssb = new SpannableStringBuilder(strSpanned);
-
-        if (str.contains(spanableText)) {
-
-
-            ssb.setSpan(new MySpannable(false){
-                @Override
-                public void onClick(View widget) {
-                    if (viewMore) {
-                        textView.setLayoutParams(textView.getLayoutParams());
-                        textView.setText(textView.getTag().toString(), TextView.BufferType.SPANNABLE);
-                        textView.invalidate();
-                        makeTextViewResizable(textView, -1, "See Less", false);
-                    } else {
-                        textView.setLayoutParams(textView.getLayoutParams());
-                        textView.setText(textView.getTag().toString(), TextView.BufferType.SPANNABLE);
-                        textView.invalidate();
-                        makeTextViewResizable(textView, 3, ".. See More", true);
-                    }
-                }
-            }, str.indexOf(spanableText), str.indexOf(spanableText) + spanableText.length(), 0);
-
-        }
-        return ssb;
-
-    }
-
-    /*public static void makeTextViewResizable(final TextView review, final int maxLine, final String expandText, final boolean viewMore) {
-
-        if (review.getTag() == null) {
-            review.setTag(review.getText());
-        }
-        ViewTreeObserver vto = review.getViewTreeObserver();
-        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-
-            @SuppressWarnings("deprecation")
-            @Override
-            public void onGlobalLayout() {
-                String text;
-                int lineEndIndex;
-                ViewTreeObserver obs = review.getViewTreeObserver();
-                obs.removeGlobalOnLayoutListener(this);
-                if (maxLine == 0) {
-                    lineEndIndex = review.getLayout().getLineEnd(0);
-                    text = review.getText().subSequence(0, lineEndIndex - expandText.length() + 1) + " " + expandText;
-                } else if (maxLine > 0 && review.getLineCount() >= maxLine) {
-                    lineEndIndex = review.getLayout().getLineEnd(maxLine - 1);
-                    text = review.getText().subSequence(0, lineEndIndex - expandText.length() + 1) + " " + expandText;
-                } else {
-                    lineEndIndex = review.getLayout().getLineEnd(review.getLayout().getLineCount() - 1);
-                    text = review.getText().subSequence(0, lineEndIndex) + " " + expandText;
-                }
-                review.setText(text);
-                review.setMovementMethod(LinkMovementMethod.getInstance());
-                review.setText(
-                        addClickablePartTextViewResizable(Html.fromHtml(review.getText().toString()), review, lineEndIndex, expandText,
-                                viewMore), TextView.BufferType.SPANNABLE);
-            }
-        });
-
-    }
-
-    private static SpannableStringBuilder addClickablePartTextViewResizable(final Spanned strSpanned, final TextView review,
-                                                                            final int maxLine, final String spanableText, final boolean viewMore) {
-        String str = strSpanned.toString();
-        SpannableStringBuilder ssb = new SpannableStringBuilder(strSpanned);
-
-        if (str.contains(spanableText)) {
-            ssb.setSpan(new ClickableSpan() {
-
-                @Override
-                public void onClick(View widget) {
-                    review.setLayoutParams(review.getLayoutParams());
-                    review.setText(review.getTag().toString(), TextView.BufferType.SPANNABLE);
-                    review.invalidate();
-                    if (viewMore) {
-                        makeTextViewResizable(review, -1, "Show Less", false);
-                    } else {
-                        makeTextViewResizable(review, 3, "Show More", true);
-                    }
-
-                }
-            }, str.indexOf(spanableText), str.indexOf(spanableText) + spanableText.length(), 0);
-
-        }
-        return ssb;
-
-    }*/
 }
