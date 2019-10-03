@@ -159,13 +159,17 @@ public class Homepage extends AppCompatActivity implements View.OnClickListener
         onClick(findViewById(R.id.categoryButtonAll));
 
         searchView = findViewById(R.id.searchInHome);
-        searchView.setOnClickListener(this);
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),SearchActivity.class);
+                startActivity(intent);
+            }
+        });
 
         for(int i = 0; i < categoryButtons.length; i++) {
             categoryButtons[i].setOnClickListener(this);
         }
-
-
     }
 
     public void searchInHome(View v){

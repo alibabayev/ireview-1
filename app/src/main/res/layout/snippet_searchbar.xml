@@ -26,9 +26,8 @@
                     android:textColor="@color/black"
                     android:layout_marginStart="5dp"
                     android:id="@+id/search"
+                    android:singleLine="true"
                     android:background="@null"/>
-
-
 
             </RelativeLayout>
 
