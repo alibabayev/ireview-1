@@ -59,6 +59,7 @@ public class FriendsProfile extends AppCompatActivity
 
     private AlertDialog.Builder ImageDialog;
     private AlertDialog alertDialog;
+    private String whereComeFrom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +75,8 @@ public class FriendsProfile extends AppCompatActivity
         myRef = FirebaseDatabase.getInstance().getReference();
         userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         friendID = getIntent().getStringExtra("FRIENDID");
+        whereComeFrom = getIntent().getStringExtra("WHERECOMEFROM");
+
         friendProfileCoverPicture = findViewById(R.id.FriendProfileCoverPicture);
 
         name_and_surnameTextView = findViewById(R.id.FriendNameText);
@@ -1057,7 +1060,12 @@ public class FriendsProfile extends AppCompatActivity
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(getApplicationContext(), ShowFriendList.class);
+        Intent intent;
+        if(whereComeFrom.equals("SearchActivity")) {
+             intent = new Intent(getApplicationContext(), SearchActivity.class);
+        }else {
+            intent = new Intent(getApplicationContext(), ShowFriendList.class);
+        }
         startActivity(intent);
     }
 }

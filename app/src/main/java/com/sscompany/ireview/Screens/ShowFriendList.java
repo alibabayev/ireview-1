@@ -88,6 +88,7 @@ public class ShowFriendList extends AppCompatActivity {
                         System.out.println("Name: " + listFriends.get(position).getDisplay_name() + " Owner: " + listFriends.get(position).getUsername());
                         Intent intent = new Intent(getApplicationContext(), FriendsProfile.class);
                         intent.putExtra("FRIENDID", listFriendIDs.get(position));
+                        intent.putExtra("WHERECOMEFROM", "ShowFriendList");
                         startActivity(intent);
                     }
 
