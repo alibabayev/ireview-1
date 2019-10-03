@@ -7,64 +7,73 @@ package com.sscompany.ireview.Models;
 public class Place implements InterfaceItem
 {
     private String name;
-    private String address;
-    private String place_type;
-    private String cover_photo;
+    private String type;
     private String owner;
+    private String detail;
+    private String cover_photo;
     private String category;
 
-    public Place(String name, String address, String place_type, String cover_photo) {
+    public Place(String name, String place_type, String city, String address, String cover_photo) {
         this.name = name;
-        this.address = address;
-        this.place_type = place_type;
+        this.type = place_type;
+        this.owner = city;
+        this.detail = address;
         this.cover_photo = cover_photo;
-        setOwner("none");
         setCategory("Places");
     }
 
     public Place() {
-        setOwner("none");
         setCategory("Places");
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getAddress() {
-        return address;
+    @Override
+    public String getType() {
+        return type;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    @Override
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getPlace_type() {
-        return place_type;
-    }
-
-    public void setPlace_type(String place_type) {
-        this.place_type = place_type;
-    }
-
-    public String getCover_photo() {
-        return cover_photo;
-    }
-
-    public void setCover_photo(String cover_photo) {
-        this.cover_photo = cover_photo;
-    }
-
+    @Override
     public String getOwner() {
         return owner;
     }
 
+    @Override
     public void setOwner(String owner) {
         this.owner = owner;
+    }
+
+    @Override
+    public String getDetail() {
+        return detail;
+    }
+
+    @Override
+    public void setDetail(String detail) {
+        this.detail = detail;
+    }
+
+    @Override
+    public String getCover_photo() {
+        return cover_photo;
+    }
+
+    @Override
+    public void setCover_photo(String cover_photo) {
+        this.cover_photo = cover_photo;
     }
 
     @Override
@@ -81,10 +90,10 @@ public class Place implements InterfaceItem
     public String toString() {
         return "Place{" +
                 "name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", place_type='" + place_type + '\'' +
-                ", cover_photo='" + cover_photo + '\'' +
+                ", type='" + type + '\'' +
                 ", owner='" + owner + '\'' +
+                ", detail='" + detail + '\'' +
+                ", cover_photo='" + cover_photo + '\'' +
                 ", category='" + category + '\'' +
                 '}';
     }

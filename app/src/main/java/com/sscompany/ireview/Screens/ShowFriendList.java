@@ -19,7 +19,6 @@ import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 import com.sscompany.ireview.Adapters.RecyclerItemClickListener;
 import com.sscompany.ireview.Adapters.RecyclerViewAdapterFriendList;
-import com.sscompany.ireview.Models.Friendships;
 import com.sscompany.ireview.Models.User;
 import com.sscompany.ireview.R;
 import com.sscompany.ireview.Screens.FriendsProfile;

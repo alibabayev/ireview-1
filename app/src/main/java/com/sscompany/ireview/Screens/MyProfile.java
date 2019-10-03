@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -21,13 +20,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.EventListener;
 import java.util.List;
-
-import static com.sscompany.ireview.Screens.Homepage.profileOfMineOrFriend;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -219,11 +213,11 @@ public class MyProfile extends AppCompatActivity
                                         Intent intent = new Intent(mContext, AddItem.class);
 
                                         intent.putExtra("action", "edit");
-                                        intent.putExtra("category", "book");
+                                        intent.putExtra("category", bookList.get(position).getCategory());
                                         intent.putExtra("first_row", bookList.get(position).getName());
-                                        intent.putExtra("second_row", bookList.get(position).getOwner());
-                                        intent.putExtra("third_row", ((Book) bookList.get(position)).getGenre());
-                                        intent.putExtra("fourth_row", "");
+                                        intent.putExtra("second_row", bookList.get(position).getType());
+                                        intent.putExtra("third_row", bookList.get(position).getOwner());
+                                        intent.putExtra("fourth_row", bookList.get(position).getDetail());
                                         intent.putExtra("cover_photo", bookList.get(position).getCover_photo());
 
                                         startActivity(intent);
@@ -311,11 +305,11 @@ public class MyProfile extends AppCompatActivity
                                         Intent intent = new Intent(mContext, AddItem.class);
 
                                         intent.putExtra("action", "edit");
-                                        intent.putExtra("category", "movie");
+                                        intent.putExtra("category", movieList.get(position).getCategory());
                                         intent.putExtra("first_row", movieList.get(position).getName());
-                                        intent.putExtra("second_row", movieList.get(position).getOwner());
-                                        intent.putExtra("third_row", ((Movie)movieList.get(position)).getGenre());
-                                        intent.putExtra("fourth_row", ((Movie)movieList.get(position)).getLead_actors());
+                                        intent.putExtra("second_row", movieList.get(position).getType());
+                                        intent.putExtra("third_row", movieList.get(position).getOwner());
+                                        intent.putExtra("fourth_row", movieList.get(position).getDetail());
                                         intent.putExtra("cover_photo", movieList.get(position).getCover_photo());
 
                                         startActivity(intent);
@@ -364,8 +358,8 @@ public class MyProfile extends AppCompatActivity
                     {
                         for (DataSnapshot sampleDataSnapshot : dataSnapshot.getChildren())
                         {
-                            Music music = sampleDataSnapshot.getValue(Music.class);
-                            musicList.add(music);
+                            Song song = sampleDataSnapshot.getValue(Song.class);
+                            musicList.add(song);
                         }
 
                         if(dataSnapshot.getChildrenCount() == 0)
@@ -390,11 +384,11 @@ public class MyProfile extends AppCompatActivity
                                         Intent intent = new Intent(mContext, AddItem.class);
 
                                         intent.putExtra("action", "edit");
-                                        intent.putExtra("category", "music");
+                                        intent.putExtra("category", musicList.get(position).getCategory());
                                         intent.putExtra("first_row", musicList.get(position).getName());
-                                        intent.putExtra("second_row", musicList.get(position).getOwner());
-                                        intent.putExtra("third_row", ((Music)musicList.get(position)).getGenre());
-                                        intent.putExtra("fourth_row", ((Music)musicList.get(position)).getLanguage());
+                                        intent.putExtra("second_row", musicList.get(position).getType());
+                                        intent.putExtra("third_row", musicList.get(position).getOwner());
+                                        intent.putExtra("fourth_row", musicList.get(position).getDetail());
                                         intent.putExtra("cover_photo", musicList.get(position).getCover_photo());
 
                                         startActivity(intent);
@@ -469,11 +463,11 @@ public class MyProfile extends AppCompatActivity
                                         Intent intent = new Intent(mContext, AddItem.class);
 
                                         intent.putExtra("action", "edit");
-                                        intent.putExtra("category", "place");
+                                        intent.putExtra("category", placeList.get(position).getCategory());
                                         intent.putExtra("first_row", placeList.get(position).getName());
-                                        intent.putExtra("second_row", ((Place)placeList.get(position)).getPlace_type());
-                                        intent.putExtra("third_row", ((Place)placeList.get(position)).getAddress());
-                                        intent.putExtra("fourth_row", "");
+                                        intent.putExtra("second_row", placeList.get(position).getType());
+                                        intent.putExtra("third_row", placeList.get(position).getOwner());
+                                        intent.putExtra("fourth_row", placeList.get(position).getDetail());
                                         intent.putExtra("cover_photo", placeList.get(position).getCover_photo());
 
                                         startActivity(intent);
@@ -548,11 +542,11 @@ public class MyProfile extends AppCompatActivity
                                         Intent intent = new Intent(mContext, AddItem.class);
 
                                         intent.putExtra("action", "edit");
-                                        intent.putExtra("category", "tv_show");
+                                        intent.putExtra("category", tvShowList.get(position).getCategory());
                                         intent.putExtra("first_row", tvShowList.get(position).getName());
-                                        intent.putExtra("second_row", tvShowList.get(position).getOwner());
-                                        intent.putExtra("third_row", ((TVShow)tvShowList.get(position)).getGenre());
-                                        intent.putExtra("fourth_row", "");
+                                        intent.putExtra("second_row", tvShowList.get(position).getType());
+                                        intent.putExtra("third_row", tvShowList.get(position).getOwner());
+                                        intent.putExtra("fourth_row", tvShowList.get(position).getDetail());
                                         intent.putExtra("cover_photo", tvShowList.get(position).getCover_photo());
 
                                         startActivity(intent);
@@ -602,8 +596,8 @@ public class MyProfile extends AppCompatActivity
                     {
                         for (DataSnapshot sampleDataSnapshot : dataSnapshot.getChildren())
                         {
-                            Game game = sampleDataSnapshot.getValue(Game.class);
-                            gameList.add(game);
+                            VideoGame videoGame = sampleDataSnapshot.getValue(VideoGame.class);
+                            gameList.add(videoGame);
                         }
 
                         if(dataSnapshot.getChildrenCount() == 0)
@@ -628,11 +622,11 @@ public class MyProfile extends AppCompatActivity
                                         Intent intent = new Intent(mContext, AddItem.class);
 
                                         intent.putExtra("action", "edit");
-                                        intent.putExtra("category", "game");
+                                        intent.putExtra("category", gameList.get(position).getCategory());
                                         intent.putExtra("first_row", gameList.get(position).getName());
-                                        intent.putExtra("second_row", gameList.get(position).getOwner());
-                                        intent.putExtra("third_row", ((Game) gameList.get(position)).getGame_type());
-                                        intent.putExtra("fourth_row", "");
+                                        intent.putExtra("second_row", gameList.get(position).getType());
+                                        intent.putExtra("third_row", gameList.get(position).getOwner());
+                                        intent.putExtra("fourth_row", gameList.get(position).getDetail());
                                         intent.putExtra("cover_photo", gameList.get(position).getCover_photo());
 
                                         startActivity(intent);
@@ -708,11 +702,11 @@ public class MyProfile extends AppCompatActivity
                                         Intent intent = new Intent(mContext, AddItem.class);
 
                                         intent.putExtra("action", "edit");
-                                        intent.putExtra("category", "website");
+                                        intent.putExtra("category", websiteList.get(position).getCategory());
                                         intent.putExtra("first_row", websiteList.get(position).getName());
-                                        intent.putExtra("second_row", ((Website) websiteList.get(position)).getUse());
-                                        intent.putExtra("third_row", "");
-                                        intent.putExtra("fourth_row", "");
+                                        intent.putExtra("second_row", websiteList.get(position).getType());
+                                        intent.putExtra("third_row", websiteList.get(position).getOwner());
+                                        intent.putExtra("fourth_row", websiteList.get(position).getDetail());
                                         intent.putExtra("cover_photo", websiteList.get(position).getCover_photo());
 
                                         startActivity(intent);
@@ -764,7 +758,7 @@ public class MyProfile extends AppCompatActivity
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, AddElement.class);
                 intent.putExtra("predecessor", "profile");
-                intent.putExtra("category", "book");
+                intent.putExtra("category", "Books");
                 startActivity(intent);
             }
         });
@@ -774,7 +768,7 @@ public class MyProfile extends AppCompatActivity
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, AddElement.class);
                 intent.putExtra("predecessor", "profile");
-                intent.putExtra("category", "movie");
+                intent.putExtra("category", "Movies");
                 startActivity(intent);
             }
         });
@@ -784,7 +778,7 @@ public class MyProfile extends AppCompatActivity
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, AddElement.class);
                 intent.putExtra("predecessor", "profile");
-                intent.putExtra("category", "music");
+                intent.putExtra("category", "Songs");
                 startActivity(intent);
             }
         });
@@ -794,7 +788,7 @@ public class MyProfile extends AppCompatActivity
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, AddElement.class);
                 intent.putExtra("predecessor", "profile");
-                intent.putExtra("category", "place");
+                intent.putExtra("category", "Places");
                 startActivity(intent);
             }
         });
@@ -804,7 +798,7 @@ public class MyProfile extends AppCompatActivity
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, AddElement.class);
                 intent.putExtra("predecessor", "profile");
-                intent.putExtra("category", "tv_show");
+                intent.putExtra("category", "TV Shows");
                 startActivity(intent);
             }
         });
@@ -814,7 +808,7 @@ public class MyProfile extends AppCompatActivity
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, AddElement.class);
                 intent.putExtra("predecessor", "profile");
-                intent.putExtra("category", "game");
+                intent.putExtra("category", "Video Games");
                 startActivity(intent);
             }
         });
@@ -824,7 +818,7 @@ public class MyProfile extends AppCompatActivity
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, AddElement.class);
                 intent.putExtra("predecessor", "profile");
-                intent.putExtra("category", "website");
+                intent.putExtra("category", "Websites");
                 startActivity(intent);
             }
         });

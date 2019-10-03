@@ -6,51 +6,73 @@ package com.sscompany.ireview.Models;
 public class Book implements InterfaceItem
 {
     private String name;
+    private String type;
     private String owner;
-    private String genre;
+    private String detail;
     private String cover_photo;
     private String category;
 
-    public Book(String name, String owner, String genre, String cover_photo) {
+    public Book(String name, String genre, String author, String cover_photo)
+    {
         this.name = name;
-        this.owner = owner;
-        this.genre = genre;
+        this.type = genre;
+        this.owner = author;
+        this.detail = "";
         this.cover_photo = cover_photo;
         setCategory("Books");
     }
 
     public Book() {
+        this.detail = "";
         setCategory("Books");
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }
 
+    @Override
+    public String getType() {
+        return type;
+    }
+
+    @Override
+    public void setType(String genre) {
+        this.type = genre;
+    }
+
+    @Override
     public String getOwner() {
         return owner;
     }
 
-    public void setOwner(String owner) {
-        this.owner = owner;
+    @Override
+    public void setOwner(String author) {
+        this.owner = author;
     }
 
-    public String getGenre() {
-        return genre;
+    @Override
+    public String getDetail() {
+        return detail;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
+    @Override
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 
+    @Override
     public String getCover_photo() {
         return cover_photo;
     }
 
+    @Override
     public void setCover_photo(String cover_photo) {
         this.cover_photo = cover_photo;
     }
@@ -69,8 +91,9 @@ public class Book implements InterfaceItem
     public String toString() {
         return "Book{" +
                 "name='" + name + '\'' +
+                ", type='" + type + '\'' +
                 ", owner='" + owner + '\'' +
-                ", genre='" + genre + '\'' +
+                ", detail='" + detail + '\'' +
                 ", cover_photo='" + cover_photo + '\'' +
                 ", category='" + category + '\'' +
                 '}';

@@ -1,29 +1,29 @@
 package com.sscompany.ireview.Models;
 
 /**
- * This class provides structure for uploading musics into firebase database.
+ * This class provides structure for uploading games into firebase database.
  */
-
-public class Music implements InterfaceItem
+public class VideoGame implements InterfaceItem
 {
     private String name;
+    private String type;
     private String owner;
-    private String genre;
-    private String language;
+    private String detail;
     private String cover_photo;
     private String category;
 
-    public Music(String name, String owner, String genre, String language, String cover_photo) {
+    public VideoGame(String name, String game_type, String developer, String cover_photo) {
         this.name = name;
-        this.owner = owner;
-        this.genre = genre;
-        this.language = language;
+        this.type = game_type;
+        this.owner = developer;
+        this.detail = "";
         this.cover_photo = cover_photo;
-        setCategory("Songs");
+        setCategory("Video Games");
     }
 
-    public Music() {
-        setCategory("Songs");
+    public VideoGame() {
+        this.detail = "";
+        setCategory("Video Games");
     }
 
     @Override
@@ -37,6 +37,16 @@ public class Music implements InterfaceItem
     }
 
     @Override
+    public String getType() {
+        return type;
+    }
+
+    @Override
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    @Override
     public String getOwner() {
         return owner;
     }
@@ -46,20 +56,14 @@ public class Music implements InterfaceItem
         this.owner = owner;
     }
 
-    public String getGenre() {
-        return genre;
+    @Override
+    public String getDetail() {
+        return detail;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
+    @Override
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 
     @Override
@@ -84,11 +88,11 @@ public class Music implements InterfaceItem
 
     @Override
     public String toString() {
-        return "Music{" +
+        return "VideoGame{" +
                 "name='" + name + '\'' +
+                ", type='" + type + '\'' +
                 ", owner='" + owner + '\'' +
-                ", genre='" + genre + '\'' +
-                ", language='" + language + '\'' +
+                ", detail='" + detail + '\'' +
                 ", cover_photo='" + cover_photo + '\'' +
                 ", category='" + category + '\'' +
                 '}';

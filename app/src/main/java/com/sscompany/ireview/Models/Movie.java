@@ -7,17 +7,17 @@ package com.sscompany.ireview.Models;
 public class Movie implements InterfaceItem
 {
     private String name;
+    private String type;
     private String owner;
-    private String genre;
-    private String lead_actors;
+    private String detail;
     private String cover_photo;
     private String category;
 
-    public Movie(String name, String owner, String genre, String lead_actors, String cover_photo) {
-        this.name = name;
-        this.owner = owner;
-        this.genre = genre;
-        this.lead_actors = lead_actors;
+    public Movie(String title, String genre, String director, String lead_actors, String cover_photo) {
+        this.name = title;
+        this.type = genre;
+        this.owner = director;
+        this.detail = lead_actors;
         this.cover_photo = cover_photo;
         setCategory("Movies");
     }
@@ -37,6 +37,16 @@ public class Movie implements InterfaceItem
     }
 
     @Override
+    public String getType() {
+        return type;
+    }
+
+    @Override
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    @Override
     public String getOwner() {
         return owner;
     }
@@ -46,20 +56,14 @@ public class Movie implements InterfaceItem
         this.owner = owner;
     }
 
-    public String getGenre() {
-        return genre;
+    @Override
+    public String getDetail() {
+        return detail;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
-    public String getLead_actors() {
-        return lead_actors;
-    }
-
-    public void setLead_actors(String lead_actors) {
-        this.lead_actors = lead_actors;
+    @Override
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 
     @Override
@@ -83,12 +87,13 @@ public class Movie implements InterfaceItem
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "Movie{" +
                 "name='" + name + '\'' +
+                ", type='" + type + '\'' +
                 ", owner='" + owner + '\'' +
-                ", genre='" + genre + '\'' +
-                ", lead_actors='" + lead_actors + '\'' +
+                ", detail='" + detail + '\'' +
                 ", cover_photo='" + cover_photo + '\'' +
                 ", category='" + category + '\'' +
                 '}';

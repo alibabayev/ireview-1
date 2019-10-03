@@ -8,14 +8,19 @@ public class Item
     private String category;
     private String item_id;
     private String name;
+    private String type;
     private String owner;
+    private String detail;
     private String cover_photo;
 
-    public Item(String category, String item_id, String name, String owner, String cover_photo) {
+    public Item(String category, String item_id, String name, String type, String owner, String detail, String cover_photo)
+    {
         this.category = category;
         this.item_id = item_id;
         this.name = name;
+        this.type = type;
         this.owner = owner;
+        this.detail = detail;
         this.cover_photo = cover_photo;
     }
 
@@ -47,12 +52,28 @@ public class Item
         this.name = name;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public String getOwner() {
         return owner;
     }
 
     public void setOwner(String owner) {
         this.owner = owner;
+    }
+
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 
     public String getCover_photo() {
@@ -64,12 +85,15 @@ public class Item
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "Item{" +
                 "category='" + category + '\'' +
                 ", item_id='" + item_id + '\'' +
                 ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
                 ", owner='" + owner + '\'' +
+                ", detail='" + detail + '\'' +
                 ", cover_photo='" + cover_photo + '\'' +
                 '}';
     }

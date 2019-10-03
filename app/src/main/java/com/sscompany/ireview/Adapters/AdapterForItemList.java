@@ -38,7 +38,7 @@ public class AdapterForItemList extends RecyclerView.Adapter<AdapterForItemList.
         String name = mData.get(position).getName();
         if(mData.get(position) != null || !mData.get(position).getOwner().equals("") || !mData.get(position).getOwner().equals("none"))
         {
-            name = mData.get(position).getName() + " by " + mData.get(position).getOwner();
+            name = mData.get(position).getName() + ", " + mData.get(position).getOwner();
         }
         holder.myTextView.setText(name);
     }
